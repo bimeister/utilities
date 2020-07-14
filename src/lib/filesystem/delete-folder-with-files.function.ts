@@ -1,3 +1,7 @@
+/**
+ * @packageDocumentation
+ * @module FileSystem
+ */
 import { existsSync, lstatSync, readdirSync, rmdirSync, unlinkSync } from 'fs';
 import * as path from 'path';
 

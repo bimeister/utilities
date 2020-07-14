@@ -1,3 +1,7 @@
+/**
+ * @packageDocumentation
+ * @module Common
+ */
 import { isNullOrUndefined } from './is-null-or-undefined.function';
 
 export function isEmpty(input: null | undefined): true;

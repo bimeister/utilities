@@ -24,6 +24,5 @@
     "typeRoots": ["node_modules/@types"],
     "importsNotUsedAsValues": "preserve"
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "src/internal"]
+  "exclude": ["node_modules"]
 }

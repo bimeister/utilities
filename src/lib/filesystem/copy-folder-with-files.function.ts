@@ -1,3 +1,7 @@
+/**
+ * @packageDocumentation
+ * @module FileSystem
+ */
 import { copyFile, existsSync, mkdirSync, readdirSync, statSync } from 'fs';
 import * as path from 'path';
 

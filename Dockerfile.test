@@ -1,0 +1,13 @@
+FROM node:14.5-slim as utilities-test
+
+# NPM dependencies preinstall
+WORKDIR /tmp
+COPY .npmrc package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --ignore-scripts --ignore-optional \
+  && mkdir --parents /test \
+  && cp --archive /tmp/node_modules /test
+
+# Test library sources
+WORKDIR /test
+COPY . .
+RUN yarn run test:ci

@@ -1,3 +1,7 @@
-export const isNullOrUndefined = <T>(entity: T): entity is null | undefined => {
+/**
+ * @packageDocumentation
+ * @module Common
+ */
+export function isNullOrUndefined<T>(entity: T): entity is null | undefined {
   return entity === undefined || entity === null;
-};
+}

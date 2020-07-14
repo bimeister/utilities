@@ -3,5 +3,6 @@
   "location": "all",
   "name": "api.ts",
   "structure": "flat",
-  "singleQuotes": true
+  "singleQuotes": true,
+  "exclude": "(((index)|(.*\\.spec))\\.ts)$"
 }

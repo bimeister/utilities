@@ -1,0 +1,9 @@
+.deploy-base:
+  before_script:
+    - docker-compose --file docker-compose.yml pull utilities_build
+  script:
+    - docker-compose --file docker-compose.yml --project-name ${CI_JOB_ID} up --exit-code-from utilities_build
+    - echo ${CI_JOB_ID}
+    - docker container ls --all
+  after_script:
+    - docker-compose --file docker-compose.yml --project-name ${CI_JOB_ID} down

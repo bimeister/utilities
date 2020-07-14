@@ -1,11 +1,11 @@
 version: '3.4'
 
 services:
-  utilities:
+  utilities_build:
     image: '${IMAGE_TAG}'
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.build
     environment:
       - PKG_VERSION
       - PKG_TAG
@@ -14,3 +14,18 @@ services:
       - NPM_REPOSITORY_PASSWORD
       - NPM_REPOSITORY_EMAIL
       - NPM_REPOSITORY_URL
+
+  utilities_lint:
+    build:
+      context: ./
+      dockerfile: Dockerfile.lint
+
+  utilities_test:
+    build:
+      context: ./
+      dockerfile: Dockerfile.test
+
+  utilities_docs:
+    build:
+      context: ./
+      dockerfile: Dockerfile.docs
