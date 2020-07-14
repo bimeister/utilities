@@ -1,0 +1,29 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "declaration": true,
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["ESNext"],
+    "importHelpers": true,
+    "locale": "en",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "newLine": "lf",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "./dist",
+    "pretty": true,
+    "removeComments": false,
+    "sourceMap": false,
+    "target": "ESNext",
+    "types": ["node"],
+    "typeRoots": ["node_modules/@types"],
+    "importsNotUsedAsValues": "preserve"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "src/internal"]
+}

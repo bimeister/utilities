@@ -1,0 +1,7 @@
+/.*/
+/coverage/
+/dist/
+/node_modules/
+/src/assets/
+/src/assets/version.json
+!/.vscode/
