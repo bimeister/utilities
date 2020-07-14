@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/bundles",
+    "declaration": false,
+    "removeComments": true,
+    "emitDeclarationOnly": false,
+    "target": "ES2015",
+    "module": "UMD"
+  },
+  "files": ["src/index.ts", "src/common.ts", "src/ngxs.ts", "src/rxjs.ts"]
+}

@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/commonjs",
+    "declaration": false,
+    "removeComments": true,
+    "emitDeclarationOnly": false,
+    "target": "ES2015",
+    "module": "CommonJS"
+  },
+  "files": ["src/index.ts", "src/common.ts", "src/ngxs.ts", "src/rxjs.ts"]
+}

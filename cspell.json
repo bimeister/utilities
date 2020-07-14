@@ -1,7 +1,7 @@
 {
   "version": "0.1",
   "language": "en",
-  "words": [],
+  "words": ["splitted", "ngxs", "emited"],
   "flagWords": [],
   "ignoreRegExpList": ["CStyleComment"],
   "ignorePaths": ["**/node_modules/**", "**/dist/**"],
