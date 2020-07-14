@@ -12,9 +12,9 @@
     "barrel": "barrelsby --config=\"./barrelsby.json\" --directory=\"./src/lib\"",
     "build": "yarn barrel && tsc",
     "autofix": "yarn run lint:debug && yarn run prettier:format && yarn run lint:inspect",
+    "lint:debug": "tslint --format prose --project tsconfig.json --fix",
+    "lint:inspect": "tslint --format stylish --project tsconfig.json && yarn run cspell:check",
     "lint:codestyle": "yarn run prettier:check",
-    "lint:debug": "tslint --config=\"tslint.json\" --format=\"prose\" --project=\"tsconfig.json\" --fix",
-    "lint:inspect": "tslint --config=\"tslint.json\" --format=\"stylish\" --project=\"tsconfig.json\" && yarn run cspell:check",
     "prettier:check": "prettier --config ./.prettierrc --ignore-path ./.prettierignore --check \"./**/*.{json,js,ts}\"",
     "prettier:format": "prettier --loglevel log --config ./.prettierrc --ignore-path ./.prettierignore --write \"./**/*.{json,js,ts}\"",
     "cspell:check": "cspell \"src/**/*.*\" --config=\"cspell.json\""
@@ -22,6 +22,7 @@
   "devDependencies": {
     "@types/node": "^14.0.23",
     "barrelsby": "^2.2.0",
+    "cspell": "^4.0.63",
     "cspell-dict-russian": "^1.1.17",
     "prettier": "^2.0.5",
     "tslint": "^6.1.2",

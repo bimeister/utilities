@@ -10,10 +10,7 @@ interface Options {
   onDelete?: Nullable<(filePath: string) => void>;
 }
 
-export function deleteFolderWithFiles(
-  targetPath: string,
-  options: Nullable<Options> = null
-): void {
+export function deleteFolderWithFiles(targetPath: string, options: Nullable<Options> = null): void {
   const pathExists: boolean = existsSync(targetPath);
   if (!pathExists) {
     return;
@@ -26,20 +23,17 @@ export function deleteFolderWithFiles(
     const normalizedFilePath: string = path.join(targetPath, filePath);
     const fileIsAllowedToBeDeleted: boolean =
       isNullOrUndefined(fileMatchPattern) ||
-      (fileMatchPattern instanceof RegExp &&
-        fileMatchPattern.test(normalizedFilePath));
+      (fileMatchPattern instanceof RegExp && fileMatchPattern.test(normalizedFilePath));
     if (!fileIsAllowedToBeDeleted) {
       return;
     }
-    const fileIsDirectory: boolean = lstatSync(
-      normalizedFilePath
-    ).isDirectory();
+    const fileIsDirectory: boolean = lstatSync(normalizedFilePath).isDirectory();
     if (fileIsDirectory) {
       deleteFolderWithFiles(normalizedFilePath, options);
       return;
     }
     unlinkSync(normalizedFilePath);
-    if (!isNullOrUndefined(onDelete) && typeof onDelete === "function") {
+    if (!isNullOrUndefined(onDelete) && typeof onDelete === 'function') {
       onDelete(normalizedFilePath);
     }
   });
