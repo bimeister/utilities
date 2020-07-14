@@ -10,7 +10,8 @@
   },
   "scripts": {
     "barrel": "barrelsby --config=\"./barrelsby.json\" --directory=\"./src/lib\"",
-    "build": "yarn barrel && tsc",
+    "build": "yarn barrel && gulp build:clean-up && tsc --project tsconfig.lib.json",
+    "build:ci": "yarn build && gulp deploy:prepare",
     "autofix": "yarn run lint:debug && yarn run prettier:format && yarn run lint:inspect",
     "lint:debug": "tslint --format prose --project tsconfig.json --fix",
     "lint:inspect": "tslint --format stylish --project tsconfig.json && yarn run cspell:check",
@@ -20,11 +21,16 @@
     "cspell:check": "cspell \"src/**/*.*\" --config=\"cspell.json\""
   },
   "devDependencies": {
+    "@types/fancy-log": "^1.3.1",
+    "@types/gulp": "^4.0.6",
     "@types/node": "^14.0.23",
     "barrelsby": "^2.2.0",
     "cspell": "^4.0.63",
     "cspell-dict-russian": "^1.1.17",
+    "fancy-log": "^1.3.3",
+    "gulp": "^4.0.2",
     "prettier": "^2.0.5",
+    "ts-node": "^8.10.2",
     "tslint": "^6.1.2",
     "typescript": "^3.9.6"
   },

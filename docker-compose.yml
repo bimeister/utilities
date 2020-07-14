@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  utilities:
+    image: '${IMAGE_TAG}'
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      - PKG_VERSION
+      - PKG_TAG
+      - PUBLISH
+      - NPM_REPOSITORY_LOGIN
+      - NPM_REPOSITORY_PASSWORD
+      - NPM_REPOSITORY_EMAIL
+      - NPM_REPOSITORY_URL
