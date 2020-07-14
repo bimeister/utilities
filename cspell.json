@@ -1,0 +1,10 @@
+{
+  "version": "0.1",
+  "language": "en",
+  "words": ["splitted", "ngxs", "emited"],
+  "flagWords": [],
+  "ignoreRegExpList": ["CStyleComment"],
+  "ignorePaths": ["**/node_modules/**", "**/dist/**"],
+  "dictionaries": ["en_us", "en-gb", "russian", "typescript", "node", "bash", "softwareTerms"],
+  "import": ["./node_modules/cspell-dict-russian/cspell-ext.json"]
+}
