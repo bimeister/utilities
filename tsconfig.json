@@ -1,16 +1,20 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
+    "allowJs": false,
+    "checkJs": false,
+    "allowSyntheticDefaultImports": false,
+    "esModuleInterop": false,
     "baseUrl": "./",
     "declaration": true,
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["ESNext"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "importHelpers": true,
+    "isolatedModules": true,
     "locale": "en",
-    "module": "ESNext",
+    "module": "UMD",
     "moduleResolution": "Node",
     "newLine": "lf",
     "noUnusedLocals": true,
@@ -19,11 +23,11 @@
     "pretty": true,
     "removeComments": false,
     "sourceMap": false,
-    "target": "ESNext",
-    "types": ["node"],
+    "target": "ES6",
+    "types": ["jest", "node"],
     "typeRoots": ["node_modules/@types"],
-    "importsNotUsedAsValues": "preserve"
+    "importsNotUsedAsValues": "error",
+    "allowUnreachableCode": false
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "src/internal"]
+  "exclude": ["node_modules"]
 }
