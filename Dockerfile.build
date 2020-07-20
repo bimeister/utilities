@@ -5,11 +5,11 @@ RUN apt update && apt-get install jq -y
 WORKDIR /tmp
 COPY .npmrc package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --ignore-scripts --ignore-optional \
-  && mkdir --parents /build \
-  && cp --archive /tmp/node_modules /build
+  && mkdir --parents /utilities \
+  && cp --archive /tmp/node_modules /utilities
 
 # build library sources
-WORKDIR /build
+WORKDIR /utilities
 COPY . .
 RUN yarn run build:ci
 

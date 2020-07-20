@@ -4,10 +4,10 @@ FROM node:14.5-slim as utilities-test
 WORKDIR /tmp
 COPY .npmrc package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --ignore-scripts --ignore-optional \
-  && mkdir --parents /test \
-  && cp --archive /tmp/node_modules /test
+  && mkdir --parents /utilities \
+  && cp --archive /tmp/node_modules /utilities
 
 # Test library sources
-WORKDIR /test
+WORKDIR /utilities
 COPY . .
 RUN yarn run test:ci

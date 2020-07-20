@@ -4,11 +4,11 @@ FROM node:14.5-slim as utilities-lint
 WORKDIR /tmp
 COPY .npmrc package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --ignore-scripts --ignore-optional \
-  && mkdir --parents /lint \
-  && cp --archive /tmp/node_modules /lint
+  && mkdir --parents /utilities \
+  && cp --archive /tmp/node_modules /utilities
 
 # lint library sources
-WORKDIR /lint
+WORKDIR /utilities
 COPY . .
 RUN yarn run lint:inspect \
  && yarn run prettier:check

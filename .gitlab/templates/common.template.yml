@@ -1,7 +1,8 @@
 variables:
-  GIT_SUBMODULE_STRATEGY: normal
   IMAGE_TAG: ${DOCKER_REGISTRY}/common/utilities/builder:${CI_COMMIT_SHORT_SHA}
+  DOCS_CONTAINER_NAME: ${CI_COMMIT_SHORT_SHA}__docs
 
 before_script:
   - docker --version
   - docker-compose --version
+  - docker login --username $DOCKER_REGISTRY_USER --password $DOCKER_REGISTRY_PASS $DOCKER_REGISTRY

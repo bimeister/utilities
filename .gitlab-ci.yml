@@ -12,29 +12,15 @@ build:library:
   stage: build
   interruptible: true
   allow_failure: false
-  before_script:
-    - docker login --username $DOCKER_REGISTRY_USER --password $DOCKER_REGISTRY_PASS $DOCKER_REGISTRY
   script:
     - docker-compose --file docker-compose.yml build utilities_build
     - docker-compose --file docker-compose.yml push utilities_build
-
-build:docs:
-  needs: []
-  stage: build
-  interruptible: true
-  allow_failure: true
-  before_script:
-    - docker login --username $DOCKER_REGISTRY_USER --password $DOCKER_REGISTRY_PASS $DOCKER_REGISTRY
-  script:
-    - docker-compose --file docker-compose.yml build utilities_docs
 
 check:lint:
   needs: []
   stage: check
   interruptible: true
   allow_failure: false
-  before_script:
-    - docker login --username $DOCKER_REGISTRY_USER --password $DOCKER_REGISTRY_PASS $DOCKER_REGISTRY
   script:
     - docker-compose --file docker-compose.yml build utilities_lint
 
@@ -43,8 +29,6 @@ check:test:
   stage: check
   interruptible: true
   allow_failure: false
-  before_script:
-    - docker login --username $DOCKER_REGISTRY_USER --password $DOCKER_REGISTRY_PASS $DOCKER_REGISTRY
   script:
     - docker-compose --file docker-compose.yml build utilities_test
 
@@ -71,3 +55,16 @@ deploy:stable:
     PUBLISH: 'true'
     PKG_VERSION: ${CI_COMMIT_SHORT_SHA}
     PKG_TAG: 'stable'
+
+pages:
+  needs: []
+  stage: deploy
+  interruptible: true
+  allow_failure: true
+  script:
+    - docker-compose --file docker-compose.yml build utilities_docs
+    - docker-compose --file docker-compose.yml up utilities_docs
+    - docker container cp ${DOCS_CONTAINER_NAME}:./utilities/docs public
+  artifacts:
+    paths:
+      - public
