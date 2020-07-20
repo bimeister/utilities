@@ -65,6 +65,7 @@ pages:
     - docker-compose --file docker-compose.yml build utilities_docs
     - docker-compose --file docker-compose.yml up utilities_docs
     - docker container cp ${DOCS_CONTAINER_NAME}:./utilities/docs public
+  when: manual
   artifacts:
     paths:
       - public
