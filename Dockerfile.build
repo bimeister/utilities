@@ -13,4 +13,4 @@ WORKDIR /utilities
 COPY . .
 RUN yarn run build:ci
 
-ENTRYPOINT ["scripts/publish.sh"]
+ENTRYPOINT ["local-scripts/publish.sh"]
