@@ -13,7 +13,7 @@ build:library:
   interruptible: true
   allow_failure: false
   variables:
-    CI: ''
+    CI: 'true'
   script:
     - scripts/build.sh utilities_build
 
@@ -70,8 +70,7 @@ pages:
     CI: 'true'
   script:
     - scripts/build.sh utilities_docs
-    - docker image ls -a
-    - scripts/cp-from-image.sh "tag=${DOCS_IMAGE_TAG}" utilities/docs public
+    - scripts/cp-from-image.sh "${DEFAULT_LABELS};service=utilities_docs" docs public
   when: manual
   artifacts:
     when: always

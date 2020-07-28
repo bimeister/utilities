@@ -2,10 +2,14 @@ version: '3.4'
 
 services:
   utilities_build:
-    image: ${BUILD_IMAGE}
     build:
       context: ./
       dockerfile: Dockerfile.build
+      labels:
+        meistersoft.build.pipeline: ${CI_PIPELINE_IID}
+        meistersoft.git.commit: ${GIT_COMMIT}
+        meistersoft.git.branch: ${BRANCH_NAME}
+        service: utilities_build
     environment:
       - PKG_VERSION
       - PKG_TAG
@@ -26,9 +30,11 @@ services:
       dockerfile: Dockerfile.test
 
   utilities_docs:
-    image: ${DOCS_IMAGE}
     build:
       context: ./
       dockerfile: Dockerfile.docs
-    labels:
-      tag: ${DOCS_IMAGE_TAG}
+      labels:
+        meistersoft.build.pipeline: ${CI_PIPELINE_IID}
+        meistersoft.git.commit: ${GIT_COMMIT}
+        meistersoft.git.branch: ${BRANCH_NAME}
+        service: utilities_docs
