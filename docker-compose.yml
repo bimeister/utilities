@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   utilities_build:
-    image: '${IMAGE_TAG}'
+    image: ${BUILD_IMAGE}
     build:
       context: ./
       dockerfile: Dockerfile.build
@@ -26,7 +26,9 @@ services:
       dockerfile: Dockerfile.test
 
   utilities_docs:
+    image: ${DOCS_IMAGE}
     build:
       context: ./
       dockerfile: Dockerfile.docs
-    image: utilities_docs:${DOCS_CONTAINER_NAME}
+    labels:
+      tag: ${DOCS_IMAGE_TAG}
