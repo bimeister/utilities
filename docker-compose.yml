@@ -5,11 +5,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile.build
-      labels:
-        meistersoft.build.pipeline: ${CI_PIPELINE_IID}
-        meistersoft.git.commit: ${GIT_COMMIT}
-        meistersoft.git.branch: ${BRANCH_NAME}
-        service: utilities_build
     environment:
       - PKG_VERSION
       - PKG_TAG
