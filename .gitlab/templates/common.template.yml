@@ -2,8 +2,6 @@ variables:
   GIT_SUBMODULE_STRATEGY: normal
   CI: ''
   BUILD_EFFECTIVE_YML_FILE: docker-compose.yml
-  BUILD_IMAGE: ${DOCKER_REGISTRY}/common/utilities/builder:${CI_COMMIT_SHORT_SHA}__build
-  DOCS_IMAGE: ${DOCKER_REGISTRY}/common/utilities/builder:${CI_COMMIT_SHORT_SHA}__docs
   DEFAULT_LABELS: meistersoft.build.pipeline=${CI_PIPELINE_IID};meistersoft.git.commit=${GIT_COMMIT};meistersoft.git.branch=${BRANCH_NAME}
 
 before_script:
