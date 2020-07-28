@@ -1,6 +1,8 @@
 variables:
   IMAGE_TAG: ${DOCKER_REGISTRY}/common/utilities/builder:${CI_COMMIT_SHORT_SHA}
   DOCS_CONTAINER_NAME: ${CI_COMMIT_SHORT_SHA}__docs
+  GIT_SUBMODULE_STRATEGY: normal
+  BUILD_EFFECTIVE_YML_FILE: docker-compose.yml
 
 before_script:
   - docker --version

@@ -12,25 +12,30 @@ build:library:
   stage: build
   interruptible: true
   allow_failure: false
+  variables:
+    CI: 'true'
   script:
-    - docker-compose --file docker-compose.yml build utilities_build
-    - docker-compose --file docker-compose.yml push utilities_build
+    - scripts/build.sh utilities_build
 
 check:lint:
   needs: []
   stage: check
   interruptible: true
   allow_failure: false
+  variables:
+    CI: ''
   script:
-    - docker-compose --file docker-compose.yml build utilities_lint
+    - scripts/build.sh utilities_lint
 
 check:test:
   needs: []
   stage: check
   interruptible: true
   allow_failure: false
+  variables:
+    CI: ''
   script:
-    - docker-compose --file docker-compose.yml build utilities_test
+    - scripts/build.sh utilities_test
 
 deploy:next:
   extends: .deploy-base
@@ -61,11 +66,13 @@ pages:
   stage: deploy
   interruptible: true
   allow_failure: true
+  variables:
+    CI: ''
   script:
-    - docker-compose --file docker-compose.yml build utilities_docs
-    - docker-compose --file docker-compose.yml up utilities_docs
-    - docker container cp ${DOCS_CONTAINER_NAME}:./utilities/docs public
+    - scripts/build.sh utilities_docs
+    - scripts/cp-from-image.sh ${DOCS_CONTAINER_NAME} utilities/docs public
   when: manual
   artifacts:
+    when: always
     paths:
       - public

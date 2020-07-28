@@ -29,4 +29,4 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile.docs
-    container_name: '${DOCS_CONTAINER_NAME}'
+    image: utilities_docs:${DOCS_CONTAINER_NAME}
