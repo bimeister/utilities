@@ -1,7 +1,7 @@
 {
   "defaultSeverity": "error",
   "linterOptions": {
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "dist", "src/**/api.ts", "src/index.ts"]
   },
   "rules": {
     "array-type": [true, "array"],
@@ -26,7 +26,7 @@
     "encoding": true,
     "eofline": true,
     "forin": true,
-    "import-blacklist": [true, "rxjs/Rx", ["^\\.(\\.)?$"]],
+    "import-blacklist": [true, "rxjs/Rx", ["^\\.(\\.)?$"], ["^.*/api$"]],
     "import-spacing": true,
     "indent": [true, "spaces"],
     "interface-name": [true, "never-prefix"],

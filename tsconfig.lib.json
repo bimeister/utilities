@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "target": "ESNext",
-    "module": "ESNext"
+    "module": "CommonJS"
   },
   "files": ["src/index.ts"]
 }

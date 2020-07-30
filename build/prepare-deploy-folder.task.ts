@@ -28,7 +28,7 @@ function getPackageJsonContent(): object {
   const rawData: string = readFileSync('package.json', 'utf-8');
   const packageJsonContent: object = JSON.parse(rawData);
 
-  const keysToExclude: Set<string> = new Set<string>(['scripts', 'devDependencies']);
+  const keysToExclude: Set<string> = new Set<string>(['scripts']);
   const contentEntries: [string, any][] = Object.entries(packageJsonContent);
   const filteredContentEntries: [string, any][] = contentEntries.filter(
     ([key, _value]: [string, any]) => !keysToExclude.has(key)

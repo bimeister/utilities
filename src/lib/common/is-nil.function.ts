@@ -2,6 +2,6 @@
  * @packageDocumentation
  * @module Common
  */
-export function isNullOrUndefined<T>(entity: T): entity is null | undefined {
+export function isNil<T>(entity: T): entity is null | undefined {
   return entity === undefined || entity === null;
 }

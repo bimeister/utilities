@@ -5,9 +5,9 @@
 import { existsSync, lstatSync, readdirSync, rmdirSync, unlinkSync } from 'fs';
 import * as path from 'path';
 
-import { Nullable } from '../../internal/types/nullable.type';
-import { isEmpty } from '../common/is-empty.function';
-import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
+import { Nullable } from './../../internal/types/nullable.type';
+import { isEmpty } from './../common/is-empty.function';
+import { isNil } from './../common/is-nil.function';
 
 interface Options {
   fileMatchPattern?: Nullable<RegExp>;
@@ -20,17 +20,14 @@ export function deleteFolderWithFiles(targetPath: string, options: Nullable<Opti
     return;
   }
 
-  const { fileMatchPattern, onDelete }: Options = isNullOrUndefined(options)
-    ? { fileMatchPattern: null, onDelete: null }
-    : options;
+  const { fileMatchPattern, onDelete }: Options = isNil(options) ? { fileMatchPattern: null, onDelete: null } : options;
 
   const filesInDirectory: string[] = readdirSync(targetPath);
 
   filesInDirectory.forEach((filePath: string) => {
     const normalizedFilePath: string = path.join(targetPath, filePath);
     const fileIsAllowedToBeDeleted: boolean =
-      isNullOrUndefined(fileMatchPattern) ||
-      (fileMatchPattern instanceof RegExp && fileMatchPattern.test(normalizedFilePath));
+      isNil(fileMatchPattern) || (fileMatchPattern instanceof RegExp && fileMatchPattern.test(normalizedFilePath));
 
     if (!fileIsAllowedToBeDeleted) {
       return;
@@ -43,7 +40,7 @@ export function deleteFolderWithFiles(targetPath: string, options: Nullable<Opti
     }
 
     unlinkSync(normalizedFilePath);
-    if (!isNullOrUndefined(onDelete) && typeof onDelete === 'function') {
+    if (!isNil(onDelete) && typeof onDelete === 'function') {
       onDelete(normalizedFilePath);
     }
   });

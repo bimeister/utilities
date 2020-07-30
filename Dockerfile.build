@@ -4,7 +4,7 @@ RUN apt update && apt-get install jq -y
 # NPM dependencies preinstall
 WORKDIR /tmp
 COPY .npmrc package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --ignore-scripts --ignore-optional \
+RUN yarn install --frozen-lockfile --ignore-scripts \
   && mkdir --parents /utilities \
   && cp --archive /tmp/node_modules /utilities
 

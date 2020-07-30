@@ -4,3 +4,5 @@
 
 export * from './common/api';
 export * from './filesystem/api';
+export * from './ngxs/api';
+export * from './rxjs/api';

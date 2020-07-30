@@ -20,7 +20,7 @@
     "removeComments": false,
     "sourceMap": false,
     "target": "ES6",
-    "types": ["node"],
+    "types": ["jest", "node"],
     "typeRoots": ["node_modules/@types"],
     "importsNotUsedAsValues": "preserve"
   },

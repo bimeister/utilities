@@ -5,8 +5,8 @@
 import { copyFile, existsSync, mkdirSync, readdirSync, statSync } from 'fs';
 import * as path from 'path';
 
-import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { Nullable } from './../../internal/types/nullable.type';
+import { isNil } from './../common/is-nil.function';
 
 interface Options {
   fileMatchPattern?: Nullable<RegExp>;
@@ -14,9 +14,7 @@ interface Options {
 }
 
 export function copyFolderWithFiles(sourcePath: string, targetPath: string, options: Nullable<Options> = null): void {
-  const { onCopy, fileMatchPattern }: Options = isNullOrUndefined(options)
-    ? { onCopy: null, fileMatchPattern: null }
-    : options;
+  const { onCopy, fileMatchPattern }: Options = isNil(options) ? { onCopy: null, fileMatchPattern: null } : options;
 
   const sourceIsDirectory: boolean = existsSync(sourcePath) && statSync(sourcePath).isDirectory();
   const targetDirectoryExists: boolean = existsSync(targetPath);
@@ -28,7 +26,7 @@ export function copyFolderWithFiles(sourcePath: string, targetPath: string, opti
   if (sourceIsDirectory) {
     readdirSync(sourcePath).forEach((filePath: string) => {
       const shouldCopy: boolean =
-        isNullOrUndefined(fileMatchPattern) || (fileMatchPattern instanceof RegExp && fileMatchPattern.test(filePath));
+        isNil(fileMatchPattern) || (fileMatchPattern instanceof RegExp && fileMatchPattern.test(filePath));
       if (!shouldCopy) {
         return;
       }
@@ -39,7 +37,7 @@ export function copyFolderWithFiles(sourcePath: string, targetPath: string, opti
   }
 
   copyFile(sourcePath, targetPath, () => {
-    if (!isNullOrUndefined(onCopy) && typeof onCopy === 'function') {
+    if (!isNil(onCopy) && typeof onCopy === 'function') {
       onCopy(sourcePath, targetPath);
     }
   });
