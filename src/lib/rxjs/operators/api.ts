@@ -3,6 +3,7 @@
  */
 
 export * from './distinct-until-serialized-changed.operator';
+export * from './filter-by-latest-from.operator';
 export * from './filter-falsy.operator';
 export * from './filter-not-empty.operator';
 export * from './filter-not-nil.operator';
@@ -11,6 +12,7 @@ export * from './map-to-is-falsy.operator';
 export * from './map-to-is-nil.operator';
 export * from './map-to-is-not-nil.operator';
 export * from './map-to-is-truthy.operator';
+export * from './map-to-paged-array.operator';
 export * from './map-to-void.operator';
 export * from './share-replay-with-ref-count.operator';
 export * from './tap-log.operator';

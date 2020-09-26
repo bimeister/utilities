@@ -7,6 +7,7 @@ export * from './get-array-last-element.function';
 export * from './get-array-unique-elements.function';
 export * from './get-array-with-moved-items.function';
 export * from './get-element-all-nested-children.function';
+export * from './get-paged-array.function';
 export * from './get-reg-exp-pattern.function';
 export * from './get-reversed-array.function';
 export * from './get-screaming-snake-cased-string.function';
