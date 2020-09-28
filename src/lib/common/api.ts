@@ -13,5 +13,6 @@ export * from './get-reversed-array.function';
 export * from './get-screaming-snake-cased-string.function';
 export * from './get-shuffled-array.function';
 export * from './get-uuid.function';
+export * from './increment-name.function';
 export * from './is-empty.function';
 export * from './is-nil.function';
