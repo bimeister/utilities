@@ -1,7 +1,7 @@
 import { isNil } from './is-nil.function';
 
-const INCREMENTED_NAME_PATTERN: RegExp = new RegExp(/.*[ ][(](\d){1,}[)]$/, 'gm');
-const INCREMENT_PATTERN: RegExp = new RegExp(/[(](\d){1,}[)]$/, 'gm');
+const INCREMENTED_NAME_PATTERN: RegExp = new RegExp(/.*[ ][(](\d){1,}[)]$/);
+const INCREMENT_PATTERN: RegExp = new RegExp(/[(](\d){1,}[)]$/);
 
 const getCurrentIncrement: (stringToCheck: string) => number = (stringToCheck: string): number => {
   const stringMatchesNamePattern: boolean = INCREMENTED_NAME_PATTERN.test(stringToCheck);
@@ -38,8 +38,8 @@ export const incrementName: (currentName: string, namesArray?: string[]) => stri
   if (!Array.isArray(namesArray) || namesArray.length === 0) {
     return currentName;
   }
-  const matchingNames: string[] = namesArray.filter(
-    (innerName: string) => getNameWithoutIncrement(innerName) === currentName
+  const matchingNames: string[] = namesArray.filter((innerName: string) =>
+    [getNameWithoutIncrement(innerName), innerName].includes(currentName)
   );
   if (matchingNames.length === 0) {
     return currentName;
