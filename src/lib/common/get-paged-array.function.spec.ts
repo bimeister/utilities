@@ -8,9 +8,12 @@ describe('get-paged-array.function.ts', () => {
   const initialItems: number[] = new Array(initialItemsCount).fill(VOID).map((_, index: number) => index);
   const pagedItems: number[][] = getPagedArray(initialItems, itemsPerPage);
 
+  it('should process invalid input', () => {
+    expect(getPagedArray([], itemsPerPage)).toEqual([]);
+  });
+
   it('should keep all initial items', () => {
     const flatPagedItems: number[] = pagedItems.flat(1);
-    expect(flatPagedItems).toHaveLength(initialItemsCount);
     expect(flatPagedItems).toEqual(initialItems);
   });
 
