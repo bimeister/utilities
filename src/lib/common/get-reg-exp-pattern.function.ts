@@ -6,12 +6,12 @@ const patternByName: Map<RegExpPatternName, RegExp> = new Map<RegExpPatternName,
     'url',
     new RegExp(
       '^' +
-      '(http://www.|https://www.|http://|https://)?' + // protocol
-      '[a-z0-9]+([-.]{1}[a-z0-9]+)*' +
-      '.' +
-      '[a-z]{2,5}' + // 1st level domain
-      '(:[0-9]{1,5})?' + // port
-      '(/.*)?' + // path
+        '(http://www.|https://www.|http://|https://)?' + // protocol
+        '[a-z0-9]+([-.]{1}[a-z0-9]+)*' +
+        '.' +
+        '[a-z]{2,5}' + // 1st level domain
+        '(:[0-9]{1,5})?' + // port
+        '(/.*)?' + // path
         '$'
     )
   ],
