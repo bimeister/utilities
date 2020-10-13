@@ -1,5 +1,11 @@
 import { getArrayUniqueElements } from './get-array-unique-elements.function';
 
+enum TestEnum {
+  First,
+  Second,
+  Third
+}
+
 describe('get-array-unique-elements.function.ts', () => {
   it('should return empty array if invalid input is passed', () => {
     expect(getArrayUniqueElements([])).toHaveLength(0);
@@ -42,5 +48,21 @@ describe('get-array-unique-elements.function.ts', () => {
   it('should correctly remove objects duplicates', () => {
     const objectArray: (object & { id: number })[] = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 1 }];
     expect(getArrayUniqueElements(objectArray, 'id')).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
+  });
+
+  it('should correctly process enum values duplicates', () => {
+    const enumValuesArray: TestEnum[] = [
+      TestEnum.First,
+      TestEnum.First,
+      TestEnum.Second,
+      TestEnum.First,
+      TestEnum.Third,
+      TestEnum.Third
+    ];
+
+    const result: TestEnum[] = getArrayUniqueElements<TestEnum>(enumValuesArray);
+    const expected: TestEnum[] = [TestEnum.First, TestEnum.Second, TestEnum.Third];
+
+    expect(result).toEqual(expected);
   });
 });

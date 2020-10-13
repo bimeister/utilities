@@ -7,7 +7,9 @@ export function getArrayUniqueElements(array: []): [];
 export function getArrayUniqueElements(array: number[]): number[];
 export function getArrayUniqueElements(array: boolean[]): boolean[];
 export function getArrayUniqueElements(array: string[]): string[];
+export function getArrayUniqueElements<T extends Primitive>(array: T[]): T[];
 export function getArrayUniqueElements<T extends object>(array: T[], compareBy: keyof T): T[];
+
 export function getArrayUniqueElements(
   array: ObjectOrPrimitive[],
   compareBy?: keyof ObjectOrPrimitive
