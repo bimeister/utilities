@@ -20,7 +20,7 @@ export function copyFolderWithFiles(sourcePath: string, targetPath: string, opti
   const targetDirectoryExists: boolean = existsSync(targetPath);
 
   if (sourceIsDirectory && !targetDirectoryExists) {
-    mkdirSync(targetPath);
+    mkdirSync(targetPath, { recursive: true });
   }
 
   if (sourceIsDirectory) {

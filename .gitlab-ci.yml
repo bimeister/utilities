@@ -71,7 +71,9 @@ pages:
   script:
     - scripts/build.sh utilities_docs
     - scripts/cp-from-image.sh "${DEFAULT_LABELS};service=utilities_docs" docs public
-  when: manual
+  when: always
+  only:
+    - master
   artifacts:
     when: always
     paths:

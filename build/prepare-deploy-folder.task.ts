@@ -5,24 +5,24 @@ import { cwd } from 'process';
 import { copyFolderWithFiles } from './../src/lib/filesystem/copy-folder-with-files.function';
 import { deleteFolderWithFiles } from './../src/lib/filesystem/delete-folder-with-files.function';
 
-export const prepareDeployFolder: TaskFunction = (done: Function): void => {
-  const currentPath: string = cwd();
-  const deployFolderPath: string = `${currentPath}/deploy`;
-  const distFolderPath: string = `${currentPath}/dist`;
+const currentPath: string = cwd();
+const deployFolderPath: string = `${currentPath}/deploy`;
+const distFolderPath: string = `${currentPath}/dist`;
 
+export const prepareDeployFolder: TaskFunction = (done: Function): void => {
   deleteFolderWithFiles(deployFolderPath);
+
   copyFolderWithFiles(distFolderPath, deployFolderPath);
   copyFolderWithFiles(currentPath, deployFolderPath, {
     fileMatchPattern: new RegExp(/LICENSE$/, 'i')
   });
-  addPackageJson();
+
+  const packageJsonContent: object = getPackageJsonContent();
+  const serializedPackageJsonContent: string = JSON.stringify(packageJsonContent);
+  writeFileSync('deploy/package.json', serializedPackageJsonContent);
+
   done();
 };
-
-function addPackageJson(): void {
-  const packageJsonContent: string = JSON.stringify(getPackageJsonContent());
-  writeFileSync('deploy/package.json', packageJsonContent);
-}
 
 function getPackageJsonContent(): object {
   const rawData: string = readFileSync('package.json', 'utf-8');
