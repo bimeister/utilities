@@ -30,9 +30,17 @@ export function getArrayUniqueElements(
 }
 
 function getArrayUniqueObjects<T extends object>(elements: T[], compareBy: keyof T): T[] {
-  const uniqueElementsMap: Map<T[keyof T], T> = new Map<T[keyof T], T>(
-    elements.map((element: T) => [element[compareBy], element])
-  );
+  const uniqueElementsMap: Map<T[keyof T], T> = new Map<T[keyof T], T>();
+
+  elements.forEach((element: T) => {
+    const key: T[keyof T] = element[compareBy];
+    if (uniqueElementsMap.has(key)) {
+      return;
+    }
+
+    uniqueElementsMap.set(key, element);
+  });
+
   return Array.from(uniqueElementsMap.values());
 }
 

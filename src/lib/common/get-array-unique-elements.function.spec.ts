@@ -45,9 +45,26 @@ describe('get-array-unique-elements.function.ts', () => {
     expect(getArrayUniqueElements(stringArray)).toEqual(['aaa', 'ccc', 'bbb']);
   });
 
-  it('should correctly remove objects duplicates', () => {
-    const objectArray: (object & { id: number })[] = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 1 }];
-    expect(getArrayUniqueElements(objectArray, 'id')).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
+  it('should correctly keep first object in array with duplicates', () => {
+    interface Element {
+      id: number;
+      type: TestEnum;
+    }
+
+    const objectArray: Element[] = [
+      { id: 1, type: TestEnum.First },
+      { id: 2, type: TestEnum.Second },
+      { id: 3, type: TestEnum.Third },
+      { id: 1, type: TestEnum.Third }
+    ];
+
+    const expected: Element[] = [
+      { id: 1, type: TestEnum.First },
+      { id: 2, type: TestEnum.Second },
+      { id: 3, type: TestEnum.Third }
+    ];
+
+    expect(getArrayUniqueElements(objectArray, 'id')).toEqual(expected);
   });
 
   it('should correctly process enum values duplicates', () => {
