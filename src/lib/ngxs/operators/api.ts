@@ -3,5 +3,6 @@
  */
 
 export * from './remove-item-by-property.operator';
+export * from './remove-multiple-items-by-property.operator';
 export * from './set-item-by-property.operator';
 export * from './set-items-by-properties.operator';
