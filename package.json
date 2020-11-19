@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "main": "dist/index.js",
   "license": "SEE LICENSE IN LICENSE",
-  "description": "SNH MeisterSoft utilities library",
+  "description": "BIMeister utilities library",
   "repository": {
     "type": "git",
-    "url": "https://git.meistersoft.ru/common/utilities.git"
+    "url": "https://git.bimeister.com/common/utilities.git"
   },
   "scripts": {
     "barrel": "barrelsby --config=\"./barrelsby.json\" --directory=\"./src/lib\"",
