@@ -6,20 +6,25 @@ describe('blob-to-file.function.ts', () => {
   const sampleBlob: Blob = blobMock;
   const sampleFileName: string = nameMock;
 
-  it('should return file as instance of File or Blob object', () => {
+  it('should return file as instance of Blob object', () => {
     const resultFile: unknown = blobToFile(sampleBlob, sampleFileName);
-    expect(resultFile instanceof Blob || resultFile instanceof File).toBe(true);
+    expect(resultFile instanceof Blob).toBe(true);
   });
 
-  it('should return file with required File properties', () => {
+  it('should return file as instance of File object', () => {
     const resultFile: unknown = blobToFile(sampleBlob, sampleFileName);
-    const resultFileProps: string[] = Object.getOwnPropertyNames(resultFile);
-    expect(resultFileProps.includes('name') && resultFileProps.includes('lastModifiedDate')).toBe(true);
+    expect(resultFile instanceof File).toBe(true);
+  });
+
+  it('should return file with requested type', () => {
+    const resultFile: unknown = blobToFile(sampleBlob, sampleFileName);
+    const resultFileType: string = resultFile['type'];
+    expect(resultFileType).toBe(sampleBlob.type);
   });
 
   it('should return file with requested name', () => {
     const resultFile: unknown = blobToFile(sampleBlob, sampleFileName);
-    const resultFileName: string = Object.getOwnPropertyDescriptor(resultFile, 'name').value;
+    const resultFileName: string = resultFile['name'];
     expect(resultFileName).toBe(sampleFileName);
   });
 });
