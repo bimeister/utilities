@@ -67,4 +67,20 @@ describe('buffer-from-to.operator.ts', () => {
         }
       );
   }, 10000);
+
+  it('should emit empty array in case of combined marker', done => {
+    const input: string[] = ['combined-marker'];
+
+    from(input)
+      .pipe(
+        bufferFromTo(
+          (inputItem: string) => inputItem === 'combined-marker',
+          (inputItem: string) => inputItem === 'combined-marker'
+        )
+      )
+      .subscribe((result: string[]) => {
+        expect(result).toEqual([]);
+        done();
+      });
+  }, 10000);
 });
