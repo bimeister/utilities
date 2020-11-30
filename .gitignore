@@ -2,6 +2,7 @@
 !/.gitlab/
 /dist/
 /docs/
+/coverage/
 /deploy/
 /node_modules/
 *.log
