@@ -4,8 +4,7 @@
  */
 import { existsSync, lstatSync, readdirSync, rmdirSync, unlinkSync } from 'fs';
 import * as path from 'path';
-
-import { Nullable } from './../../internal/types/nullable.type';
+import { Nullable } from '../types/nullable.type';
 import { isEmpty } from './../common/is-empty.function';
 import { isNil } from './../common/is-nil.function';
 

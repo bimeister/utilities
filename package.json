@@ -29,14 +29,15 @@
     "snake-case": "^3.0.3",
     "uuid": "^8.3.0"
   },
-  "optionalDependencies": {
-    "@angular/core": "^11.0.0",
+  "peerDependencies": {
+    "@angular/core": "^10.0.0",
     "@ngxs/store": "^3.6.2",
     "rxjs": "^6.6.0"
   },
   "devDependencies": {
     "@angular/core": "^11.0.0",
     "@ngxs/store": "^3.6.2",
+    "rxjs": "^6.6.0",
     "@types/fancy-log": "^1.3.1",
     "@types/gulp": "^4.0.6",
     "@types/jest": "^26.0.4",
@@ -48,7 +49,6 @@
     "gulp": "^4.0.2",
     "jest": "^26.1.0",
     "prettier": "^2.0.5",
-    "rxjs": "^6.6.0",
     "ts-jest": "^26.1.2",
     "ts-node": "^9.0.0",
     "tslint": "^6.1.2",
@@ -56,11 +56,6 @@
     "typedoc-plugin-external-module-name": "^4.0.3",
     "typescript": "^4.0.0"
   },
-  "bundledDependencies": [
-    "snake-case",
-    "uuid",
-    "fancy-log"
-  ],
   "browser": {
     "fs": false,
     "path": false
