@@ -1,35 +1,54 @@
 version: '3.4'
 
 services:
-  utilities_build:
+  base_service:
     build:
       context: ./
-      dockerfile: Dockerfile.build
-    environment:
-      - PKG_VERSION
-      - PKG_TAG
-      - PUBLISH
-      - NPM_REPOSITORY_LOGIN
-      - NPM_REPOSITORY_PASSWORD
-      - NPM_REPOSITORY_EMAIL
-      - NPM_REPOSITORY_URL
+      dockerfile: ./build/docker/multistage.dockerfile
+      target: base
+      args:
+        - NPM_AUTH_TOKEN
 
-  utilities_lint:
+  build_service:
     build:
       context: ./
-      dockerfile: Dockerfile.lint
+      dockerfile: ./build/docker/multistage.dockerfile
+      target: build
+      args:
+        - NPM_AUTH_TOKEN
 
-  utilities_test:
+  lint_service:
     build:
       context: ./
-      dockerfile: Dockerfile.test
+      dockerfile: ./build/docker/multistage.dockerfile
+      target: lint
+      args:
+        - NPM_AUTH_TOKEN
 
-  utilities_docs:
+  test_service:
     build:
       context: ./
-      dockerfile: Dockerfile.docs
+      dockerfile: ./build/docker/multistage.dockerfile
+      target: test
+      args:
+        - NPM_AUTH_TOKEN
+
+  deploy_service:
+    build:
+      context: ./
+      dockerfile: ./build/docker/multistage.dockerfile
+      target: deploy
+      args:
+        - NPM_AUTH_TOKEN
+        - GIT_COMMIT_HASH
+
+  docs_service:
+    build:
+      context: ./
+      dockerfile: ./build/docker/multistage.dockerfile
+      target: docs
       labels:
         meistersoft.build.pipeline: ${CI_PIPELINE_IID}
         meistersoft.git.commit: ${GIT_COMMIT}
         meistersoft.git.branch: ${BRANCH_NAME}
-        service: utilities_docs
+        service: docs_service

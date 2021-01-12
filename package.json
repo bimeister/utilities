@@ -1,14 +1,15 @@
 {
-  "name": "@meistersoft/utilities",
+  "name": "@bimeister/utilities",
   "version": "0.1.0",
   "main": "dist/index.js",
   "license": "SEE LICENSE IN LICENSE",
   "description": "BIMeister utilities library",
   "repository": {
     "type": "git",
-    "url": "https://git.bimeister.com/common/utilities.git"
+    "url": "https://git.bimeister.com/common/utilities"
   },
   "scripts": {
+    "build-cli": "build-cli",
     "barrel": "barrelsby --config=\"./barrelsby.json\" --directory=\"./src/lib\"",
     "build": "yarn barrel && gulp build:clean-up && tsc --project tsconfig.lib.json",
     "build:ci": "yarn build && gulp deploy:prepare",
@@ -29,15 +30,15 @@
     "snake-case": "^3.0.3",
     "uuid": "^8.3.0"
   },
-  "peerDependencies": {
+  "optionalDependencies": {
     "@angular/core": "^10.0.0",
     "@ngxs/store": "^3.6.2",
     "rxjs": "^6.6.0"
   },
   "devDependencies": {
-    "@angular/core": "^11.0.0",
+    "@angular/core": "^10.0.0",
+    "@bimeister/build-cli": "^0.1.0-a5e847f8",
     "@ngxs/store": "^3.6.2",
-    "rxjs": "^6.6.0",
     "@types/fancy-log": "^1.3.1",
     "@types/gulp": "^4.0.6",
     "@types/jest": "^26.0.4",
@@ -49,6 +50,7 @@
     "gulp": "^4.0.2",
     "jest": "^26.1.0",
     "prettier": "^2.0.5",
+    "rxjs": "^6.6.0",
     "ts-jest": "^26.1.2",
     "ts-node": "^9.0.0",
     "tslint": "^6.1.2",

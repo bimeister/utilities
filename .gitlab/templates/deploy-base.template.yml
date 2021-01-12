@@ -1,7 +1,0 @@
-.deploy-base:
-  before_script:
-    - docker-compose --file docker-compose.yml pull utilities_build
-  script:
-    - docker-compose --file docker-compose.yml run utilities_build
-  after_script:
-    - docker-compose --file docker-compose.yml down --rmi "all"
