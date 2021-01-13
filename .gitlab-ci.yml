@@ -52,9 +52,17 @@ Test:
   script:
     - scripts/build.sh test_service
 
+Code Style:
+  stage: check
+  needs: ['Dependencies']
+  interruptible: true
+  allow_failure: false
+  script:
+    - scripts/build.sh codestyle_service
+
 NPM Package:
   stage: deploy
-  needs: ['Static files', 'Test', 'Lint']
+  needs: ['Static files', 'Test', 'Lint', 'Code Style']
   interruptible: false
   allow_failure: true
   when: manual
@@ -69,8 +77,8 @@ pages:
   variables:
     CI: 'true'
   script:
-    - scripts/build.sh utilities_docs
-    - scripts/cp-from-image.sh "${DEFAULT_LABELS};service=utilities_docs" docs public
+    - scripts/build.sh docs_service
+    - scripts/cp-from-image.sh "${DEFAULT_LABELS};service=docs_service" docs public
   when: always
   only:
     - master

@@ -1,7 +1,7 @@
 {
   "defaultSeverity": "error",
   "linterOptions": {
-    "exclude": ["node_modules", "dist", "src/**/api.ts", "src/index.ts"]
+    "exclude": ["node_modules", "dist", "src/**/api.ts", "src/*.ts"]
   },
   "rules": {
     "array-type": [true, "array"],

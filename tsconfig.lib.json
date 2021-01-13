@@ -1,8 +1,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS"
+    "target": "ES6",
+    "module": "UMD"
   },
-  "files": ["src/index.ts"]
+  "files": ["src/index.ts", "src/common.ts", "src/ngxs.ts", "src/rxjs.ts"]
 }

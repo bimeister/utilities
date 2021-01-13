@@ -4,51 +4,55 @@ services:
   base_service:
     build:
       context: ./
-      dockerfile: ./build/docker/multistage.dockerfile
-      target: base
-      args:
-        - NPM_AUTH_TOKEN
+      dockerfile: ./build/docker/base.dockerfile
+    image: ${BASE_IMAGE}
 
   build_service:
     build:
       context: ./
-      dockerfile: ./build/docker/multistage.dockerfile
-      target: build
+      dockerfile: ./build/docker/build.dockerfile
       args:
-        - NPM_AUTH_TOKEN
+        - BASE_IMAGE
+    image: ${BUILD_IMAGE}
 
   lint_service:
     build:
       context: ./
-      dockerfile: ./build/docker/multistage.dockerfile
-      target: lint
+      dockerfile: ./build/docker/lint.dockerfile
       args:
-        - NPM_AUTH_TOKEN
+        - BASE_IMAGE
+
+  codestyle_service:
+    build:
+      context: ./
+      dockerfile: ./build/docker/codestyle.dockerfile
+      args:
+        - BASE_IMAGE
 
   test_service:
     build:
       context: ./
-      dockerfile: ./build/docker/multistage.dockerfile
-      target: test
+      dockerfile: ./build/docker/test.dockerfile
       args:
-        - NPM_AUTH_TOKEN
+        - BASE_IMAGE
 
   deploy_service:
     build:
       context: ./
-      dockerfile: ./build/docker/multistage.dockerfile
-      target: deploy
+      dockerfile: ./build/docker/deploy.dockerfile
       args:
         - NPM_AUTH_TOKEN
         - GIT_COMMIT_HASH
+        - BUILD_IMAGE
 
   docs_service:
     build:
       context: ./
-      dockerfile: ./build/docker/multistage.dockerfile
-      target: docs
+      dockerfile: ./build/docker/docs.dockerfile
       labels:
         meistersoft.build.pipeline: ${CI_PIPELINE_IID}
         meistersoft.git.commit: ${GIT_COMMIT}
         meistersoft.git.branch: ${BRANCH_NAME}
         service: docs_service
+      args:
+        - BASE_IMAGE
