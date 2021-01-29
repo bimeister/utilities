@@ -11,8 +11,11 @@ const config: Config.InitialOptions = {
   moduleFileExtensions: ['ts', 'js', 'json'],
   globals: {
     'ts-jest': {
-      tsConfig: 'tsconfig.spec.json'
+      tsconfig: 'tsconfig.spec.json'
     }
-  }
+  },
+  reporters: [['jest-junit', { suiteName: 'Unit Tests', outputDirectory: 'coverage' }]],
+  coverageDirectory: 'coverage',
+  passWithNoTests: false
 };
 export default config;

@@ -35,6 +35,10 @@ services:
       dockerfile: ./build/docker/test.dockerfile
       args:
         - BASE_IMAGE
+      labels:
+        pipeline: ${PIPELINE_ID}
+        commit: ${GIT_COMMIT_HASH}
+        service: test_service
 
   deploy_service:
     build:
