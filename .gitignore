@@ -1,7 +1,6 @@
 /.*/
 !/.gitlab/
 /.vscode/
-!/.storybook/
 /coverage/
 /docs/
 /deploy/

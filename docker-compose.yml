@@ -50,9 +50,8 @@ services:
       context: ./
       dockerfile: ./build/docker/docs.dockerfile
       labels:
-        meistersoft.build.pipeline: ${CI_PIPELINE_IID}
-        meistersoft.git.commit: ${GIT_COMMIT}
-        meistersoft.git.branch: ${BRANCH_NAME}
+        pipeline: ${PIPELINE_ID}
+        commit: ${GIT_COMMIT_HASH}
         service: docs_service
       args:
         - BASE_IMAGE

@@ -13,7 +13,7 @@
     "barrel": "barrelsby --config=\"./barrelsby.json\" --directory=\"./src/lib\"",
     "build": "yarn barrel && gulp build:clean-up && tsc --project tsconfig.lib.json",
     "build:ci": "yarn build && gulp deploy:prepare",
-    "build:docs": "typedoc --options typedoc.json  --tsconfig tsconfig.docs.json --includeDeclarations --exclude \"**/*+(index|api|.spec|.e2e).ts\" --excludeNotExported --excludePrivate --excludeProtected --excludeExternals --stripInternal",
+    "build:docs": "yarn barrel && typedoc --options typedoc.json  --tsconfig tsconfig.docs.json --includeDeclarations --exclude \"**/*+(index|api|.spec|.e2e).ts\" --excludeNotExported --excludePrivate --excludeProtected --excludeExternals --stripInternal",
     "autofix": "yarn run lint:debug && yarn run prettier:format && yarn run lint:inspect",
     "lint:debug": "tslint --format prose --project tsconfig.json --fix",
     "lint:inspect": "tslint --format stylish --project tsconfig.json && yarn run cspell:check",
