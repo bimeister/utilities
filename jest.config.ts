@@ -1,4 +1,8 @@
-module.exports = {
+import type { Config } from '@jest/types';
+
+const config: Config.InitialOptions = {
+  verbose: true,
+  collectCoverage: true,
   roots: ['<rootDir>/src'],
   transform: {
     '^.+\\.ts$': 'ts-jest'
@@ -11,3 +15,4 @@ module.exports = {
     }
   }
 };
+export default config;
