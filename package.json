@@ -11,8 +11,11 @@
   "scripts": {
     "build-cli": "build-cli",
     "barrel": "barrelsby --config=\"./barrelsby.json\" --directory=\"./src/lib\"",
-    "build": "yarn barrel && gulp build:clean-up && tsc --project tsconfig.lib.json",
-    "build:ci": "yarn build && gulp deploy:prepare",
+    "compile:lib-esm2015": "tsc --project tsconfig.lib-esm2015.json",
+    "compile:lib-umd": "tsc --project tsconfig.lib-umd.json",
+    "compile:lib-typings": "tsc --project tsconfig.lib-typings.json",
+    "build": "yarn build && gulp build:compile-all",
+    "build:ci": "yarn barrel && gulp build:clean-up && gulp build:compile-all",
     "build:docs": "yarn barrel && typedoc --options typedoc.json  --tsconfig tsconfig.docs.json --includeDeclarations --exclude \"**/*+(index|api|.spec|.e2e).ts\" --excludeNotExported --excludePrivate --excludeProtected --excludeExternals --stripInternal",
     "autofix": "yarn run lint:debug && yarn run prettier:format && yarn run lint:inspect",
     "lint:debug": "tslint --format prose --project tsconfig.json --fix",
@@ -37,7 +40,7 @@
   },
   "devDependencies": {
     "@angular/core": "^10.0.0",
-    "@bimeister/build-cli": "^0.1.0-db013229",
+    "@bimeister/build-cli": "^0.1.0-9d12670c",
     "@ngxs/store": "^3.6.2",
     "@types/fancy-log": "^1.3.1",
     "@types/gulp": "^4.0.6",

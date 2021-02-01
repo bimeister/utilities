@@ -1,7 +1,7 @@
 import { exec, ExecException } from 'child_process';
 import { error, info, warn } from 'fancy-log';
 import { isNil } from '../common/is-nil.function';
-import { Nullable } from '../types/nullable.type';
+import type { Nullable } from '../types/nullable.type';
 
 export function executeCommandWithLogging(
   command: string,

@@ -1,4 +1,4 @@
-import { MonoTypeOperatorFunction, Observable } from 'rxjs';
+import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 export const distinctUntilSerializedChanged = <T>(): MonoTypeOperatorFunction<T> => (

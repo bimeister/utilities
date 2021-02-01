@@ -1,9 +1,8 @@
-import { StateContext } from '@ngxs/store';
+import type { StateContext } from '@ngxs/store';
 import { iif, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { isNil } from './../../common/is-nil.function';
 import { filterNotNil } from './../../rxjs/operators/filter-not-nil.operator';
-
 import { getFromStateByProperty } from './get-from-state-by-property.function';
 
 export const dispatchIfEmpty = <T>(

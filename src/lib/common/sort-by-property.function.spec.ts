@@ -1,4 +1,4 @@
-import { AbstractObject } from './../../internal/interfaces/abstract-object.interface';
+import type { AbstractObject } from './../../internal/interfaces/abstract-object.interface';
 import { sortByProperty } from './sort-by-property.function';
 
 describe('sort-by-property.function.ts', () => {

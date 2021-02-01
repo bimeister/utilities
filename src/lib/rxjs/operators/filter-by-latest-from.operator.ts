@@ -1,7 +1,6 @@
-import { MonoTypeOperatorFunction, Observable } from 'rxjs';
+import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
-
-import { RxjsFilterPredicate } from '../../../internal/types/rxjs-filter-predicate.type';
+import type { RxjsFilterPredicate } from '../../../internal/types/rxjs-filter-predicate.type';
 
 export const filterByLatestFrom = <T, P>(
   observable: Observable<P>,

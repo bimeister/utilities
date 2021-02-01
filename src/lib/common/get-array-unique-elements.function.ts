@@ -1,4 +1,4 @@
-import { Primitive } from './../../internal/types/primitive.type';
+import type { Primitive } from './../../internal/types/primitive.type';
 import { isEmpty } from './is-empty.function';
 
 type ObjectOrPrimitive = object | Primitive;

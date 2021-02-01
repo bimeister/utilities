@@ -1,4 +1,4 @@
-import { MonoTypeOperatorFunction, Observable } from 'rxjs';
+import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { isNil } from './../../common/is-nil.function';
 

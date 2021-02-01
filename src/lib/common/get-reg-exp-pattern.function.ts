@@ -1,4 +1,4 @@
-import { RegExpPatternName } from './../../internal/types/reg-exp-pattern-name.type';
+import type { RegExpPatternName } from './../../internal/types/reg-exp-pattern-name.type';
 
 const patternByName: Map<RegExpPatternName, RegExp> = new Map<RegExpPatternName, RegExp>([
   ['email', new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)],

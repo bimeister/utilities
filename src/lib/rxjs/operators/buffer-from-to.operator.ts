@@ -1,6 +1,6 @@
 import { BehaviorSubject, combineLatest, Observable, OperatorFunction } from 'rxjs';
 import { buffer, distinctUntilChanged, filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
-import { RxjsFilterPredicate } from './../../../internal/types/rxjs-filter-predicate.type';
+import type { RxjsFilterPredicate } from './../../../internal/types/rxjs-filter-predicate.type';
 import { filterTruthy } from './filter-truthy.operator';
 import { mapToVoid } from './map-to-void.operator';
 

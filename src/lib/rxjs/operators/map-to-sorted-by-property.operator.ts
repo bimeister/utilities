@@ -1,6 +1,6 @@
-import { MonoTypeOperatorFunction, Observable } from 'rxjs';
+import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SortType } from './../../../internal/types/sort-type.type';
+import type { SortType } from './../../../internal/types/sort-type.type';
 import { sortByProperty } from './../../common/sort-by-property.function';
 
 export const mapToSortedByProperty = <T>(

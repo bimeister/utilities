@@ -4,7 +4,7 @@
  */
 import { copyFile, existsSync, mkdirSync, readdirSync, statSync } from 'fs';
 import * as path from 'path';
-import { Nullable } from '../types/nullable.type';
+import type { Nullable } from '../types/nullable.type';
 import { isNil } from './../common/is-nil.function';
 
 interface Options {

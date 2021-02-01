@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
 import { exhaustMap, switchMapTo, take } from 'rxjs/operators';
 
 export const selectAndDispatchIfEmpty = <T>(

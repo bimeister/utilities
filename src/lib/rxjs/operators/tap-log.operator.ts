@@ -1,4 +1,4 @@
-import { MonoTypeOperatorFunction, Observable } from 'rxjs';
+import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 export const tapLog = <T>(...prefixes: unknown[]): MonoTypeOperatorFunction<T> => (

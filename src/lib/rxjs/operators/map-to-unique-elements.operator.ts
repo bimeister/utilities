@@ -1,6 +1,5 @@
+import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { getArrayUniqueElements } from './../../common/get-array-unique-elements.function';
 
 export const mapToUniqueElements = <T extends object>(compareBy: keyof T): MonoTypeOperatorFunction<T[]> => (

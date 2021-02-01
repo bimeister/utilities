@@ -13,5 +13,10 @@ RUN yarn run build-cli prepare-npmrc \
  && cp ./package.json ./LICENSE --target-directory ./dist/ \
  && yarn run build-cli prepare-package-json \
       --commit_hash="${GIT_COMMIT_HASH}" \
-      --package_json_path="./dist/package.json"
+      --package_json_path="./dist/package.json" \
+      --main_js_path="bundles/index.js" \
+      --module="esm2015/index.js" \
+      --esm2015="esm2015/index.js" \
+      --typings="lib/index.d.ts" \
+      --sideEffects="false"
 RUN npm publish ./dist/ --tag="latest" --access="public"

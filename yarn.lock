@@ -277,12 +277,22 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bimeister/build-cli@^0.1.0-db013229":
-  version "0.1.0-db013229"
-  resolved "https://git.bimeister.com/api/v4/projects/98/packages/npm/@bimeister/build-cli/-/@bimeister/build-cli-0.1.0-db013229.tgz#09a51c2fcd1848044f460fd6b4035c832aec8f02"
-  integrity sha1-CaUcL80YSARPRg/WtANcgyrsjwI=
+"@bimeister/build-cli@^0.1.0-9d12670c":
+  version "0.1.0-9d12670c"
+  resolved "https://git.bimeister.com/api/v4/projects/98/packages/npm/@bimeister/build-cli/-/@bimeister/build-cli-0.1.0-9d12670c.tgz#ea7e9f6f27b635b54de7fa4e9b63c7de7c8de2e3"
+  integrity sha1-6n6fbye2NbVN5/pOm2PH3nyN4uM=
+  dependencies:
+    "@bimeister/utilities" "0.1.0-53c1c736"
+    fancy-log "^1.3.3"
+
+"@bimeister/utilities@0.1.0-53c1c736":
+  version "0.1.0-53c1c736"
+  resolved "https://git.bimeister.com/api/v4/projects/98/packages/npm/@bimeister/utilities/-/@bimeister/utilities-0.1.0-53c1c736.tgz#a22efafaa49a7f6082ddb5a25d247eaf1df0dfb7"
+  integrity sha1-oi76+qSaf2CC3bWiXSR+rx3w37c=
   dependencies:
     fancy-log "^1.3.3"
+    snake-case "^3.0.3"
+    uuid "^8.3.0"
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"

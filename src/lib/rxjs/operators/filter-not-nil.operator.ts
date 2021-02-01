@@ -1,6 +1,5 @@
-import { MonoTypeOperatorFunction, Observable } from 'rxjs';
+import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
 import { isNil } from './../../common/is-nil.function';
 
 export const filterNotNil: <T>() => MonoTypeOperatorFunction<T> = <L>(): MonoTypeOperatorFunction<L> => <T>(
