@@ -34,14 +34,10 @@
     "uuid": "^8.3.0"
   },
   "peerDependencies": {
-    "@angular/core": "^10.0.0",
-    "@ngxs/store": "^3.6.2",
     "rxjs": "^6.6.0"
   },
   "devDependencies": {
-    "@angular/core": "^10.0.0",
     "@bimeister/build-cli": "^0.1.0-9d12670c",
-    "@ngxs/store": "^3.6.2",
     "@types/fancy-log": "^1.3.1",
     "@types/gulp": "^4.0.6",
     "@types/jest": "^26.0.4",
@@ -58,8 +54,8 @@
     "ts-jest": "^26.1.2",
     "ts-node": "^9.0.0",
     "tslint": "^6.1.2",
-    "typedoc": "^0.20.14",
-    "typedoc-plugin-external-module-name": "^4.0.3",
+    "typedoc": "<0.20.0",
+    "typedoc-plugin-external-module-name": "^4.0.6",
     "typescript": "^4.0.0"
   },
   "browser": {

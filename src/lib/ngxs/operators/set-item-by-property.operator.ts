@@ -1,4 +1,4 @@
-import type { StateOperator } from '@ngxs/store';
+import type { StateOperator } from './../../../internal/types/state-operator.type';
 import { isEmpty } from './../../common/is-empty.function';
 import { isNil } from './../../common/is-nil.function';
 

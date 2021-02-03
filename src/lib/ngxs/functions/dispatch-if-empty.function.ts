@@ -1,6 +1,6 @@
-import type { StateContext } from '@ngxs/store';
 import { iif, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import type { StateContext } from './../../../internal/types/state-context.type';
 import { isNil } from './../../common/is-nil.function';
 import { filterNotNil } from './../../rxjs/operators/filter-not-nil.operator';
 import { getFromStateByProperty } from './get-from-state-by-property.function';
