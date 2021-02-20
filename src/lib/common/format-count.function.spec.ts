@@ -3,9 +3,10 @@ import { formatCount } from './format-count.function';
 describe('format-count.function.ts', () => {
   const abbreviations: string[] = ['к', 'кк', 'млрд'];
 
-  it('should return passed value if passed null or undefined ', () => {
+  it('should return null if passed null, undefined or NaN ', () => {
     expect(formatCount(null)).toBeNull();
-    expect(formatCount(undefined)).toBeUndefined();
+    expect(formatCount(undefined)).toBeNull();
+    expect(formatCount(NaN)).toBeNull();
   });
 
   it('should return stringified 0 if passed 0', () => {
