@@ -5,6 +5,13 @@
   "flagWords": [],
   "ignoreRegExpList": ["CStyleComment"],
   "ignorePaths": ["**/node_modules/**", "**/dist/**"],
-  "dictionaries": ["en_us", "en-gb", "russian", "typescript", "node", "bash", "softwareTerms"],
+  "dictionaries": ["en_us", "en-gb", "russian", "typescript", "node", "bash", "softwareTerms", "localTerms"],
+  "dictionaryDefinitions": [
+    {
+      "name": "localTerms",
+      "description": "Bimeister utilities local terms",
+      "path": "./cspell.local-terms.txt"
+    }
+  ],
   "import": ["./node_modules/cspell-dict-russian/cspell-ext.json"]
 }
