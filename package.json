@@ -22,7 +22,7 @@
     "lint:inspect": "tslint --format stylish --project tsconfig.json && yarn run cspell:check",
     "lint:codestyle": "yarn run prettier:check",
     "test": "jest --config ./jest.config.ts",
-    "test:watch": "jest --config ./jest.config.ts --watch --coverage false --verbose false",
+    "test:watch": "jest --config ./jest.config.ts --watch",
     "test:ci": "yarn run test",
     "prettier:check": "prettier --config ./.prettierrc --ignore-path ./.prettierignore --check \"./**/*.{json,js,ts}\"",
     "prettier:format": "prettier --loglevel log --config ./.prettierrc --ignore-path ./.prettierignore --write \"./**/*.{json,js,ts}\"",
