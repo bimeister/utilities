@@ -5,7 +5,7 @@ const abbreviationByRank: Map<number, string> = new Map<number, string>([
   [2, 'кк'],
   [3, 'млрд']
 ]);
-export function formatCount(count: number): string {
+export function getAbbreviatedCount(count: number): string {
   if (isNaN(count) || typeof count !== 'number') {
     return null;
   }
