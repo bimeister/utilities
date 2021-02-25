@@ -63,12 +63,29 @@ Code Style:
   script:
     - scripts/build.sh codestyle_service
 
-NPM Package:
+NPM (stable):
   stage: deploy
   needs: ['Static files', 'Test', 'Lint', 'Code Style']
   interruptible: false
   allow_failure: true
+  only:
+    - master
+  when: always
+  variables:
+    TAG: 'stable'
+  script:
+    - scripts/build.sh deploy_service
+
+NPM (dev):
+  stage: deploy
+  needs: ['Static files', 'Test', 'Lint', 'Code Style']
+  interruptible: false
+  allow_failure: true
+  except:
+    - master
   when: manual
+  variables:
+    TAG: 'dev'
   script:
     - scripts/build.sh deploy_service
 
@@ -80,8 +97,8 @@ pages:
   script:
     - scripts/cp-from-image.sh "pipeline=${PIPELINE_ID};commit=${GIT_COMMIT_HASH};service=docs_service" docs public
   when: always
-  # only:
-  #   - master
+  only:
+    - master
   artifacts:
     when: always
     paths:

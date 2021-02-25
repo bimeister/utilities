@@ -1,5 +1,6 @@
 ARG BUILD_IMAGE
 FROM "$BUILD_IMAGE"
+ARG TAG
 ARG GIT_COMMIT_HASH
 ARG NPM_AUTH_TOKEN
 RUN yarn run build-cli prepare-npmrc \
@@ -19,4 +20,4 @@ RUN yarn run build-cli prepare-npmrc \
       --esm2015="esm2015/index.js" \
       --typings="lib/index.d.ts" \
       --sideEffects="false"
-RUN npm publish ./dist/ --tag="latest" --access="public"
+RUN npm publish ./dist/ --tag="${TAG}" --access="public"
