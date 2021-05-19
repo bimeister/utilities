@@ -60,6 +60,7 @@
   },
   "browser": {
     "fs": false,
-    "path": false
+    "path": false,
+    "child_process": false
   }
 }
