@@ -1,12 +1,11 @@
 import { BehaviorSubject, merge, Observable, of, timer } from 'rxjs';
 import { switchMapTo, take } from 'rxjs/operators';
-
 import { concatJoin } from '../functions/concat-join.function';
 import { isNil } from './../../common/is-nil.function';
 import { filterNotNil } from './filter-not-nil.operator';
 
 describe('filter-not-nil.operator.ts', () => {
-  it('should not pass null and undefined', done => {
+  it('should not pass null and undefined', (done: jest.DoneCallback) => {
     const emited$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     merge(of(null), of(undefined))
       .pipe(filterNotNil())
@@ -20,7 +19,7 @@ describe('filter-not-nil.operator.ts', () => {
       });
   }, 10000);
 
-  it('should pass every not null value', done => {
+  it('should pass every not null value', (done: jest.DoneCallback) => {
     const input: number[] = [1, 2, 3, undefined, undefined, 6, 7, 8, undefined, 10];
     const input$: Observable<number>[] = input.map((value: number | undefined) =>
       of(value).pipe(take(1), filterNotNil())
