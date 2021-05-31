@@ -5,7 +5,7 @@ import { bufferFromTo } from './buffer-from-to.operator';
 import { filterTruthy } from './filter-truthy.operator';
 
 describe('buffer-from-to.operator.ts', () => {
-  it('should not emit markers in buffer', done => {
+  it('should not emit markers in buffer', (done: jest.DoneCallback) => {
     const expectedResult: string[] = new Array(1000).fill(VOID).map((_, index: number) => {
       return `${index}`;
     });
@@ -24,7 +24,7 @@ describe('buffer-from-to.operator.ts', () => {
       });
   }, 10000);
 
-  it('should complete after emit', done => {
+  it('should complete after emit', (done: jest.DoneCallback) => {
     const input: string[] = ['leading-marker', null, 'trailing-marker'];
 
     const nextOccurred$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -68,7 +68,7 @@ describe('buffer-from-to.operator.ts', () => {
       );
   }, 10000);
 
-  it('should emit empty array in case of combined marker', done => {
+  it('should emit empty array in case of combined marker', (done: jest.DoneCallback) => {
     const input: string[] = ['combined-marker'];
 
     from(input)
