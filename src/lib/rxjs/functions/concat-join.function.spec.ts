@@ -1,11 +1,10 @@
 import { BehaviorSubject, Observable, of, timer } from 'rxjs';
 import { switchMapTo, take, withLatestFrom } from 'rxjs/operators';
-
 import { getShuffledArray } from './../../common/get-shuffled-array.function';
 import { concatJoin } from './concat-join.function';
 
 describe('concat-join.function.ts', () => {
-  it('should never emit if nothing is passed', done => {
+  it('should never emit if nothing is passed', (done: jest.DoneCallback) => {
     const emited$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     concatJoin().subscribe(() => emited$.next(true));
 
@@ -17,7 +16,7 @@ describe('concat-join.function.ts', () => {
       });
   }, 10000);
 
-  it('should emit items in sequence they passed', done => {
+  it('should emit items in sequence they passed', (done: jest.DoneCallback) => {
     const input: number[] = getShuffledArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     const input$: Observable<number>[] = input.map((value: number) => of(value).pipe(take(1)));
 
@@ -30,7 +29,7 @@ describe('concat-join.function.ts', () => {
       });
   }, 10000);
 
-  it('should be completed after all emits', done => {
+  it('should be completed after all emits', (done: jest.DoneCallback) => {
     const input: number[] = getShuffledArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     const input$: Observable<number>[] = input.map((value: number) => of(value).pipe(take(1)));
     const isCompleted$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
