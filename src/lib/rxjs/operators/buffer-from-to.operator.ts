@@ -35,43 +35,45 @@ function getMarker<T>({
   return 'buffer-item';
 }
 
-export const bufferFromTo = <T>(
-  leadingMarkerPredicate: RxjsFilterPredicate<T>,
-  trailingMarkerPredicate: RxjsFilterPredicate<T>
-): OperatorFunction<T, T[]> => (source: Observable<T>): Observable<T[]> => {
-  const isLeadingMarkerPassed$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  const isTrailingMarkerPassed$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+export const bufferFromTo =
+  <T>(
+    leadingMarkerPredicate: RxjsFilterPredicate<T>,
+    trailingMarkerPredicate: RxjsFilterPredicate<T>
+  ): OperatorFunction<T, T[]> =>
+  (source: Observable<T>): Observable<T[]> => {
+    const isLeadingMarkerPassed$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    const isTrailingMarkerPassed$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  const onSliceReady$: Observable<void> = combineLatest([isLeadingMarkerPassed$, isTrailingMarkerPassed$]).pipe(
-    map((markerStatuses: boolean[]) => markerStatuses.every((isPassed: boolean) => isPassed)),
-    distinctUntilChanged(),
-    filterTruthy(),
-    mapToVoid(),
-    take(1)
-  );
+    const onSliceReady$: Observable<void> = combineLatest([isLeadingMarkerPassed$, isTrailingMarkerPassed$]).pipe(
+      map((markerStatuses: boolean[]) => markerStatuses.every((isPassed: boolean) => isPassed)),
+      distinctUntilChanged(),
+      filterTruthy(),
+      mapToVoid(),
+      take(1)
+    );
 
-  return source.pipe(
-    map((input: T, index: number): [Marker, T] => {
-      const marker: Marker = getMarker({ input, index, leadingMarkerPredicate, trailingMarkerPredicate });
-      return [marker, input];
-    }),
-    tap(([marker, _input]: [Marker, T]) => {
-      if (marker === 'leading-marker' || marker === 'combined-marker') {
-        isLeadingMarkerPassed$.next(true);
-      }
+    return source.pipe(
+      map((input: T, index: number): [Marker, T] => {
+        const marker: Marker = getMarker({ input, index, leadingMarkerPredicate, trailingMarkerPredicate });
+        return [marker, input];
+      }),
+      tap(([marker, _input]: [Marker, T]) => {
+        if (marker === 'leading-marker' || marker === 'combined-marker') {
+          isLeadingMarkerPassed$.next(true);
+        }
 
-      if (marker === 'trailing-marker' || marker === 'combined-marker') {
-        isTrailingMarkerPassed$.next(true);
-      }
-    }),
-    withLatestFrom(isLeadingMarkerPassed$, isTrailingMarkerPassed$),
-    filter(([[marker, _input], isLeadingMarkerPassed, isTrailingMarkerPassed]: [[Marker, T], boolean, boolean]) => {
-      return marker === 'buffer-item' && isLeadingMarkerPassed && !isTrailingMarkerPassed;
-    }),
-    map(([[_marker, input], _isLeadingMarkerPassed, _isTrailingMarkerPassed]: [[Marker, T], boolean, boolean]) => {
-      return input;
-    }),
-    buffer(onSliceReady$),
-    take(1)
-  );
-};
+        if (marker === 'trailing-marker' || marker === 'combined-marker') {
+          isTrailingMarkerPassed$.next(true);
+        }
+      }),
+      withLatestFrom(isLeadingMarkerPassed$, isTrailingMarkerPassed$),
+      filter(([[marker, _input], isLeadingMarkerPassed, isTrailingMarkerPassed]: [[Marker, T], boolean, boolean]) => {
+        return marker === 'buffer-item' && isLeadingMarkerPassed && !isTrailingMarkerPassed;
+      }),
+      map(([[_marker, input], _isLeadingMarkerPassed, _isTrailingMarkerPassed]: [[Marker, T], boolean, boolean]) => {
+        return input;
+      }),
+      buffer(onSliceReady$),
+      take(1)
+    );
+  };

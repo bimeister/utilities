@@ -11,10 +11,10 @@ describe('get-array-unique-elements.function.ts', () => {
     expect(getArrayUniqueElements([])).toHaveLength(0);
     expect(getArrayUniqueElements(null)).toHaveLength(0);
     expect(getArrayUniqueElements(undefined)).toHaveLength(0);
-    expect(getArrayUniqueElements((0 as any) as [])).toHaveLength(0);
-    expect(getArrayUniqueElements((true as any) as [])).toHaveLength(0);
-    expect(getArrayUniqueElements(('' as any) as [])).toHaveLength(0);
-    expect(getArrayUniqueElements(({} as any) as [])).toHaveLength(0);
+    expect(getArrayUniqueElements(0 as any as [])).toHaveLength(0);
+    expect(getArrayUniqueElements(true as any as [])).toHaveLength(0);
+    expect(getArrayUniqueElements('' as any as [])).toHaveLength(0);
+    expect(getArrayUniqueElements({} as any as [])).toHaveLength(0);
   });
 
   it('should return array of same type', () => {
