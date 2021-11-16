@@ -1,43 +1,34 @@
+import type { ComparatorFunction } from '../types/custom-comparator.type';
 import { isNil } from './is-nil.function';
 
+type SortDirection = 'ascending' | 'descending';
+
+// tslint:disable:unified-signatures
 /** @example property = 'property.property...' */
-export const sortByProperty = <T>(
+export function sortByProperty<T>(array: T[], property: keyof T | string, comparator?: ComparatorFunction): T[];
+export function sortByProperty<T>(array: T[], property: keyof T | string, sortDirection?: SortDirection): T[];
+export function sortByProperty<T>(
   array: T[],
   property: keyof T | string,
-  ascending: 'ascending' | 'descending' = 'ascending'
-): T[] => {
+  sortDirectionOrComparator: SortDirection | ComparatorFunction = 'ascending'
+): T[] {
   if (!Array.isArray(array)) {
     return array;
   }
-  const sortedArray: T[] = [...array].sort((a: T, b: T): number => {
-    const computedA: any = extractDataByNestedKey(a, property);
-    const computedB: any = extractDataByNestedKey(b, property);
 
-    if (
-      (Number.parseFloat(computedA) === computedA && computedA % 1 !== 0) ||
-      (Number.parseFloat(computedB) === computedB && computedB % 1 !== 0)
-    ) {
-      return compare(computedA, computedB);
-    }
+  if (sortDirectionOrComparator === 'ascending' || sortDirectionOrComparator === 'descending') {
+    return sortWithComparator<T>(
+      array,
+      property,
+      sortDirectionOrComparator === 'ascending' ? ascendingCompare : descendingCompare
+    );
+  }
+  if (typeof sortDirectionOrComparator === 'function') {
+    return sortWithComparator<T>(array, property, sortDirectionOrComparator);
+  }
 
-    const stringifiedComputedA: string = String(computedA).toLowerCase();
-    const stringifiedComputedB: string = String(computedB).toLowerCase();
-
-    const parsedIntA: number = Number.parseInt(stringifiedComputedA, 10);
-    const parsedIntB: number = Number.parseInt(stringifiedComputedB, 10);
-
-    if (
-      !Number.isNaN(parsedIntA) &&
-      !Number.isNaN(parsedIntB) &&
-      Object.is(String(parsedIntA).length, stringifiedComputedA.length) &&
-      Object.is(String(parsedIntB).length, stringifiedComputedB.length)
-    ) {
-      return compare(parsedIntA, parsedIntB);
-    }
-    return compare(stringifiedComputedA, stringifiedComputedB);
-  });
-  return ascending === 'ascending' ? sortedArray : [...sortedArray].reverse();
-};
+  return array;
+}
 
 const extractDataByNestedKey = <T>(object: T, nestedKey: string | keyof T): any => {
   const isNestedKey: boolean = typeof nestedKey === 'string' && nestedKey.includes('.');
@@ -68,12 +59,60 @@ const extractDataByKeyPath = <T>(entity: T, keyPath: string[]): any => {
   return extractedData.get(targetKey);
 };
 
-const compare = <T>(a: T, b: T): 1 | 0 | -1 => {
-  if (a < b) {
+const ascendingCompare: ComparatorFunction = <T>(a: T, b: T): number => {
+  const [aProperty, bProperty]: [T, T] = convertPropertiesToCompare(a, b);
+
+  if (aProperty < bProperty) {
     return -1;
   }
-  if (a > b) {
+  if (aProperty > bProperty) {
     return 1;
   }
   return 0;
+};
+
+const descendingCompare: ComparatorFunction = <T>(a: T, b: T): number => {
+  const [aProperty, bProperty]: [T, T] = convertPropertiesToCompare(a, b);
+
+  if (aProperty > bProperty) {
+    return -1;
+  }
+  if (aProperty < bProperty) {
+    return 1;
+  }
+  return 0;
+};
+
+const sortWithComparator = <T>(array: T[], property: string | keyof T, comparer: ComparatorFunction) => {
+  const sortedArray: T[] = [...array].sort((a: T, b: T): number => {
+    const computedA: any = extractDataByNestedKey(a, property);
+    const computedB: any = extractDataByNestedKey(b, property);
+    return comparer(computedA, computedB);
+  });
+  return sortedArray;
+};
+
+const convertPropertiesToCompare = (computedA: any, computedB: any): [any, any] => {
+  if (
+    (Number.parseFloat(computedA) === computedA && computedA % 1 !== 0) ||
+    (Number.parseFloat(computedB) === computedB && computedB % 1 !== 0)
+  ) {
+    return [computedA, computedB];
+  }
+
+  const stringifiedComputedA: string = String(computedA).toLowerCase();
+  const stringifiedComputedB: string = String(computedB).toLowerCase();
+
+  const parsedIntA: number = Number.parseInt(stringifiedComputedA, 10);
+  const parsedIntB: number = Number.parseInt(stringifiedComputedB, 10);
+
+  if (
+    !Number.isNaN(parsedIntA) &&
+    !Number.isNaN(parsedIntB) &&
+    Object.is(String(parsedIntA).length, stringifiedComputedA.length) &&
+    Object.is(String(parsedIntB).length, stringifiedComputedB.length)
+  ) {
+    return [parsedIntA, parsedIntB];
+  }
+  return [stringifiedComputedA, stringifiedComputedB];
 };
