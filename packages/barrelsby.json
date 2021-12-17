@@ -1,0 +1,8 @@
+{
+  "delete": true,
+  "location": "all",
+  "name": "api.ts",
+  "structure": "flat",
+  "singleQuotes": true,
+  "exclude": "(((index)|(.*\\.spec))\\.ts)$"
+}
