@@ -1,7 +1,6 @@
 {
   "name": "@bimeister/utilities",
   "version": "0.1.0",
-  "main": "dist/index.js",
   "license": "SEE LICENSE IN LICENSE",
   "description": "BIMeister utilities library",
   "repository": {
@@ -11,7 +10,7 @@
   "scripts": {
     "build-cli": "build-cli",
     "barrel": "npm run barrel --workspaces",
-    "build": "yarn barrel && gulp build:compile-all",
+    "build": "ts-node ./do-build.ts",
     "build:ci": "yarn barrel && gulp build:clean-up && gulp build:compile-all",
     "build:docs": "yarn barrel && typedoc --options typedoc.json  --tsconfig tsconfig.docs.json --includeDeclarations --exclude \"**/*+(index|api|.spec|.e2e).ts\" --excludeNotExported --excludePrivate --excludeProtected --excludeExternals --stripInternal",
     "autofix": "yarn run lint:debug && yarn run prettier:format && yarn run lint:inspect",
@@ -25,33 +24,50 @@
     "prettier:format": "prettier --loglevel log --config ./.prettierrc --ignore-path ./.prettierignore --write \"./**/*.{json,js,ts}\"",
     "cspell:check": "cspell \"src/**/*.*\" --config=\"cspell.json\""
   },
+  "optionalDependencies": {
+    "snake-case": "^3.0.0",
+    "rxjs": "^6.6.0",
+    "@ngxs/store": "^3.0.0"
+  },
   "devDependencies": {
     "@bimeister/build-cli": "0.1.0-c869ab81",
-    "@types/jest": "^26.0.4",
-    "@types/node": "~16.0.0",
-    "barrelsby": "^2.2.0",
-    "cspell": "^5.1.3",
-    "cspell-dict-russian": "^1.1.17",
-    "jest": "^26.1.0",
+    "@types/jest": "^27.0.0",
+    "@types/node": "^16.0.0",
+    "@types/uuid": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "4.28.2",
+    "@typescript-eslint/parser": "4.28.2",
+    "barrelsby": "^2.0.0",
+    "cspell": "^5.0.0",
+    "cspell-dict-russian": "^1.2.0",
+    "dts-bundle-generator": "^6.2.0",
+    "esbuild": "~0.14.0",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-ban": "^1.5.2",
+    "eslint-plugin-deprecation": "^1.2.1",
+    "eslint-plugin-editorconfig": "^3.2.0",
+    "eslint-plugin-import": "latest",
+    "eslint-plugin-jsdoc": "latest",
+    "eslint-plugin-prefer-arrow": "latest",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.0.0",
     "jest-junit": "^13.0.0",
-    "prettier": "^2.0.5",
-    "ts-jest": "^26.1.2",
-    "ts-node": "^9.0.0",
+    "prettier": "^2.5.0",
+    "ts-jest": "^27.0.0",
+    "ts-node": "^10.0.0",
+    "tslib": "^2.3.0",
     "tslint": "^6.1.2",
     "typedoc": "<0.20.0",
     "typedoc-plugin-external-module-name": "^4.0.6",
-    "typescript": "~4.2.4",
-    "esbuild": "~0.14.0",
-    "dts-bundle-generator": "^6.2.0"
+    "typescript": "^4.0.0"
   },
   "workspaces": [
     "packages/common",
-    "packages/filesystem",
+    "packages/constants",
     "packages/interfaces",
     "packages/internal",
     "packages/ngxs",
     "packages/rxjs",
-    "packages/terminal",
     "packages/types"
   ]
 }

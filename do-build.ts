@@ -45,7 +45,7 @@ function buildTypings(options: { inputPath: string; outputPath: string }): Promi
 const baseBuildConfig: Partial<BuildOptions> = {
   bundle: true,
   format: 'esm',
-  external: ['rxjs', 'uuid'],
+  external: ['rxjs', 'snake-case'],
   minify: true,
   platform: 'neutral',
   sourcemap: 'external',
@@ -54,44 +54,84 @@ const baseBuildConfig: Partial<BuildOptions> = {
   tsconfig: './tsconfig.json'
 };
 
-const buildNativeLibrary: Promise<BuildResult> = build({
+const buildCommonLibrary: Promise<BuildResult> = build({
   ...baseBuildConfig,
-  entryPoints: ['./packages/native/index.ts'],
-  outfile: './dist/index.js'
+  entryPoints: ['./packages/common/index.ts'],
+  outfile: './dist/common/index.js',
+  platform: 'browser'
 });
 
-const buildRxJsLibrary: Promise<BuildResult> = build({
+const buildInterfacesLibrary: Promise<BuildResult> = build({
+  ...baseBuildConfig,
+  entryPoints: ['./packages/interfaces/index.ts'],
+  outfile: './dist/interfaces/index.js'
+});
+
+const buildInternalLibrary: Promise<BuildResult> = build({
+  ...baseBuildConfig,
+  entryPoints: ['./packages/internal/index.ts'],
+  outfile: './dist/internal/index.js'
+});
+
+const buildNgxsLibrary: Promise<BuildResult> = build({
+  ...baseBuildConfig,
+  entryPoints: ['./packages/ngxs/index.ts'],
+  outfile: './dist/ngxs/index.js'
+});
+
+const buildRxjsLibrary: Promise<BuildResult> = build({
   ...baseBuildConfig,
   entryPoints: ['./packages/rxjs/index.ts'],
   outfile: './dist/rxjs/index.js'
 });
 
-const buildRxJsOperatorsLibrary: Promise<BuildResult> = build({
+const buildTypesLibrary: Promise<BuildResult> = build({
   ...baseBuildConfig,
-  entryPoints: ['./packages/rxjs-operators/index.ts'],
-  outfile: './dist/rxjs/operators/index.js'
+  entryPoints: ['./packages/types/index.ts'],
+  outfile: './dist/types/index.js'
 });
 
 Promise.resolve()
-  .then(() => buildNativeLibrary)
+  .then(() => buildCommonLibrary)
   .then(() =>
     buildTypings({
-      inputPath: './packages/native/index.ts',
-      outputPath: './dist/index.d.ts'
+      inputPath: './packages/common/index.ts',
+      outputPath: './dist/common/index.d.ts'
     })
   )
-  .then(() => buildRxJsLibrary)
+  .then(() => buildInterfacesLibrary)
+  .then(() =>
+    buildTypings({
+      inputPath: './packages/interfaces/index.ts',
+      outputPath: './dist/interfaces/index.d.ts'
+    })
+  )
+  .then(() => buildInternalLibrary)
+  .then(() =>
+    buildTypings({
+      inputPath: './packages/internal/index.ts',
+      outputPath: './dist/internal/index.d.ts'
+    })
+  )
+  .then(() => buildNgxsLibrary)
+  .then(() =>
+    buildTypings({
+      inputPath: './packages/ngxs/index.ts',
+      outputPath: './dist/ngxs/index.d.ts'
+    })
+  )
+  .then(() => buildRxjsLibrary)
   .then(() =>
     buildTypings({
       inputPath: './packages/rxjs/index.ts',
       outputPath: './dist/rxjs/index.d.ts'
     })
   )
-  .then(() => buildRxJsOperatorsLibrary)
+  .then(() => buildTypesLibrary)
   .then(() =>
     buildTypings({
-      inputPath: './packages/rxjs-operators/index.ts',
-      outputPath: './dist/rxjs/operators/index.d.ts'
+      inputPath: './packages/types/index.ts',
+      outputPath: './dist/types/index.d.ts'
     })
   )
   .catch(() => process.exit(1));

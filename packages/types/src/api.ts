@@ -5,3 +5,4 @@
 export * from './custom-comparator.type';
 export * from './nullable.type';
 export * from './predicate.type';
+export * from './primitive.type';
