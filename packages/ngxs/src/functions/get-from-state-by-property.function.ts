@@ -1,4 +1,4 @@
-import type { StateContext } from 'packages/internal';
+import type { StateContext } from '@ngxs/store';
 
 export const getFromStateByProperty: <T>(
   context: StateContext<T[]>,
