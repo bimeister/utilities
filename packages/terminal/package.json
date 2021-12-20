@@ -1,8 +1,0 @@
-{
-  "name": "@workspaces/terminal",
-  "private": true,
-  "scripts": {
-    "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\"",
-    "test": "jest --config ./../jest.config.ts --passWithNoTests --selectProjects rxjs"
-  }
-}
