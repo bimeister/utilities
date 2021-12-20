@@ -30,6 +30,7 @@ export * from './is-empty.function';
 export * from './is-equal.function';
 export * from './is-nil.function';
 export * from './is-non-empty-object.function';
+export * from './is-uuid.function';
 export * from './merge-arrays-by-property.function';
 export * from './sort-by-property.function';
 export * from './string-filter-predicate.function';

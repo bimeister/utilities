@@ -1,4 +1,4 @@
-import type { RegExpPatternName } from 'packages/internal';
+type RegExpPatternName = 'email' | 'url' | 'uuid';
 
 const patternByName: Map<RegExpPatternName, RegExp> = new Map<RegExpPatternName, RegExp>([
   ['email', new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)],

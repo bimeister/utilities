@@ -1,4 +1,4 @@
-import { VOID } from 'packages/internal';
+import { VOID } from 'packages/constants';
 import { BehaviorSubject, combineLatest, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { bufferFromTo } from './buffer-from-to.operator';
