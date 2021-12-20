@@ -1,8 +1,13 @@
 import { generateDtsBundle } from 'dts-bundle-generator';
-import { build, BuildOptions, BuildResult } from 'esbuild';
+import { build, BuildOptions, BuildResult, transformSync } from 'esbuild';
 import { writeFile } from 'fs';
 
-function buildTypings(options: { inputPath: string; outputPath: string }): Promise<void> {
+type TypingsConfig = {
+  inputPath: string;
+  outputPath: string;
+};
+
+function buildTypings(options: TypingsConfig): Promise<void> {
   const typings: Promise<string[]> = new Promise(
     (resolve: (payload: string[]) => void, reject: (reason: unknown) => void) => {
       try {
@@ -55,97 +60,67 @@ const baseBuildConfig: Partial<BuildOptions> = {
   mainFields: ['module', 'main']
 };
 
-const buildCommonLibrary: Promise<BuildResult> = build({
-  ...baseBuildConfig,
-  entryPoints: ['./packages/common/index.ts'],
-  outfile: './dist/common/index.js'
+const packages: string[] = ['common', 'interfaces', 'index', 'internal', 'ngxs', 'rxjs', 'types', 'resize-observable'];
+const packagesBuildChain: Promise<void>[] = packages.map((packageName: string) => {
+  if (packageName === 'internal') {
+    return Promise.resolve();
+  }
+
+  const buildConfig: BuildOptions = {
+    ...baseBuildConfig,
+    entryPoints: [`./packages/${packageName}/index.ts`],
+    outfile: `./dist/${packageName}/index.js`
+  };
+
+  const typingsConfig: TypingsConfig = {
+    inputPath: `./packages/${packageName}/index.ts`,
+    outputPath: `./dist/${packageName}/index.d.ts`
+  };
+
+  if (packageName === 'resize-observable') {
+    Object.assign(buildConfig, {
+      platform: 'browser'
+    });
+  }
+
+  if (packageName === 'index') {
+    Object.assign(buildConfig, {
+      outfile: `./dist/index.js`
+    });
+
+    Object.assign(typingsConfig, {
+      outputPath: `./dist/index.d.ts`
+    });
+  }
+
+  const generateBundle: Promise<BuildResult> = build(buildConfig);
+
+  return generateBundle.then(() => buildTypings(typingsConfig));
 });
 
-const buildInterfacesLibrary: Promise<BuildResult> = build({
-  ...baseBuildConfig,
-  entryPoints: ['./packages/interfaces/index.ts'],
-  outfile: './dist/interfaces/index.js'
+const buildRootIndex = new Promise((resolve: (value: string) => void, reject: (reason: any) => void) => {
+  const barrelExportCode: string = packages
+    .map((packageName: string) => `export * from './${packageName}/index.js';`)
+    .reduce((accumulatedCode: string, currentExportString: string) => {
+      return `
+${accumulatedCode}
+${currentExportString}`;
+    }, '');
+
+  const barrelExportCodeMinified: string = transformSync(barrelExportCode).code;
+
+  writeFile('./dist/index.js', barrelExportCodeMinified, (error: Error | null) => {
+    if (error !== null) {
+      reject(error);
+      return;
+    }
+    resolve(barrelExportCodeMinified);
+  });
 });
 
-const buildInternalLibrary: Promise<BuildResult> = build({
-  ...baseBuildConfig,
-  entryPoints: ['./packages/internal/index.ts'],
-  outfile: './dist/internal/index.js'
-});
-
-const buildNgxsLibrary: Promise<BuildResult> = build({
-  ...baseBuildConfig,
-  entryPoints: ['./packages/ngxs/index.ts'],
-  outfile: './dist/ngxs/index.js'
-});
-
-const buildRxjsLibrary: Promise<BuildResult> = build({
-  ...baseBuildConfig,
-  entryPoints: ['./packages/rxjs/index.ts'],
-  outfile: './dist/rxjs/index.js'
-});
-
-const buildTypesLibrary: Promise<BuildResult> = build({
-  ...baseBuildConfig,
-  entryPoints: ['./packages/types/index.ts'],
-  outfile: './dist/types/index.js'
-});
-
-const buildResizeObservableLibrary: Promise<BuildResult> = build({
-  ...baseBuildConfig,
-  entryPoints: ['./packages/resize-observable/index.ts'],
-  outfile: './dist/resize-observable/index.js',
-  platform: 'browser'
-});
-
-Promise.resolve()
-  .then(() => buildCommonLibrary)
-  .then(() =>
-    buildTypings({
-      inputPath: './packages/common/index.ts',
-      outputPath: './dist/common/index.d.ts'
-    })
-  )
-  .then(() => buildInterfacesLibrary)
-  .then(() =>
-    buildTypings({
-      inputPath: './packages/interfaces/index.ts',
-      outputPath: './dist/interfaces/index.d.ts'
-    })
-  )
-  .then(() => buildInternalLibrary)
-  .then(() =>
-    buildTypings({
-      inputPath: './packages/internal/index.ts',
-      outputPath: './dist/internal/index.d.ts'
-    })
-  )
-  .then(() => buildNgxsLibrary)
-  .then(() =>
-    buildTypings({
-      inputPath: './packages/ngxs/index.ts',
-      outputPath: './dist/ngxs/index.d.ts'
-    })
-  )
-  .then(() => buildRxjsLibrary)
-  .then(() =>
-    buildTypings({
-      inputPath: './packages/rxjs/index.ts',
-      outputPath: './dist/rxjs/index.d.ts'
-    })
-  )
-  .then(() => buildTypesLibrary)
-  .then(() =>
-    buildTypings({
-      inputPath: './packages/types/index.ts',
-      outputPath: './dist/types/index.d.ts'
-    })
-  )
-  .then(() => buildResizeObservableLibrary)
-  .then(() =>
-    buildTypings({
-      inputPath: './packages/resize-observable/index.ts',
-      outputPath: './dist/resize-observable/index.d.ts'
-    })
-  )
+packagesBuildChain
+  .reduce((accumulatedChain: Promise<void>, currentChainPart: Promise<void>) => {
+    return accumulatedChain.then(() => currentChainPart);
+  }, Promise.resolve())
+  .then(() => buildRootIndex)
   .catch(() => process.exit(1));

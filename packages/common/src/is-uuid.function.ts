@@ -1,4 +1,4 @@
-import { Uuid } from 'packages/types';
+import type { Uuid } from 'packages/types';
 import { validate } from 'uuid';
 
 export function isUuid(input: string): input is Uuid {
