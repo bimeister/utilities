@@ -1,4 +1,4 @@
-import { VOID } from 'packages/internal';
+import { VOID } from 'packages/constants';
 import type { Observable, OperatorFunction } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 

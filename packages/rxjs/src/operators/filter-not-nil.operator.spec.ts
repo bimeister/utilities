@@ -1,7 +1,7 @@
 import { isNil } from 'packages/common';
 import { BehaviorSubject, merge, Observable, of, timer } from 'rxjs';
 import { switchMapTo, take } from 'rxjs/operators';
-import { concatJoin } from '../functions/concat-join.function';
+import { concatJoin } from './../functions/concat-join.function';
 import { filterNotNil } from './filter-not-nil.operator';
 
 describe('filter-not-nil.operator.ts', () => {
