@@ -45,20 +45,20 @@ function buildTypings(options: { inputPath: string; outputPath: string }): Promi
 const baseBuildConfig: Partial<BuildOptions> = {
   bundle: true,
   format: 'esm',
-  external: ['rxjs', 'snake-case'],
+  external: ['rxjs', '@ngxs/store'],
   minify: true,
   platform: 'neutral',
   sourcemap: 'external',
   target: 'esnext',
   treeShaking: true,
-  tsconfig: './tsconfig.json'
+  tsconfig: './tsconfig.json',
+  mainFields: ['module', 'main']
 };
 
 const buildCommonLibrary: Promise<BuildResult> = build({
   ...baseBuildConfig,
   entryPoints: ['./packages/common/index.ts'],
-  outfile: './dist/common/index.js',
-  platform: 'browser'
+  outfile: './dist/common/index.js'
 });
 
 const buildInterfacesLibrary: Promise<BuildResult> = build({
@@ -89,6 +89,13 @@ const buildTypesLibrary: Promise<BuildResult> = build({
   ...baseBuildConfig,
   entryPoints: ['./packages/types/index.ts'],
   outfile: './dist/types/index.js'
+});
+
+const buildResizeObservableLibrary: Promise<BuildResult> = build({
+  ...baseBuildConfig,
+  entryPoints: ['./packages/resize-observable/index.ts'],
+  outfile: './dist/resize-observable/index.js',
+  platform: 'browser'
 });
 
 Promise.resolve()
@@ -132,6 +139,13 @@ Promise.resolve()
     buildTypings({
       inputPath: './packages/types/index.ts',
       outputPath: './dist/types/index.d.ts'
+    })
+  )
+  .then(() => buildResizeObservableLibrary)
+  .then(() =>
+    buildTypings({
+      inputPath: './packages/resize-observable/index.ts',
+      outputPath: './dist/resize-observable/index.d.ts'
     })
   )
   .catch(() => process.exit(1));

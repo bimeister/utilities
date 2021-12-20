@@ -1,4 +1,4 @@
-import { VOID } from 'packages/internal';
+import { VOID } from 'packages/constants';
 import { asyncScheduler, BehaviorSubject, of } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { subscribeOnOptional } from './subscribe-on-optional';
