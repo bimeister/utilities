@@ -5,4 +5,3 @@
 export * from './concat-join.function';
 export * from './file-to-string.function';
 export * from './read-local-file.function';
-export * from './resize-observable.function';

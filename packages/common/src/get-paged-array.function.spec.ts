@@ -1,4 +1,4 @@
-import { VOID } from 'packages/internal';
+import { VOID } from 'packages/constants';
 import { getPagedArray } from './get-paged-array.function';
 
 describe('get-paged-array.function.ts', () => {

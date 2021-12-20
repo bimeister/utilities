@@ -1,4 +1,4 @@
-import { VOID } from 'packages/internal';
+import { VOID } from 'packages/constants';
 import { isEmpty } from './is-empty.function';
 
 export function getPagedArray<T>(items: T[], perPageCount: number): T[][] {
