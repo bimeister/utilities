@@ -5,13 +5,13 @@ import { iif, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { getFromStateByProperty } from './get-from-state-by-property.function';
 
-export const dispatchIfEmpty = <T>(
+export const dispatchIfEmpty = <T extends object>(
   context: StateContext<T[]>,
   findByPropertyName: keyof T,
   targetPropertyValue: T[keyof T],
   dispatcher: () => Observable<void>
-): Observable<T> => {
-  const existingData: T = getFromStateByProperty(context, findByPropertyName, targetPropertyValue);
+): Observable<T | undefined> => {
+  const existingData: T | undefined = getFromStateByProperty(context, findByPropertyName, targetPropertyValue);
 
   return iif(
     () => isNil(existingData),

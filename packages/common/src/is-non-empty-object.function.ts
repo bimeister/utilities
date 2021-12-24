@@ -1,5 +1,10 @@
 import type { Predicate } from 'packages/types';
+import { isNil } from './is-nil.function';
 
 export const isNonEmptyObject: Predicate<unknown> = (object: unknown): boolean => {
-  return String(object) === '[object Object]' && !Object.is(Object.keys(object).length, 0);
+  if (typeof object !== 'object' || isNil(object)) {
+    return false;
+  }
+
+  return String(object) === '[object Object]' && Object.keys(object).length !== 0;
 };
