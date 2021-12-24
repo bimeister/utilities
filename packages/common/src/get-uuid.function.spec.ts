@@ -3,8 +3,9 @@ import { getUuid } from './get-uuid.function';
 
 describe('get-uuid.function.ts', () => {
   it('should return uuid-formatted string', () => {
-    const uuidFormatRegExp: RegExp = getRegExpPattern('uuid');
-    expect(uuidFormatRegExp.test(getUuid())).toBe(true);
+    const uuidFormatRegExp: RegExp | undefined = getRegExpPattern('uuid');
+    expect(uuidFormatRegExp).toBeDefined();
+    expect(uuidFormatRegExp?.test(getUuid())).toBe(true);
   });
 
   it('should return different results', () => {

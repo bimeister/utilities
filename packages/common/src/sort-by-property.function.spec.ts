@@ -1,4 +1,3 @@
-import type { AbstractObject } from 'packages/internal';
 import type { ComparatorFunction } from 'packages/types';
 import { sortByProperty } from './sort-by-property.function';
 
@@ -29,7 +28,7 @@ const customComparatorDateDescending: ComparatorFunction = <T>(a: T, b: T) => {
 };
 
 describe('sort-by-property.function.ts', () => {
-  const unsortedObjects: AbstractObject[] = [
+  const unsortedObjects: object[] = [
     { word: 'lorem' },
     { word: 'ipsum' },
     { word: 'dolor' },
@@ -40,7 +39,7 @@ describe('sort-by-property.function.ts', () => {
     { word: 'elite' }
   ];
 
-  const unsortedDeepObjects: AbstractObject[] = [
+  const unsortedDeepObjects: object[] = [
     { word: { is: { much: { deeper: { than: { you: { expected: 'lorem' } } } } } } },
     { word: { is: { much: { deeper: { than: { you: { expected: 'ipsum' } } } } } } },
     { word: { is: { much: { deeper: { than: { you: { expected: 'dolor' } } } } } } },
@@ -51,7 +50,7 @@ describe('sort-by-property.function.ts', () => {
     { word: { is: { much: { deeper: { than: { you: { expected: 'elite' } } } } } } }
   ];
 
-  const unsortedDateList: AbstractObject[] = [
+  const unsortedDateList: object[] = [
     { date: '2021-12-30T02:09:00' },
     { date: '2020-12-30T02:09:00' },
     { date: '2019-12-30T02:09:00' },
@@ -60,7 +59,7 @@ describe('sort-by-property.function.ts', () => {
   ];
 
   it('should ascending sort objects by 1st level property', () => {
-    const ascendingSortedObjects: AbstractObject[] = [
+    const ascendingSortedObjects: object[] = [
       { word: 'advising' },
       { word: 'amen' },
       { word: 'consenter' },
@@ -74,7 +73,7 @@ describe('sort-by-property.function.ts', () => {
   });
 
   it('should descending sort objects by 1st level property', () => {
-    const descendingSortedObjects: AbstractObject[] = [
+    const descendingSortedObjects: object[] = [
       { word: 'sit' },
       { word: 'lorem' },
       { word: 'ipsum' },
@@ -88,7 +87,7 @@ describe('sort-by-property.function.ts', () => {
   });
 
   it('should ascending sort objects by deep property', () => {
-    const ascendingSortedObjects: AbstractObject[] = [
+    const ascendingSortedObjects: object[] = [
       { word: { is: { much: { deeper: { than: { you: { expected: 'advising' } } } } } } },
       { word: { is: { much: { deeper: { than: { you: { expected: 'amen' } } } } } } },
       { word: { is: { much: { deeper: { than: { you: { expected: 'consenter' } } } } } } },
@@ -104,7 +103,7 @@ describe('sort-by-property.function.ts', () => {
   });
 
   it('should descending sort objects by deep property', () => {
-    const descendingSortedObjects: AbstractObject[] = [
+    const descendingSortedObjects: object[] = [
       { word: { is: { much: { deeper: { than: { you: { expected: 'sit' } } } } } } },
       { word: { is: { much: { deeper: { than: { you: { expected: 'lorem' } } } } } } },
       { word: { is: { much: { deeper: { than: { you: { expected: 'ipsum' } } } } } } },
@@ -120,7 +119,7 @@ describe('sort-by-property.function.ts', () => {
   });
 
   it('should descending sort by custom comparator', () => {
-    const descendingSortedItems: AbstractObject[] = [
+    const descendingSortedItems: object[] = [
       { date: '2023-12-30T02:09:00' },
       { date: '2022-12-30T02:09:00' },
       { date: '2021-12-30T02:09:00' },
@@ -131,7 +130,7 @@ describe('sort-by-property.function.ts', () => {
   });
 
   it('should ascending sort by custom comparator', () => {
-    const ascendingSortedItems: AbstractObject[] = [
+    const ascendingSortedItems: object[] = [
       { date: '2019-12-30T02:09:00' },
       { date: '2020-12-30T02:09:00' },
       { date: '2021-12-30T02:09:00' },

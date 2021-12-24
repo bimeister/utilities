@@ -1,4 +1,4 @@
-import { blobMock, nameMock } from 'packages/internal';
+import { blobMock, nameMock } from './../../../packages/internal';
 import { downloadFile } from './download-file.function';
 
 describe('download-file.function.ts', () => {
@@ -12,7 +12,7 @@ describe('download-file.function.ts', () => {
 
   it('should create new DOM-element', () => {
     downloadFile(fileNameSample, fileSample);
-    const aElement: HTMLAnchorElement = document.querySelector('a');
+    const aElement: HTMLAnchorElement | null = document.querySelector('a');
     expect(aElement).toBeDefined();
   });
 });

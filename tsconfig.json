@@ -23,7 +23,7 @@
     "pretty": true,
     "removeComments": false,
     "sourceMap": false,
-    "strict": false,
+    "strict": true,
     "skipLibCheck": true,
     "target": "ES6",
     "types": ["jest", "node"],
@@ -31,6 +31,6 @@
     "importsNotUsedAsValues": "error",
     "allowUnreachableCode": false
   },
-  "exclude": ["node_modules"],
-  "include": ["./packages/**/index.ts"]
+  "exclude": ["node_modules", "*.spec.ts"],
+  "include": ["./packages/**/*.ts"]
 }

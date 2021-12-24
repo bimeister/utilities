@@ -4,7 +4,7 @@ import { firstNotNil } from './first-not-nil.operator';
 
 describe('first-not-nil.operator.ts', () => {
   it('should emit valid value only once', (done: jest.DoneCallback) => {
-    const input$: Observable<number> = merge(...[of(undefined), of(1), of(2)]);
+    const input$: Observable<undefined | number> = merge(...[of(undefined), of(1), of(2)]);
     const emits: number[] = [];
 
     input$.pipe(firstNotNil()).subscribe({
@@ -22,7 +22,7 @@ describe('first-not-nil.operator.ts', () => {
   }, 10000);
 
   it('should complete after emit', (done: jest.DoneCallback) => {
-    const input$: Observable<number> = merge(...[of(undefined), of(1), of(2)]);
+    const input$: Observable<undefined | number> = merge(...[of(undefined), of(1), of(2)]);
     const emits: number[] = [];
     const isCompleted$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 

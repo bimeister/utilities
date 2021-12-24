@@ -1,7 +1,5 @@
-/**
- * @packageDocumentation
- * @module Common
- */
-export function isNil<T>(entity: T): entity is null | undefined {
+import type { Nullable } from 'packages/types';
+
+export function isNil<T>(entity: Nullable<T>): entity is null | undefined {
   return entity === undefined || entity === null;
 }
