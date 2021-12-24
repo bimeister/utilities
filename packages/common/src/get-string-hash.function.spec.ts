@@ -22,7 +22,7 @@ describe('get-string-hash.function.ts', () => {
   });
 
   it('should return undefined if input value is nil', () => {
-    expect(getStringHash(null)).toBeUndefined();
-    expect(getStringHash(undefined)).toBeUndefined();
+    expect(getStringHash(null as any)).toBeUndefined();
+    expect(getStringHash(undefined as any)).toBeUndefined();
   });
 });

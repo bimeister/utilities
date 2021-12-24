@@ -25,7 +25,7 @@ describe('get-clamped-value.function.ts', () => {
   });
 
   it('should return undefined if input value is nil', () => {
-    expect(getClampedValue(null, minValue, maxValue)).toBeUndefined();
-    expect(getClampedValue(undefined, minValue, maxValue)).toBeUndefined();
+    expect(getClampedValue(null as any, minValue, maxValue)).toBeUndefined();
+    expect(getClampedValue(undefined as any, minValue, maxValue)).toBeUndefined();
   });
 });

@@ -1,5 +1,7 @@
 import type { Primitive } from 'packages/types';
 import { isEmpty } from './is-empty.function';
+import { isNil } from './is-nil.function';
+import { isObjectKeyUsed } from './is-object-key-used.function';
 
 type ObjectOrPrimitive = object | Primitive;
 
@@ -8,8 +10,10 @@ export function getArrayUniqueElements(array: number[]): number[];
 export function getArrayUniqueElements(array: boolean[]): boolean[];
 export function getArrayUniqueElements(array: string[]): string[];
 export function getArrayUniqueElements<T extends Primitive>(array: T[]): T[];
-export function getArrayUniqueElements<T extends object>(array: T[], compareBy: keyof T): T[];
-
+export function getArrayUniqueElements<T extends object, K extends string>(
+  array: T[],
+  compareBy: K | number | symbol
+): T[];
 export function getArrayUniqueElements(
   array: ObjectOrPrimitive[],
   compareBy?: keyof ObjectOrPrimitive
@@ -18,7 +22,7 @@ export function getArrayUniqueElements(
     return [];
   }
 
-  if (isArrayOfObjects(array)) {
+  if (isArrayOfObjects(array) && !isNil(compareBy)) {
     return getArrayUniqueObjects(array, compareBy);
   }
 
@@ -29,10 +33,14 @@ export function getArrayUniqueElements(
   return [];
 }
 
-function getArrayUniqueObjects<T extends object>(elements: T[], compareBy: keyof T): T[] {
+function getArrayUniqueObjects<T extends object>(elements: T[], compareBy: string): T[] {
   const uniqueElementsMap: Map<T[keyof T], T> = new Map<T[keyof T], T>();
 
   elements.forEach((element: T) => {
+    if (!isObjectKeyUsed(element, compareBy)) {
+      return;
+    }
+
     const key: T[keyof T] = element[compareBy];
     if (uniqueElementsMap.has(key)) {
       return;

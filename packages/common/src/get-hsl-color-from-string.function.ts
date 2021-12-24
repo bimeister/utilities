@@ -19,16 +19,21 @@ export function getHslColorFromString(
   const isSaturationIncorrect: boolean = isNil(saturation) || Number.isNaN(saturation);
   const isLightnessIncorrect: boolean = isNil(lightness) || Number.isNaN(lightness);
 
-  const serializedSaturation: number = isSaturationIncorrect
+  const serializedSaturation: number | undefined = isSaturationIncorrect
     ? DEFAULT_HSL_COLOR.s
     : getClampedValue(saturation, MIN_VALUE, MAX_VALUE);
-  const serializedLightness: number = isLightnessIncorrect
+  const serializedLightness: number | undefined = isLightnessIncorrect
     ? DEFAULT_HSL_COLOR.l
     : getClampedValue(lightness, MIN_VALUE, MAX_VALUE);
 
-  const hash: number = getStringHash(inputString);
+  const hash: number | undefined = getStringHash(inputString);
+
+  if (isNil(hash) || isNil(serializedSaturation) || isNil(serializedLightness)) {
+    return DEFAULT_HSL_COLOR;
+  }
+
   /** get value form interval [-360, 360] */
-  const serializedHash: number = hash % 360;
+  const serializedHash: number | undefined = hash % 360;
 
   return { h: serializedHash, s: serializedSaturation, l: serializedLightness };
 }

@@ -9,8 +9,8 @@ enum TestEnum {
 describe('get-array-unique-elements.function.ts', () => {
   it('should return empty array if invalid input is passed', () => {
     expect(getArrayUniqueElements([])).toHaveLength(0);
-    expect(getArrayUniqueElements(null)).toHaveLength(0);
-    expect(getArrayUniqueElements(undefined)).toHaveLength(0);
+    expect(getArrayUniqueElements(null as any)).toHaveLength(0);
+    expect(getArrayUniqueElements(undefined as any)).toHaveLength(0);
     expect(getArrayUniqueElements(0 as any as [])).toHaveLength(0);
     expect(getArrayUniqueElements(true as any as [])).toHaveLength(0);
     expect(getArrayUniqueElements('' as any as [])).toHaveLength(0);

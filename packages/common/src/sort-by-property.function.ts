@@ -1,13 +1,22 @@
 import type { ComparatorFunction } from 'packages/types';
 import { isNil } from './is-nil.function';
+import { isObjectKeyUsed } from './is-object-key-used.function';
 
 type SortDirection = 'ascending' | 'descending';
 
 // tslint:disable:unified-signatures
 /** @example property = 'property.property...' */
-export function sortByProperty<T>(array: T[], property: keyof T | string, comparator?: ComparatorFunction): T[];
-export function sortByProperty<T>(array: T[], property: keyof T | string, sortDirection?: SortDirection): T[];
-export function sortByProperty<T>(
+export function sortByProperty<T extends object>(
+  array: T[],
+  property: keyof T | string,
+  comparator?: ComparatorFunction
+): T[];
+export function sortByProperty<T extends object>(
+  array: T[],
+  property: keyof T | string,
+  sortDirection?: SortDirection
+): T[];
+export function sortByProperty<T extends object>(
   array: T[],
   property: keyof T | string,
   sortDirectionOrComparator: SortDirection | ComparatorFunction = 'ascending'
@@ -30,7 +39,7 @@ export function sortByProperty<T>(
   return array;
 }
 
-const extractDataByNestedKey = <T>(object: T, nestedKey: string | keyof T): any => {
+const extractDataByNestedKey = <T extends object>(object: T, nestedKey: string | keyof T): any => {
   const isNestedKey: boolean = typeof nestedKey === 'string' && nestedKey.includes('.');
   if (isNestedKey) {
     return extractDataByKeyPath(object, String(nestedKey).split('.'));
@@ -38,11 +47,11 @@ const extractDataByNestedKey = <T>(object: T, nestedKey: string | keyof T): any 
   return object[nestedKey as keyof T];
 };
 
-const extractDataByKeyPath = <T>(entity: T, keyPath: string[]): any => {
+const extractDataByKeyPath = <T extends object>(entity: T, keyPath: string[]): any => {
   const extractedData: Map<string, any> = new Map<string, any>();
   keyPath.forEach((innerKeyPathPart: string, innerIndex: number, innerOrigin: string[]) => {
     const isFirstKey: boolean = Object.is(innerIndex, 0);
-    if (isFirstKey) {
+    if (isFirstKey && isObjectKeyUsed(entity, innerKeyPathPart)) {
       extractedData.set(innerKeyPathPart, entity[innerKeyPathPart]);
       return;
     }
@@ -83,7 +92,7 @@ const descendingCompare: ComparatorFunction = <T>(a: T, b: T): number => {
   return 0;
 };
 
-const sortWithComparator = <T>(array: T[], property: string | keyof T, comparer: ComparatorFunction) => {
+const sortWithComparator = <T extends object>(array: T[], property: string | keyof T, comparer: ComparatorFunction) => {
   const sortedArray: T[] = [...array].sort((a: T, b: T): number => {
     const computedA: any = extractDataByNestedKey(a, property);
     const computedB: any = extractDataByNestedKey(b, property);
