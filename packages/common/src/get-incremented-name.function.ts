@@ -8,7 +8,13 @@ const getCurrentIncrement: (stringToCheck: string) => number = (stringToCheck: s
   if (!stringMatchesNamePattern) {
     return 0;
   }
-  const bracedIncrement: string = INCREMENT_PATTERN.exec(stringToCheck)[0];
+
+  const regExpResult: RegExpExecArray | null = INCREMENT_PATTERN.exec(stringToCheck);
+  if (regExpResult === null) {
+    return 0;
+  }
+
+  const bracedIncrement: string = regExpResult[0];
   enum bracketIndex {
     left = 1,
     right = bracedIncrement.length - 1
@@ -31,10 +37,7 @@ const getNameWithoutIncrement: (name: string) => string = (name: string): string
   return name.slice(0, foundedIncrementIndex - 1);
 };
 
-export const incrementName: (currentName: string, namesArray?: string[]) => string = (
-  currentName: string,
-  namesArray: string[] = []
-): string => {
+export function getIncrementedName(currentName: string, namesArray: string[] = []): string {
   if (!Array.isArray(namesArray) || namesArray.length === 0) {
     return currentName;
   }
@@ -52,4 +55,4 @@ export const incrementName: (currentName: string, namesArray?: string[]) => stri
     0
   );
   return `${currentName} (${highestExistingIncrement + 1})`;
-};
+}

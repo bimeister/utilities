@@ -18,6 +18,6 @@ const patternByName: Map<RegExpPatternName, RegExp> = new Map<RegExpPatternName,
   ['uuid', new RegExp(/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/)]
 ]);
 
-export function getRegExpPattern(name: RegExpPatternName): RegExp {
+export function getRegExpPattern(name: RegExpPatternName): RegExp | undefined {
   return patternByName.get(name);
 }

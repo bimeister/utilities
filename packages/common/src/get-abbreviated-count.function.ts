@@ -1,3 +1,4 @@
+import type { Nullable } from 'packages/types';
 import { isNil } from './is-nil.function';
 
 const abbreviationByRank: Map<number, string> = new Map<number, string>([
@@ -5,7 +6,7 @@ const abbreviationByRank: Map<number, string> = new Map<number, string>([
   [2, 'кк'],
   [3, 'млрд']
 ]);
-export function getAbbreviatedCount(count: number): string {
+export function getAbbreviatedCount(count: number): string | null {
   if (isNaN(count) || typeof count !== 'number') {
     return null;
   }
@@ -20,7 +21,7 @@ export function getAbbreviatedCount(count: number): string {
   const isPositive: boolean = count > 0;
 
   const base: number = Math.min(Math.floor(Math.log(absoluteCount) / Math.log(delimiter)), abbreviationByRank.size);
-  const suffix: string = abbreviationByRank.get(base);
+  const suffix: Nullable<string> = abbreviationByRank.get(base);
 
   const precision: number = 1;
 

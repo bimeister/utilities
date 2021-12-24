@@ -1,6 +1,6 @@
 {
   "name": "@bimeister/utilities",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "SEE LICENSE IN LICENSE",
   "description": "BIMeister utilities library",
   "repository": {
@@ -17,9 +17,8 @@
     "lint:debug": "tslint --format prose --project tsconfig.json --fix",
     "lint:inspect": "tslint --format stylish --project tsconfig.json && yarn run cspell:check",
     "lint:codestyle": "yarn run prettier:check",
-    "test": "yarn run test:watch",
-    "test:watch": "jest --config ./jest.config.ts --watch true",
-    "test:ci": "yarn run jest --config ./jest.config.ci.ts",
+    "test": "jest --clearCache && jest --config ./packages/jest.config.ts --passWithNoTests --coverage true",
+    "test:ci": "jest --clearCache && jest --config ./packages/jest.config-pipeline.ts --passWithNoTests --coverage true --ci",
     "prettier:check": "prettier --config ./.prettierrc --ignore-path ./.prettierignore --check \"./**/*.{json,js,ts}\"",
     "prettier:format": "prettier --loglevel log --config ./.prettierrc --ignore-path ./.prettierignore --write \"./**/*.{json,js,ts}\"",
     "cspell:check": "cspell \"src/**/*.*\" --config=\"cspell.json\""
