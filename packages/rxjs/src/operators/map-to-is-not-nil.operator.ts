@@ -4,6 +4,5 @@ import { map } from 'rxjs/operators';
 
 export const mapToIsNotNil =
   <T>(): OperatorFunction<T, boolean> =>
-  (source: Observable<T>): Observable<boolean> => {
-    return source.pipe(map<T, boolean>((value: T) => !isNil(value)));
-  };
+  (source: Observable<T>): Observable<boolean> =>
+    source.pipe(map<T, boolean>((value: T) => !isNil(value)));
