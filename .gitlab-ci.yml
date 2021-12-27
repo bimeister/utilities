@@ -99,9 +99,9 @@ NPM (dev):
     - node ./node_modules/@bimeister/build-cli/executable.js npm-package npmrc-prepare --npmrc_path="./.npmrc"
       --auth_token="${NPM_AUTH_TOKEN}" --org_email="info@bimeister.com"
       --registry="https://git.bimeister.com/api/v4/projects/98/packages/npm/" --remove_scoped_registries="true"
-    - cp ./.npmrc ./.npmignore --target-directory ./dist/ && cp ./package.json ./LICENSE --target-directory ./dist/
+    - cp ./.npmrc ./.npmignore ./LICENSE --target-directory ./dist/
     - node ./node_modules/@bimeister/build-cli/executable.js npm-package package-json-prepare
-      --package_json_path="./dist/package.json" --commit_hash="${GIT_COMMIT_HASH}-dev" --sideEffects="false"
+      --package_json_path="./dist/package.json" --commit_hash="${GIT_COMMIT_HASH}-dev"
     - npm publish ./dist/ --tag="${TAG}" --access="public"
 
 NPM (stable):
@@ -121,6 +121,7 @@ NPM (stable):
       --auth_token="${NPM_AUTH_TOKEN}" --org_email="info@bimeister.com"
       --registry="https://git.bimeister.com/api/v4/projects/98/packages/npm/" --remove_scoped_registries="true"
     - cp ./.npmrc ./.npmignore --target-directory ./dist/ && cp ./package.json ./LICENSE --target-directory ./dist/
+    - cp ./.npmrc ./.npmignore ./LICENSE --target-directory ./dist/
     - node ./node_modules/@bimeister/build-cli/executable.js npm-package package-json-prepare
-      --package_json_path="./dist/package.json" --commit_hash="${GIT_COMMIT_HASH}" --sideEffects="false"
+      --package_json_path="./dist/package.json" --commit_hash="${GIT_COMMIT_HASH}"
     - npm publish ./dist/ --tag="${TAG}" --access="public"

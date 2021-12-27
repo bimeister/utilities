@@ -8,5 +8,18 @@
   "dependencies": {
     "@juggle/resize-observer": "^3.0.0",
     "rxjs": "^6.6.0"
+  },
+  "devDependencies": {
+    "barrelsby": "*",
+    "dts-bundle-generator": "*",
+    "esbuild": "*",
+    "ts-node": "*",
+    "tslib": "*",
+    "typescript": "*"
+  },
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { getShuffledArray } from 'packages/common';
+import { getShuffledArray } from '@workspaces/common';
 import { BehaviorSubject, Observable, of, timer } from 'rxjs';
 import { switchMapTo, take, withLatestFrom } from 'rxjs/operators';
 import { concatJoin } from './concat-join.function';

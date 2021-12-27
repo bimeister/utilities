@@ -1,8 +1,9 @@
 {
   "delete": true,
   "location": "all",
-  "name": "api.ts",
+  "name": "index.ts",
   "structure": "flat",
   "singleQuotes": true,
-  "exclude": "(((index)|(.*\\.spec))\\.ts)$"
+  "include": "\\/src\\/.*.ts$",
+  "exclude": "((.*\\.spec)\\.ts)$"
 }

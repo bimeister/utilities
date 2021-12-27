@@ -1,0 +1,24 @@
+{
+  "name": "@workspaces/build",
+  "private": true,
+  "scripts": {
+    "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\"",
+    "build": "ts-node ./do-build.ts"
+  },
+  "optionalDependencies": {
+    "dts-bundle-generator": "^6.2.0",
+    "typescript": "^4.0.0"
+  },
+  "devDependencies": {
+    "@npm/types": "latest",
+    "barrelsby": "*",
+    "esbuild": "*",
+    "ts-node": "*",
+    "tslib": "*"
+  },
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    }
+  }
+}

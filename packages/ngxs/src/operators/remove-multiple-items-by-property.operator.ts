@@ -1,5 +1,5 @@
 import type { StateOperator } from '@ngxs/store';
-import { isEmpty, isNil } from 'packages/common';
+import { isEmpty, isNil } from '@workspaces/common';
 
 export const removeMultipleItemsByProperty =
   <T extends object>(propertyName: keyof T, propertyValues: T[keyof T][]): StateOperator<T[]> =>

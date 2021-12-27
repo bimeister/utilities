@@ -10,7 +10,9 @@
   "scripts": {
     "build-cli": "build-cli",
     "barrel": "npm run barrel --workspaces",
-    "build": "ts-node ./do-build.ts",
+    "build": "npm run build:all && npm run build:single-bundle",
+    "build:all": "npm run build --workspaces",
+    "build:single-bundle": "ts-node ./do-build.ts",
     "build:docs": "typedoc --options typedoc.json",
     "lint": "eslint --config ./.eslintrc ./packages/**/src/**/*.ts",
     "lint:fix": "eslint --config ./.eslintrc ./packages/**/src/**/*.ts --fix",
@@ -26,7 +28,7 @@
     "rxjs": "^6.6.0"
   },
   "devDependencies": {
-    "@bimeister/build-cli": "0.1.0-c869ab81",
+    "@bimeister/build-cli": "0.1.0-f993862d",
     "@types/jest": "^27.0.0",
     "@types/node": "^16.0.0",
     "@typescript-eslint/eslint-plugin": "4.28.2",
@@ -51,13 +53,14 @@
     "ts-jest": "^27.0.0",
     "ts-node": "^10.0.0",
     "tslib": "^2.3.0",
-    "tslint": "^6.1.2",
     "typedoc": "^0.22.0",
     "typescript": "^4.0.0"
   },
   "workspaces": [
+    "packages/build",
     "packages/common",
     "packages/constants",
+    "packages/filesystem",
     "packages/index",
     "packages/interfaces",
     "packages/internal",
