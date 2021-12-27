@@ -19,7 +19,7 @@
     "prettier:check": "prettier --config ./.prettierrc --ignore-path ./.prettierignore --check \"./**/*.{json,js,ts}\"",
     "prettier:format": "prettier --loglevel log --config ./.prettierrc --ignore-path ./.prettierignore --write \"./**/*.{json,js,ts}\"",
     "autofix": "npm run lint:fix && npm run prettier:format",
-    "cspell:check": "cspell \"src/**/*.*\" --config=\"cspell.json\""
+    "cspell:check": "cspell \"packages/**/src/**/*.*\" --config=\"cspell.json\""
   },
   "optionalDependencies": {
     "@ngxs/store": "^3.0.0",

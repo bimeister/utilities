@@ -5,13 +5,13 @@ import { concatJoin } from './concat-join.function';
 
 describe('concat-join.function.ts', () => {
   it('should never emit if nothing is passed', (done: jest.DoneCallback) => {
-    const emited$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    concatJoin().subscribe(() => emited$.next(true));
+    const emitted$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    concatJoin().subscribe(() => emitted$.next(true));
 
     timer(9000)
-      .pipe(take(1), switchMapTo(emited$))
-      .subscribe((emited: boolean) => {
-        expect(emited).toBeFalsy();
+      .pipe(take(1), switchMapTo(emitted$))
+      .subscribe((emitted: boolean) => {
+        expect(emitted).toBeFalsy();
         done();
       });
   }, 10000);
@@ -33,18 +33,18 @@ describe('concat-join.function.ts', () => {
     const input: number[] = getShuffledArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     const input$: Observable<number>[] = input.map((value: number) => of(value).pipe(take(1)));
     const isCompleted$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    const emited$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    const emitted$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     concatJoin(...input$).subscribe({
-      next: (): void => emited$.next(true),
+      next: (): void => emitted$.next(true),
       complete: (): void => isCompleted$.next(true)
     });
 
     timer(9000)
-      .pipe(take(1), switchMapTo(isCompleted$), withLatestFrom(emited$))
-      .subscribe(([isCompleted, emited]: [boolean, boolean]) => {
+      .pipe(take(1), switchMapTo(isCompleted$), withLatestFrom(emitted$))
+      .subscribe(([isCompleted, emitted]: [boolean, boolean]) => {
         expect(isCompleted).toBeTruthy();
-        expect(emited).toBeTruthy();
+        expect(emitted).toBeTruthy();
         done();
       });
   }, 10000);
