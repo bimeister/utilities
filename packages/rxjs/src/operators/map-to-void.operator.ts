@@ -4,6 +4,5 @@ import { mapTo } from 'rxjs/operators';
 
 export const mapToVoid =
   <T>(): OperatorFunction<T, void> =>
-  (source: Observable<T>): Observable<void> => {
-    return source.pipe(mapTo(VOID));
-  };
+  (source: Observable<T>): Observable<void> =>
+    source.pipe(mapTo(VOID));

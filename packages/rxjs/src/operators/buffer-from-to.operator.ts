@@ -67,12 +67,13 @@ export const bufferFromTo =
         }
       }),
       withLatestFrom(isLeadingMarkerPassed$, isTrailingMarkerPassed$),
-      filter(([[marker, _input], isLeadingMarkerPassed, isTrailingMarkerPassed]: [[Marker, T], boolean, boolean]) => {
-        return marker === 'buffer-item' && isLeadingMarkerPassed && !isTrailingMarkerPassed;
-      }),
-      map(([[_marker, input], _isLeadingMarkerPassed, _isTrailingMarkerPassed]: [[Marker, T], boolean, boolean]) => {
-        return input;
-      }),
+      filter(
+        ([[marker, _input], isLeadingMarkerPassed, isTrailingMarkerPassed]: [[Marker, T], boolean, boolean]) =>
+          marker === 'buffer-item' && isLeadingMarkerPassed && !isTrailingMarkerPassed
+      ),
+      map(
+        ([[_marker, input], _isLeadingMarkerPassed, _isTrailingMarkerPassed]: [[Marker, T], boolean, boolean]) => input
+      ),
       buffer(onSliceReady$),
       take(1)
     );
