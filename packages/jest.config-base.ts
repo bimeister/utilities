@@ -16,6 +16,7 @@ const transpilingOptions: Config.InitialOptions = {
     'packages/ngxs': ['<rootDir>/ngxs/index.ts'],
     'packages/resize-observable': ['<rootDir>/rxjs/index.ts'],
     'packages/rxjs': ['<rootDir>/interfaces/index.ts'],
+    'packages/traits': ['<rootDir>/traits/index.ts'],
     'packages/types': ['<rootDir>/types/index.ts']
   }
 };
