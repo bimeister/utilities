@@ -1,4 +1,5 @@
 import { VOID } from 'packages/constants';
+import type { Nullable } from 'packages/types';
 import { BehaviorSubject, combineLatest, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { bufferFromTo } from './buffer-from-to.operator';
@@ -25,7 +26,7 @@ describe('buffer-from-to.operator.ts', () => {
   }, 10000);
 
   it('should complete after emit', (done: jest.DoneCallback) => {
-    const input: string[] = ['leading-marker', null, 'trailing-marker'];
+    const input: Nullable<string>[] = ['leading-marker', null, 'trailing-marker'];
 
     const nextOccurred$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     const errorOccurred$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -51,8 +52,8 @@ describe('buffer-from-to.operator.ts', () => {
     from(input)
       .pipe(
         bufferFromTo(
-          (inputItem: string) => inputItem === 'leading-marker',
-          (inputItem: string) => inputItem === 'trailing-marker'
+          (inputItem: Nullable<string>) => inputItem === 'leading-marker',
+          (inputItem: Nullable<string>) => inputItem === 'trailing-marker'
         )
       )
       .subscribe(

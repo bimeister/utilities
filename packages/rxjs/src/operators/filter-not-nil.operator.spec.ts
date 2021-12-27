@@ -1,5 +1,5 @@
 import { isNil } from 'packages/common';
-import { Nullable } from 'packages/types';
+import type { Nullable } from 'packages/types';
 import { BehaviorSubject, merge, Observable, of, timer } from 'rxjs';
 import { switchMapTo, take } from 'rxjs/operators';
 import { concatJoin } from './../functions/concat-join.function';
@@ -22,13 +22,13 @@ describe('filter-not-nil.operator.ts', () => {
 
   it('should pass every not null value', (done: jest.DoneCallback) => {
     const input: Nullable<number>[] = [1, 2, 3, undefined, undefined, 6, 7, 8, undefined, 10];
-    const input$: Observable<number>[] = input.map((value: number | undefined) =>
+    const input$: Observable<number>[] = input.map((value: Nullable<number>) =>
       of(value).pipe(take(1), filterNotNil())
     );
 
     concatJoin(...input$).subscribe({
       next: (output: number[]): void => {
-        expect(output).toEqual(input.filter((value: number) => !isNil(value)));
+        expect(output).toEqual(input.filter((value: Nullable<number>) => !isNil(value)));
         done();
       }
     });

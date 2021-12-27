@@ -7,18 +7,18 @@ describe('get-hsl-color-from-string.function.ts', () => {
   const defaultString: string = 'admin';
 
   it('should return default color if input is nil type', () => {
-    expect(getHslColorFromString(null)).toEqual(DEFAULT_HSL_COLOR);
-    expect(getHslColorFromString(undefined)).toEqual(DEFAULT_HSL_COLOR);
+    expect(getHslColorFromString(null as any)).toEqual(DEFAULT_HSL_COLOR);
+    expect(getHslColorFromString(undefined as any)).toEqual(DEFAULT_HSL_COLOR);
   });
 
   it('should return default saturation if input saturation is nil or NaN', () => {
-    expect(getHslColorFromString(defaultString, null).s).toEqual(DEFAULT_HSL_COLOR.s);
+    expect(getHslColorFromString(defaultString, null as any).s).toEqual(DEFAULT_HSL_COLOR.s);
     expect(getHslColorFromString(defaultString, undefined).s).toEqual(DEFAULT_HSL_COLOR.s);
     expect(getHslColorFromString(defaultString, NaN).s).toEqual(DEFAULT_HSL_COLOR.s);
   });
 
   it('should return default lightness if input lightness is nil or NaN', () => {
-    expect(getHslColorFromString(defaultString, DEFAULT_HSL_COLOR.s, null).l).toEqual(DEFAULT_HSL_COLOR.l);
+    expect(getHslColorFromString(defaultString, DEFAULT_HSL_COLOR.s, null as any).l).toEqual(DEFAULT_HSL_COLOR.l);
     expect(getHslColorFromString(defaultString, DEFAULT_HSL_COLOR.s, undefined).l).toEqual(DEFAULT_HSL_COLOR.l);
     expect(getHslColorFromString(defaultString, DEFAULT_HSL_COLOR.s, NaN).l).toEqual(DEFAULT_HSL_COLOR.l);
   });
