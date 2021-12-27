@@ -4,6 +4,5 @@ import { map } from 'rxjs/operators';
 
 export const mapToPagedArray =
   <T>(perPageCount: number): OperatorFunction<T[], T[][]> =>
-  (source: Observable<T[]>): Observable<T[][]> => {
-    return source.pipe(map<T[], T[][]>((value: T[]) => getPagedArray(value, perPageCount)));
-  };
+  (source: Observable<T[]>): Observable<T[][]> =>
+    source.pipe(map<T[], T[][]>((value: T[]) => getPagedArray(value, perPageCount)));

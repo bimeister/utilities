@@ -7,7 +7,7 @@ describe('observe-on-optional.operator.ts', () => {
   let inputItems: number[];
 
   beforeEach(() => {
-    inputItems = new Array(1000).fill(VOID).map((_, index: number) => index + 1);
+    inputItems = new Array(1000).fill(VOID).map((_: void, index: number) => index + 1);
   });
 
   it('should pass values synchronously, on usage without scheduler', (done: jest.DoneCallback) => {

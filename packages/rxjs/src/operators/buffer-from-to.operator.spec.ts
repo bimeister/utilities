@@ -7,9 +7,7 @@ import { filterTruthy } from './filter-truthy.operator';
 
 describe('buffer-from-to.operator.ts', () => {
   it('should not emit markers in buffer', (done: jest.DoneCallback) => {
-    const expectedResult: string[] = new Array(1000).fill(VOID).map((_, index: number) => {
-      return `${index}`;
-    });
+    const expectedResult: string[] = new Array(1000).fill(VOID).map((_: void, index: number) => `${index}`);
     const input: string[] = ['leading-marker', ...expectedResult, 'trailing-marker'];
 
     from(input)
@@ -34,20 +32,16 @@ describe('buffer-from-to.operator.ts', () => {
 
     combineLatest([nextOccurred$, errorOccurred$, completeOccurred$])
       .pipe(
-        map(([nextOccurred, errorOccurred, completeOccurred]) => {
-          return nextOccurred && !errorOccurred && completeOccurred;
-        }),
+        map(
+          ([nextOccurred, errorOccurred, completeOccurred]: [boolean, boolean, boolean]) =>
+            nextOccurred && !errorOccurred && completeOccurred
+        ),
         filterTruthy()
       )
       .subscribe((isExpectedResult: boolean) => {
         expect(isExpectedResult).toBeTruthy();
         done();
       });
-
-    const onComplete: VoidFunction = () => {
-      expect(onComplete).toHaveBeenCalled();
-      done();
-    };
 
     from(input)
       .pipe(
