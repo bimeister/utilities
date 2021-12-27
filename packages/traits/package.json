@@ -1,0 +1,8 @@
+{
+  "name": "@workspaces/traits",
+  "private": true,
+  "scripts": {
+    "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\"",
+    "test": "exit 0"
+  }
+}

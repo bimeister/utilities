@@ -1,6 +1,7 @@
+import type { Nullable } from 'packages/types';
 import { parse } from 'uuid';
 
-export function getArrayBufferFromString(inputString: string): Uint8Array | null {
+export function getArrayBufferFromString(inputString: Nullable<string>): Uint8Array | null {
   if (typeof inputString !== 'string') {
     return null;
   }

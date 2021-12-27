@@ -57,7 +57,11 @@ const extractDataByKeyPath = <T extends object>(entity: T, keyPath: string[]): a
     }
 
     const objectPart: unknown | undefined = extractedData.get(innerOrigin[innerIndex - 1]);
-    if (isNil(objectPart) || typeof objectPart !== 'object') {
+    if (typeof objectPart !== 'object') {
+      return;
+    }
+
+    if (isNil(objectPart)) {
       return;
     }
 
