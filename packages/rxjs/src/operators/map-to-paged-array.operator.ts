@@ -1,4 +1,4 @@
-import { getPagedArray } from 'packages/common';
+import { getPagedArray } from '@workspaces/common';
 import type { Observable, OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
 

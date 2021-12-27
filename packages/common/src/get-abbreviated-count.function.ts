@@ -1,4 +1,4 @@
-import type { Nullable } from 'packages/types';
+import type { Nullable } from '@workspaces/types';
 import { isNil } from './is-nil.function';
 
 const abbreviationByRank: Map<number, string> = new Map<number, string>([

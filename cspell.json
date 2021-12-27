@@ -7,7 +7,7 @@
   "dictionaryDefinitions": [
     {
       "name": "localTerms",
-      "description": "Bimeister utilities local terms",
+      "description": "BIMeister utilities local terms",
       "path": "./cspell.local-terms.txt"
     }
   ],

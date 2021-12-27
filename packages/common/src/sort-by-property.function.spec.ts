@@ -1,4 +1,4 @@
-import type { ComparatorFunction } from 'packages/types';
+import type { ComparatorFunction } from '@workspaces/types';
 import { sortByProperty } from './sort-by-property.function';
 
 const customComparatorDateAscending: ComparatorFunction = <T>(a: T, b: T) => {

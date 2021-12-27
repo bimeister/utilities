@@ -1,4 +1,4 @@
-import { VOID } from 'packages/constants';
+import { VOID } from '@workspaces/constants';
 import { getPagedArray } from './get-paged-array.function';
 
 describe('get-paged-array.function.ts', () => {

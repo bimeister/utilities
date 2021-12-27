@@ -1,4 +1,4 @@
-import type { HslColor } from 'packages/interfaces';
+import type { HslColor } from '@workspaces/interfaces';
 import { getClampedValue } from './get-clamped-value.function';
 import { getStringHash } from './get-string-hash.function';
 import { isNil } from './is-nil.function';

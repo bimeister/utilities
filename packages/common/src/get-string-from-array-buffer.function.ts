@@ -1,4 +1,4 @@
-import type { Nullable } from 'packages/types';
+import type { Nullable } from '@workspaces/types';
 import { stringify } from 'uuid';
 import { isNil } from './is-nil.function';
 

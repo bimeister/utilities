@@ -2,12 +2,11 @@
   "compilerOptions": {
     "emitDecoratorMetadata": false,
     "outDir": "../out-tsc/spec",
-    "module": "CommonJS",
     "types": ["jest", "node"],
     "lib": ["DOM", "ESNext"],
     "target": "ESNext",
     "sourceMap": true
   },
   "extends": "./tsconfig.json",
-  "include": ["./packages/**/*.spec.ts"]
+  "include": ["./**/*.spec.ts"]
 }

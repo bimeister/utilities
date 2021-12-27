@@ -3,9 +3,23 @@
   "private": true,
   "scripts": {
     "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\"",
-    "test": "jest --config ./../jest.config.ts --passWithNoTests --selectProjects ngxs"
+    "test": "jest --config ./../jest.config.ts --passWithNoTests --selectProjects ngxs",
+    "build": "ts-node ./do-build.ts"
   },
   "dependencies": {
     "@ngxs/store": "^3.0.0"
+  },
+  "devDependencies": {
+    "barrelsby": "*",
+    "dts-bundle-generator": "*",
+    "esbuild": "*",
+    "ts-node": "*",
+    "tslib": "*",
+    "typescript": "*"
+  },
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    }
   }
 }

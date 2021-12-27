@@ -1,4 +1,4 @@
-import { getArrayUniqueElements } from 'packages/common';
+import { getArrayUniqueElements } from '@workspaces/common';
 import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
