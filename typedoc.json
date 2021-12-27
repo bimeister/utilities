@@ -1,5 +1,20 @@
 {
-  "inputFiles": ["./src"],
-  "mode": "modules",
-  "out": "docs"
+  "entryPoints": [
+    "./packages/common/index.ts",
+    "./packages/constants/index.ts",
+    "./packages/index/index.ts",
+    "./packages/interfaces/index.ts",
+    "./packages/internal/index.ts",
+    "./packages/ngxs/index.ts",
+    "./packages/resize-observable/index.ts",
+    "./packages/rxjs/index.ts",
+    "./packages/types/index.ts"
+  ],
+  "entryPointStrategy": "expand",
+  "out": "docs",
+  "tsconfig": "tsconfig.docs.json",
+  "exclude": "**/*+(index|api|.spec|.e2e).ts",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true
 }
