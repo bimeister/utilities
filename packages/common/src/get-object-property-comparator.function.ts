@@ -1,4 +1,4 @@
-import type { Comparator, Converter, Nullable } from 'packages/types';
+import type { Comparator, Converter, Nullable } from '@workspaces/types';
 import { isObjectKeyUsed } from './is-object-key-used.function';
 
 export function getObjectPropertyComparator<T extends object = object>(

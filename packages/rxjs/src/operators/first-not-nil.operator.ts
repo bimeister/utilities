@@ -1,4 +1,4 @@
-import { isNil } from 'packages/common';
+import { isNil } from '@workspaces/common';
 import type { Observable, OperatorFunction } from 'rxjs';
 import { first } from 'rxjs/operators';
 

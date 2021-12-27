@@ -6,5 +6,5 @@
 /deploy/
 *.log
 temp*/
-!api.ts
+!index.ts
 do-build.ts

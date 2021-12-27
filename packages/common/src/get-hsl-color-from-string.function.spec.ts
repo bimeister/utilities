@@ -1,4 +1,4 @@
-import type { HslColor } from 'packages/interfaces';
+import type { HslColor } from '@workspaces/interfaces';
 import { getHslColorFromString } from './get-hsl-color-from-string.function';
 
 const DEFAULT_HSL_COLOR: HslColor = { h: 87, s: 50, l: 50 };

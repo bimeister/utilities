@@ -1,4 +1,4 @@
-import type { RxjsFilterPredicate } from 'packages/internal';
+import type { RxjsFilterPredicate } from '@workspaces/internal';
 import { BehaviorSubject, combineLatest, Observable, OperatorFunction } from 'rxjs';
 import { buffer, distinctUntilChanged, filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { filterTruthy } from './filter-truthy.operator';

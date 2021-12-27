@@ -1,5 +1,5 @@
 import type { StateOperator } from '@ngxs/store';
-import { isEmpty, isNil } from 'packages/common';
+import { isEmpty, isNil } from '@workspaces/common';
 
 export function setItemByProperty<T extends object>(
   newItem: T,
