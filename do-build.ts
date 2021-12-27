@@ -1,11 +1,11 @@
 import { generateDtsBundle } from 'dts-bundle-generator';
-import { build, BuildOptions, BuildResult, transformSync } from 'esbuild';
+import { build, BuildOptions, BuildResult } from 'esbuild';
 import { writeFile } from 'fs';
 
-type TypingsConfig = {
+interface TypingsConfig {
   inputPath: string;
   outputPath: string;
-};
+}
 
 function buildTypings(options: TypingsConfig): Promise<void> {
   const typings: Promise<string[]> = new Promise(
@@ -32,17 +32,18 @@ function buildTypings(options: TypingsConfig): Promise<void> {
     }
   );
 
-  const fileWriteOperation: Promise<void> = typings.then((result: string[]) => {
-    return new Promise<void>((resolve: (payload: void) => void, reject: (reason: unknown) => void) => {
-      writeFile(options.outputPath, result.join(), (error: unknown | null) => {
-        if (error === null) {
-          resolve();
-        }
+  const fileWriteOperation: Promise<void> = typings.then(
+    (result: string[]) =>
+      new Promise<void>((resolve: (payload: void) => void, reject: (reason: unknown) => void) => {
+        writeFile(options.outputPath, result.join(), (error: unknown | null) => {
+          if (error === null) {
+            resolve();
+          }
 
-        reject(error);
-      });
-    });
-  });
+          reject(error);
+        });
+      })
+  );
 
   return fileWriteOperation;
 }
@@ -54,13 +55,23 @@ const baseBuildConfig: Partial<BuildOptions> = {
   minify: true,
   platform: 'neutral',
   sourcemap: 'external',
-  target: 'esnext',
+  target: 'es6',
   treeShaking: true,
   tsconfig: './tsconfig.json',
   mainFields: ['module', 'main']
 };
 
-const packages: string[] = ['common', 'interfaces', 'index', 'internal', 'ngxs', 'rxjs', 'types', 'resize-observable'];
+const packages: string[] = [
+  'common',
+  'interfaces',
+  'index',
+  'internal',
+  'ngxs',
+  'rxjs',
+  'traits',
+  'types',
+  'resize-observable'
+];
 const packagesBuildChain: Promise<void>[] = packages.map((packageName: string) => {
   if (packageName === 'internal') {
     return Promise.resolve();
@@ -98,29 +109,9 @@ const packagesBuildChain: Promise<void>[] = packages.map((packageName: string) =
   return generateBundle.then(() => buildTypings(typingsConfig));
 });
 
-const buildRootIndex = new Promise((resolve: (value: string) => void, reject: (reason: any) => void) => {
-  const barrelExportCode: string = packages
-    .map((packageName: string) => `export * from './${packageName}/index.js';`)
-    .reduce((accumulatedCode: string, currentExportString: string) => {
-      return `
-${accumulatedCode}
-${currentExportString}`;
-    }, '');
-
-  const barrelExportCodeMinified: string = transformSync(barrelExportCode).code;
-
-  writeFile('./dist/index.js', barrelExportCodeMinified, (error: Error | null) => {
-    if (error !== null) {
-      reject(error);
-      return;
-    }
-    resolve(barrelExportCodeMinified);
-  });
-});
-
 packagesBuildChain
-  .reduce((accumulatedChain: Promise<void>, currentChainPart: Promise<void>) => {
-    return accumulatedChain.then(() => currentChainPart);
-  }, Promise.resolve())
-  .then(() => buildRootIndex)
+  .reduce(
+    (accumulatedChain: Promise<void>, currentChainPart: Promise<void>) => accumulatedChain.then(() => currentChainPart),
+    Promise.resolve()
+  )
   .catch(() => process.exit(1));

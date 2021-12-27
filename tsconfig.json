@@ -12,7 +12,7 @@
     "experimentalDecorators": true,
     "lib": ["ESNext", "DOM"],
     "importHelpers": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "locale": "en",
     "module": "UMD",
     "moduleResolution": "Node",

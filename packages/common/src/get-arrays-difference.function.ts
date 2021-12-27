@@ -1,9 +1,11 @@
+import type { Primitive } from 'packages/types';
 import { isNil } from './is-nil.function';
 import { isObjectKeyUsed } from './is-object-key-used.function';
 
 export function getArraysDifference(arrayA: string[], arrayB: string[]): string[];
 export function getArraysDifference(arrayA: boolean[], arrayB: boolean[]): boolean[];
 export function getArraysDifference(arrayA: number[], arrayB: number[]): number[];
+export function getArraysDifference(arrayA: Primitive[], arrayB: Primitive[]): Primitive[];
 export function getArraysDifference<T extends object>(arrayA: T[], arrayB: T[], objectKey: string): T[];
 export function getArraysDifference<T>(arrayA: T[], arrayB: T[], objectKey?: string): T[] {
   const resultCollection: Map<T | T[keyof T], T> = new Map<T | T[keyof T], T>();

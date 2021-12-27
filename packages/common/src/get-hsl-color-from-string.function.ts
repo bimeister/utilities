@@ -33,7 +33,7 @@ export function getHslColorFromString(
   }
 
   /** get value form interval [-360, 360] */
-  const serializedHash: number | undefined = hash % 360;
+  const serializedHash: number = hash % 360;
 
   return { h: serializedHash, s: serializedSaturation, l: serializedLightness };
 }
