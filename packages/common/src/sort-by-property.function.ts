@@ -1,4 +1,4 @@
-import type { ComparatorFunction } from 'packages/types';
+import type { ComparatorFunction } from '@workspaces/types';
 import { isNil } from './is-nil.function';
 import { isObjectKeyUsed } from './is-object-key-used.function';
 

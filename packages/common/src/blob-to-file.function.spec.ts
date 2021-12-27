@@ -1,4 +1,4 @@
-import { blobMock, nameMock } from './../../../packages/internal';
+import { blobMock, nameMock } from '@workspaces/internal';
 import { blobToFile } from './blob-to-file.function';
 
 describe('blob-to-file.function.ts', () => {

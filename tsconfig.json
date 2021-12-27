@@ -14,7 +14,6 @@
     "importHelpers": true,
     "isolatedModules": true,
     "locale": "en",
-    "module": "UMD",
     "moduleResolution": "Node",
     "newLine": "lf",
     "noUnusedLocals": true,
@@ -25,12 +24,33 @@
     "sourceMap": false,
     "strict": true,
     "skipLibCheck": true,
-    "target": "ES6",
     "types": ["jest", "node"],
     "typeRoots": ["node_modules/@types"],
     "importsNotUsedAsValues": "error",
-    "allowUnreachableCode": false
+    "allowUnreachableCode": false,
+    "target": "ESNext",
+    "module": "ESNext",
+    "paths": {
+      "@workspaces/build": ["./packages/build/src/index.ts"],
+      "@workspaces/common": ["./packages/common/src/index.ts"],
+      "@workspaces/constants": ["./packages/constants/src/index.ts"],
+      "@workspaces/filesystem": ["./packages/filesystem/src/index.ts"],
+      "@workspaces/index": ["./packages/index/src/index.ts"],
+      "@workspaces/interfaces": ["./packages/interfaces/src/index.ts"],
+      "@workspaces/internal": ["./packages/internal/src/index.ts"],
+      "@workspaces/ngxs": ["./packages/ngxs/src/index.ts"],
+      "@workspaces/resize-observable": ["./packages/resize-observable/src/index.ts"],
+      "@workspaces/rxjs": ["./packages/rxjs/src/index.ts"],
+      "@workspaces/traits": ["./packages/traits/src/index.ts"],
+      "@workspaces/types": ["./packages/types/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "*.spec.ts"],
-  "include": ["./packages/**/*.ts"]
+  "include": ["./**/*.ts"],
+  "ts-node": {
+    "compilerOptions": {
+      "target": "ES6",
+      "module": "UMD"
+    }
+  }
 }

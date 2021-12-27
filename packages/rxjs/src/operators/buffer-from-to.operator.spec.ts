@@ -1,5 +1,5 @@
-import { VOID } from 'packages/constants';
-import type { Nullable } from 'packages/types';
+import { VOID } from '@workspaces/constants';
+import type { Nullable } from '@workspaces/types';
 import { BehaviorSubject, combineLatest, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { bufferFromTo } from './buffer-from-to.operator';

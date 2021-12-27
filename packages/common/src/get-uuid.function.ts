@@ -1,4 +1,4 @@
-import type { Uuid } from 'packages/types';
+import type { Uuid } from '@workspaces/types';
 import { v4 } from 'uuid';
 
 export function getUuid(): Uuid;

@@ -1,4 +1,4 @@
-import { blobMock, nameMock } from './../../../packages/internal';
+import { blobMock, nameMock } from '@workspaces/internal';
 import { downloadFile } from './download-file.function';
 
 describe('download-file.function.ts', () => {
@@ -6,9 +6,7 @@ describe('download-file.function.ts', () => {
   const fileSample: Blob = blobMock;
 
   document.body.innerHTML = ``;
-  window.URL.createObjectURL = (): string => {
-    return nameMock;
-  };
+  window.URL.createObjectURL = (): string => nameMock;
 
   it('should create new DOM-element', () => {
     downloadFile(fileNameSample, fileSample);

@@ -1,117 +1,120 @@
-import { generateDtsBundle } from 'dts-bundle-generator';
-import { build, BuildOptions, BuildResult } from 'esbuild';
-import { writeFile } from 'fs';
+import { buildPackageJson } from '@workspaces/build';
+import { getAllNestedDirectoryPaths, getAllNestedFilePaths } from '@workspaces/filesystem';
+import { mkdir, rename, rm } from 'fs/promises';
 
-interface TypingsConfig {
-  inputPath: string;
-  outputPath: string;
+interface BuildArtifacts {
+  filePaths: string[];
+  packageName: string;
 }
 
-function buildTypings(options: TypingsConfig): Promise<void> {
-  const typings: Promise<string[]> = new Promise(
-    (resolve: (payload: string[]) => void, reject: (reason: unknown) => void) => {
-      try {
-        const result: string[] = generateDtsBundle(
-          [
-            {
-              filePath: options.inputPath,
-              output: {
-                noBanner: true
-              }
-            }
-          ],
-          {
-            preferredConfigPath: './tsconfig.json'
-          }
-        );
+const removeDistFolder = (): Promise<unknown> => rm(`${__dirname}/dist`, { force: true, recursive: true });
 
-        resolve(result);
-      } catch (error: unknown) {
-        reject(error);
-      }
-    }
+const collectPackageBuildArtifacts = async (): Promise<void> => {
+  const regExpPattern: RegExp = new RegExp(/\/packages\/[a-zA-Z]*\/dist$/gm);
+  const artifactsPaths: string[] = await getAllNestedDirectoryPaths(`${__dirname}/packages`).then((paths: string[]) =>
+    paths.filter((path: string) => regExpPattern.test(path))
   );
 
-  const fileWriteOperation: Promise<void> = typings.then(
-    (result: string[]) =>
-      new Promise<void>((resolve: (payload: void) => void, reject: (reason: unknown) => void) => {
-        writeFile(options.outputPath, result.join(), (error: unknown | null) => {
-          if (error === null) {
-            resolve();
-          }
+  artifactsPaths
+    .map((path: string) => {
+      const packageName: string = path.replace(__dirname, '').replace('/packages/', '').replace('/dist', '');
+      return getAllNestedFilePaths(path).then((filePaths: string[]) => ({ filePaths, packageName }));
+    })
+    .forEach(async (buildArtifacts: Promise<BuildArtifacts>) => {
+      const { filePaths, packageName }: BuildArtifacts = await buildArtifacts;
 
-          reject(error);
-        });
-      })
-  );
+      filePaths.forEach(async (filePath: string) => {
+        const targetFilePath: string = filePath.replace(`/packages/${packageName}/dist/`, `/dist/${packageName}/`);
+        const fileName: string = filePath.slice(filePath.lastIndexOf('/') + 1);
 
-  return fileWriteOperation;
-}
-
-const baseBuildConfig: Partial<BuildOptions> = {
-  bundle: true,
-  format: 'esm',
-  external: ['rxjs', '@ngxs/store'],
-  minify: true,
-  platform: 'neutral',
-  sourcemap: 'external',
-  target: 'es6',
-  treeShaking: true,
-  tsconfig: './tsconfig.json',
-  mainFields: ['module', 'main']
+        await mkdir(targetFilePath.replace(fileName, ''), { recursive: true });
+        await rename(filePath, targetFilePath);
+      });
+    });
 };
 
-const packages: string[] = [
-  'common',
-  'interfaces',
-  'index',
-  'internal',
-  'ngxs',
-  'rxjs',
-  'traits',
-  'types',
-  'resize-observable'
-];
-const packagesBuildChain: Promise<void>[] = packages.map((packageName: string) => {
-  if (packageName === 'internal') {
-    return Promise.resolve();
-  }
+const generateDistPackageJson = (): Promise<unknown> =>
+  buildPackageJson({
+    currentPackageJsonPath: './package.json',
+    targetPackageJsonPath: './dist/package.json',
+    override: {
+      type: 'module',
+      sideEffects: false,
+      workspaces: [],
+      types: './index/public-api.d.ts',
+      exports: {
+        '.': {
+          import: './index/public-api.js',
+          default: './index/public-api.js'
+        },
+        './build/*': {
+          import: './build/index.mjs',
+          types: './build/index.d.ts',
+          default: './build/index.js'
+        },
+        './common/*': {
+          import: './common/index.mjs',
+          types: './common/index.d.ts',
+          default: './common/index.js'
+        },
+        './constants/*': {
+          import: './constants/index.mjs',
+          types: './constants/index.d.ts',
+          default: './constants/index.js'
+        },
+        './filesystem/*': {
+          import: './filesystem/index.mjs',
+          types: './filesystem/index.d.ts',
+          default: './filesystem/index.js'
+        },
+        './index/*': {
+          default: null
+        },
+        './interfaces/*': {
+          import: './interfaces/index.mjs',
+          types: './interfaces/index.d.ts',
+          default: './interfaces/index.js'
+        },
+        './internal/*': {
+          default: null
+        },
+        './ngxs/*': {
+          import: './ngxs/index.mjs',
+          types: './ngxs/index.d.ts',
+          default: './ngxs/index.js'
+        },
+        './resize-observable/*': {
+          import: './resize-observable/index.mjs',
+          types: './resize-observable/index.d.ts',
+          default: './resize-observable/index.js'
+        },
+        './rxjs/*': {
+          import: './rxjs/index.mjs',
+          types: './rxjs/index.d.ts',
+          default: './rxjs/index.js'
+        },
+        './traits/*': {
+          import: './traits/index.mjs',
+          types: './traits/index.d.ts',
+          default: './traits/index.js'
+        },
+        './types/*': {
+          import: './types/index.mjs',
+          types: './types/index.d.ts',
+          default: './types/index.js'
+        }
+      }
+    }
+  });
 
-  const buildConfig: BuildOptions = {
-    ...baseBuildConfig,
-    entryPoints: [`./packages/${packageName}/index.ts`],
-    outfile: `./dist/${packageName}/index.js`
-  };
-
-  const typingsConfig: TypingsConfig = {
-    inputPath: `./packages/${packageName}/index.ts`,
-    outputPath: `./dist/${packageName}/index.d.ts`
-  };
-
-  if (packageName === 'resize-observable') {
-    Object.assign(buildConfig, {
-      platform: 'browser'
-    });
-  }
-
-  if (packageName === 'index') {
-    Object.assign(buildConfig, {
-      outfile: `./dist/index.js`
-    });
-
-    Object.assign(typingsConfig, {
-      outputPath: `./dist/index.d.ts`
-    });
-  }
-
-  const generateBundle: Promise<BuildResult> = build(buildConfig);
-
-  return generateBundle.then(() => buildTypings(typingsConfig));
-});
-
-packagesBuildChain
-  .reduce(
-    (accumulatedChain: Promise<void>, currentChainPart: Promise<void>) => accumulatedChain.then(() => currentChainPart),
-    Promise.resolve()
-  )
-  .catch(() => process.exit(1));
+Promise.resolve()
+  .then(removeDistFolder)
+  .then(collectPackageBuildArtifacts)
+  .then(generateDistPackageJson)
+  .catch((error: Error) => {
+    throw error;
+  })
+  .finally(() => {
+    // eslint-disable-next-line no-console
+    console.log('Package build done.');
+  });

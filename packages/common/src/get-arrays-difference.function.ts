@@ -1,4 +1,4 @@
-import type { Primitive } from 'packages/types';
+import type { Primitive } from '@workspaces/types';
 import { isNil } from './is-nil.function';
 import { isObjectKeyUsed } from './is-object-key-used.function';
 
