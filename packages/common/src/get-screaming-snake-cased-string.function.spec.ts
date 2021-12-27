@@ -2,13 +2,13 @@ import { getScreamingSnakeCasedString } from './get-screaming-snake-cased-string
 
 describe('get-screaming-snake-cased-string.function.ts', () => {
   it('should return null if it is passed', () => {
-    const input: string = null;
-    expect(getScreamingSnakeCasedString(input)).toBe(input);
+    const input: string | null = null;
+    expect(getScreamingSnakeCasedString(input as any)).toBe(input);
   });
 
   it('should return undefined if it is passed', () => {
-    const input: string = undefined;
-    expect(getScreamingSnakeCasedString(input)).toBe(input);
+    const input: string | undefined = undefined;
+    expect(getScreamingSnakeCasedString(input as any)).toBe(input);
   });
 
   it('should return SAMPLE_TRANSLATION_KEY for sample translation key', () => {
