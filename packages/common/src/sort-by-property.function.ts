@@ -4,17 +4,16 @@ import { isObjectKeyUsed } from './is-object-key-used.function';
 
 type SortDirection = 'ascending' | 'descending';
 
-// tslint:disable:unified-signatures
 /** @example property = 'property.property...' */
 export function sortByProperty<T extends object>(
   array: T[],
   property: keyof T | string,
   comparator?: ComparatorFunction
 ): T[];
-export function sortByProperty<T extends object>(
+export function sortByProperty<T extends object, K extends SortDirection = 'ascending'>(
   array: T[],
   property: keyof T | string,
-  sortDirection?: SortDirection
+  sortDirection?: K
 ): T[];
 export function sortByProperty<T extends object>(
   array: T[],
@@ -48,20 +47,24 @@ const extractDataByNestedKey = <T extends object>(object: T, nestedKey: string |
 };
 
 const extractDataByKeyPath = <T extends object>(entity: T, keyPath: string[]): any => {
-  const extractedData: Map<string, any> = new Map<string, any>();
+  const extractedData: Map<string, unknown> = new Map<string, unknown>();
+
   keyPath.forEach((innerKeyPathPart: string, innerIndex: number, innerOrigin: string[]) => {
     const isFirstKey: boolean = Object.is(innerIndex, 0);
     if (isFirstKey && isObjectKeyUsed(entity, innerKeyPathPart)) {
       extractedData.set(innerKeyPathPart, entity[innerKeyPathPart]);
       return;
     }
-    const objectPart: any = extractedData.get(innerOrigin[innerIndex - 1]);
-    if (isNil(objectPart)) {
+
+    const objectPart: unknown | undefined = extractedData.get(innerOrigin[innerIndex - 1]);
+    if (isNil(objectPart) || typeof objectPart !== 'object') {
       return;
     }
-    if (!objectPart.hasOwnProperty(innerKeyPathPart)) {
+
+    if (!isObjectKeyUsed(objectPart, innerKeyPathPart)) {
       return;
     }
+
     extractedData.set(innerKeyPathPart, objectPart[innerKeyPathPart]);
   });
   const targetKey: string = keyPath[keyPath.length - 1];
@@ -92,7 +95,11 @@ const descendingCompare: ComparatorFunction = <T>(a: T, b: T): number => {
   return 0;
 };
 
-const sortWithComparator = <T extends object>(array: T[], property: string | keyof T, comparer: ComparatorFunction) => {
+const sortWithComparator = <T extends object>(
+  array: T[],
+  property: string | keyof T,
+  comparer: ComparatorFunction
+): T[] => {
   const sortedArray: T[] = [...array].sort((a: T, b: T): number => {
     const computedA: any = extractDataByNestedKey(a, property);
     const computedB: any = extractDataByNestedKey(b, property);

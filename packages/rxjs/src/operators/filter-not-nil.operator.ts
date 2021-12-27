@@ -4,6 +4,5 @@ import { filter } from 'rxjs/operators';
 
 export const filterNotNil: <T>() => OperatorFunction<T, NonNullable<T>> =
   <L>(): OperatorFunction<L, NonNullable<L>> =>
-  <T>(source$: Observable<T>): Observable<NonNullable<T>> => {
-    return source$.pipe(filter((value: T): value is NonNullable<T> => !isNil(value)));
-  };
+  <T>(source$: Observable<T>): Observable<NonNullable<T>> =>
+    source$.pipe(filter((value: T): value is NonNullable<T> => !isNil(value)));

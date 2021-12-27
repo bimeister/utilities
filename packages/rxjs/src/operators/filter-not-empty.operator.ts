@@ -4,6 +4,5 @@ import { filter } from 'rxjs/operators';
 
 export const filterNotEmpty =
   <T>(): MonoTypeOperatorFunction<T> =>
-  (source: Observable<T>): Observable<T> => {
-    return source.pipe(filter<T>((value: T) => !isEmpty(value)));
-  };
+  (source: Observable<T>): Observable<T> =>
+    source.pipe(filter<T>((value: T) => !isEmpty(value)));
