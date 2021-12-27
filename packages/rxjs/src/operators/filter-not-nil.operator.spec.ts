@@ -7,15 +7,15 @@ import { filterNotNil } from './filter-not-nil.operator';
 
 describe('filter-not-nil.operator.ts', () => {
   it('should not pass null and undefined', (done: jest.DoneCallback) => {
-    const emited$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    const emitted$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     merge(of(null), of(undefined))
       .pipe(filterNotNil())
-      .subscribe(() => emited$.next(true));
+      .subscribe(() => emitted$.next(true));
 
     timer(9000)
-      .pipe(take(1), switchMapTo(emited$))
-      .subscribe((emited: boolean) => {
-        expect(emited).toBeFalsy();
+      .pipe(take(1), switchMapTo(emitted$))
+      .subscribe((emitted: boolean) => {
+        expect(emitted).toBeFalsy();
         done();
       });
   }, 10000);
