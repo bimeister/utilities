@@ -1,9 +1,9 @@
 import { isNil } from 'packages/common';
-import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
+import type { Observable, OperatorFunction } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 export const firstNotNil =
-  <source>(): MonoTypeOperatorFunction<source> =>
-  (source$: Observable<source>): Observable<source> => {
-    return source$.pipe(first<source>((value: source) => !isNil(value)));
+  <T>(): OperatorFunction<T, NonNullable<T>> =>
+  (source$: Observable<T>): Observable<NonNullable<T>> => {
+    return source$.pipe(first((value: T): value is NonNullable<T> => !isNil(value)));
   };

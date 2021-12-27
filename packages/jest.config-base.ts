@@ -5,6 +5,8 @@ const transpilingOptions: Config.InitialOptions = {
   transform: {
     '^.+\\.(ts)$': 'ts-jest'
   },
+  preset: 'ts-jest',
+  testEnvironment: 'jsdom',
   moduleNameMapper: {
     'packages/common': ['<rootDir>/common/index.ts'],
     'packages/constants': ['<rootDir>/constants/index.ts'],
