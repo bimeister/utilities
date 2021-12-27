@@ -9,7 +9,7 @@ describe('get-array-buffer-from-string.function.ts', () => {
   });
 
   it('should return a null if input is nil type', () => {
-    expect(getStringFromArrayBuffer(null as any)).toBeNull();
-    expect(getStringFromArrayBuffer(undefined as any)).toBeNull();
+    expect(getStringFromArrayBuffer(null)).toBeNull();
+    expect(getStringFromArrayBuffer(undefined)).toBeNull();
   });
 });

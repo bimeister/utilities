@@ -1,7 +1,7 @@
-import type { Nullable, WithProperty } from 'packages/types';
+import type { WithProperty } from 'packages/traits';
+import type { Nullable } from 'packages/types';
 import { isNil } from './is-nil.function';
 
-export function isObjectKeyUsed<K extends string>(object: any, key: K): object is object & Record<K, unknown>;
 export function isObjectKeyUsed<T extends object, K extends string = string>(
   object: T,
   key: Nullable<string>

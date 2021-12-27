@@ -1,11 +1,10 @@
 /.*/
 !/.gitlab/
 /.vscode/
-/coverage/
+coverage/
 /docs/
 /deploy/
 /dist/
-/node_modules/
+node_modules/
 *.log
-/src/**/api.ts
-.DS_Store
+/packages/**/api.ts

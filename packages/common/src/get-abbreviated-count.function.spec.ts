@@ -4,8 +4,8 @@ describe('get-abbreviated-count.function.ts', () => {
   const abbreviations: string[] = ['к', 'кк', 'млрд'];
 
   it('should return null if passed null, undefined or NaN ', () => {
-    expect(getAbbreviatedCount(null as any)).toBeNull();
-    expect(getAbbreviatedCount(undefined as any)).toBeNull();
+    expect(getAbbreviatedCount(null)).toBeNull();
+    expect(getAbbreviatedCount(undefined)).toBeNull();
     expect(getAbbreviatedCount(NaN)).toBeNull();
   });
 

@@ -1,8 +1,8 @@
+import type { Nullable } from 'packages/types';
 import { snakeCase } from 'snake-case';
-
 import { isNil } from './is-nil.function';
 
-export function getScreamingSnakeCasedString(input: string): string {
+export function getScreamingSnakeCasedString(input: Nullable<string>): Nullable<string> {
   if (isNil(input)) {
     return input;
   }

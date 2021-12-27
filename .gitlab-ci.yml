@@ -1,5 +1,13 @@
-include:
-  - local: .gitlab/templates/common.template.yml
+variables:
+  NPM_AUTH_TOKEN: ${CI_JOB_TOKEN}
+  GIT_COMMIT_HASH: ${CI_COMMIT_SHORT_SHA}
+
+default:
+  tags:
+    - docker-executor
+  image:
+    name: node:16-slim
+    entrypoint: ['']
 
 stages:
   - preinstall
@@ -13,24 +21,29 @@ Dependencies:
   interruptible: true
   allow_failure: false
   script:
-    - scripts/build.sh base_service
+    - npm install
+    - npm run barrel
+  cache:
+    key: dependencies
+    paths:
+      - node_modules/
+  artifacts:
+    paths:
+      - ./
 
-Static files:
+Static Files:
   stage: build
   needs: ['Dependencies']
+  dependencies:
+    - 'Dependencies'
   interruptible: true
   allow_failure: false
   script:
-    - scripts/build.sh build_service
-
-Docs:
-  stage: build
-  needs: ['Dependencies']
-  interruptible: true
-  allow_failure: false
-  when: always
-  script:
-    - scripts/build.sh docs_service
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+      - node_modules/
 
 Lint:
   stage: check
@@ -38,7 +51,15 @@ Lint:
   interruptible: true
   allow_failure: false
   script:
-    - scripts/build.sh lint_service
+    - npm run lint
+
+Spell Check:
+  stage: check
+  needs: ['Dependencies']
+  interruptible: true
+  allow_failure: false
+  script:
+    - npm run cspell:check
 
 Test:
   stage: check
@@ -46,10 +67,9 @@ Test:
   interruptible: true
   allow_failure: false
   script:
-    - scripts/build.sh test_service
-    - scripts/cp-from-image.sh "pipeline=${PIPELINE_ID};commit=${GIT_COMMIT_HASH};service=test_service" coverage
-      coverage
+    - npm run test:ci
   artifacts:
+    name: 'code-coverage'
     when: always
     reports:
       junit:
@@ -61,45 +81,46 @@ Code Style:
   interruptible: true
   allow_failure: false
   script:
-    - scripts/build.sh codestyle_service
-
-NPM (stable):
-  stage: deploy
-  needs: ['Static files', 'Test', 'Lint', 'Code Style']
-  interruptible: false
-  allow_failure: true
-  only:
-    - master
-  when: always
-  variables:
-    TAG: 'stable'
-  script:
-    - scripts/build.sh deploy_service
+    - npm run prettier:check
 
 NPM (dev):
   stage: deploy
-  needs: ['Static files', 'Test', 'Lint', 'Code Style']
+  needs: ['Static Files']
+  dependencies:
+    - 'Static Files'
   interruptible: false
   allow_failure: true
+  variables:
+    TAG: 'dev'
   except:
     - master
   when: manual
-  variables:
-    TAG: 'dev'
   script:
-    - scripts/build.sh deploy_service
+    - node ./node_modules/@bimeister/build-cli/executable.js npm-package npmrc-prepare --npmrc_path="./.npmrc"
+      --auth_token="${NPM_AUTH_TOKEN}" --org_email="info@bimeister.com"
+      --registry="https://git.bimeister.com/api/v4/projects/98/packages/npm/" --remove_scoped_registries="true"
+    - cp ./.npmrc ./.npmignore --target-directory ./dist/ && cp ./package.json ./LICENSE --target-directory ./dist/
+    - node ./node_modules/@bimeister/build-cli/executable.js npm-package package-json-prepare
+      --package_json_path="./dist/package.json" --commit_hash="${GIT_COMMIT_HASH}-dev" --sideEffects="false"
+    - npm publish ./dist/ --tag="${TAG}" --access="public"
 
-pages:
+NPM (stable):
   stage: deploy
-  needs: ['Docs']
-  interruptible: true
+  needs: ['Static Files', 'Test', 'Code Style', 'Lint', 'Spell Check']
+  dependencies:
+    - 'Static Files'
+  interruptible: false
   allow_failure: true
-  script:
-    - scripts/cp-from-image.sh "pipeline=${PIPELINE_ID};commit=${GIT_COMMIT_HASH};service=docs_service" docs public
-  when: always
+  variables:
+    TAG: 'stable'
   only:
     - master
-  artifacts:
-    when: always
-    paths:
-      - public
+  when: always
+  script:
+    - node ./node_modules/@bimeister/build-cli/executable.js npm-package npmrc-prepare --npmrc_path="./.npmrc"
+      --auth_token="${NPM_AUTH_TOKEN}" --org_email="info@bimeister.com"
+      --registry="https://git.bimeister.com/api/v4/projects/98/packages/npm/" --remove_scoped_registries="true"
+    - cp ./.npmrc ./.npmignore --target-directory ./dist/ && cp ./package.json ./LICENSE --target-directory ./dist/
+    - node ./node_modules/@bimeister/build-cli/executable.js npm-package package-json-prepare
+      --package_json_path="./dist/package.json" --commit_hash="${GIT_COMMIT_HASH}" --sideEffects="false"
+    - npm publish ./dist/ --tag="${TAG}" --access="public"
