@@ -8,7 +8,6 @@
     "url": "https://git.bimeister.com/common/utilities"
   },
   "scripts": {
-    "build-cli": "build-cli",
     "barrel": "npm run barrel --workspaces",
     "build": "npm run build:all && npm run build:single-bundle",
     "build:all": "npm run build --workspaces",
