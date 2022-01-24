@@ -54,7 +54,7 @@ const generateDistPackageJson = (): Promise<unknown> =>
     currentPackageJsonPath: './package.json',
     targetPackageJsonPath: './dist/package.json',
     override: {
-      type: 'module',
+      type: 'commonjs',
       sideEffects: false,
       exports: {
         '.': {
