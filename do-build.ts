@@ -38,71 +38,121 @@ const generateDistPackageJson = (): Promise<unknown> =>
     currentPackageJsonPath: './package.json',
     targetPackageJsonPath: './dist/package.json',
     override: {
-      type: 'module',
+      type: 'commonjs',
       sideEffects: false,
       workspaces: [],
       types: './index/public-api.d.ts',
       exports: {
         '.': {
-          import: './index/public-api.js',
+          import: './index/public-api.mjs',
           default: './index/public-api.js'
         },
-        './build/*': {
+        './build': {
           import: './build/index.mjs',
           types: './build/index.d.ts',
           default: './build/index.js'
         },
-        './common/*': {
+        // './build/*': {
+        //   import: './build/index.mjs',
+        //   types: './build/index.d.ts',
+        //   default: './build/index.js'
+        // },
+        './common': {
           import: './common/index.mjs',
           types: './common/index.d.ts',
           default: './common/index.js'
         },
-        './constants/*': {
+        // './common/*': {
+        //   import: './common/index.mjs',
+        //   types: './common/index.d.ts',
+        //   default: './common/index.js'
+        // },
+        './constants': {
           import: './constants/index.mjs',
           types: './constants/index.d.ts',
           default: './constants/index.js'
         },
-        './filesystem/*': {
+        // './constants/*': {
+        //   import: './constants/index.mjs',
+        //   types: './constants/index.d.ts',
+        //   default: './constants/index.js'
+        // },
+        './filesystem': {
           import: './filesystem/index.mjs',
           types: './filesystem/index.d.ts',
           default: './filesystem/index.js'
         },
+        // './filesystem/*': {
+        //   import: './filesystem/index.mjs',
+        //   types: './filesystem/index.d.ts',
+        //   default: './filesystem/index.js'
+        // },
         './index/*': {
           default: null
         },
-        './interfaces/*': {
+        './interfaces': {
           import: './interfaces/index.mjs',
           types: './interfaces/index.d.ts',
           default: './interfaces/index.js'
         },
+        // './interfaces/*': {
+        //   import: './interfaces/index.mjs',
+        //   types: './interfaces/index.d.ts',
+        //   default: './interfaces/index.js'
+        // },
         './internal/*': {
           default: null
         },
-        './ngxs/*': {
+        './ngxs': {
           import: './ngxs/index.mjs',
           types: './ngxs/index.d.ts',
           default: './ngxs/index.js'
         },
-        './resize-observable/*': {
+        // './ngxs/*': {
+        //   import: './ngxs/index.mjs',
+        //   types: './ngxs/index.d.ts',
+        //   default: './ngxs/index.js'
+        // },
+        './resize-observable': {
           import: './resize-observable/index.mjs',
           types: './resize-observable/index.d.ts',
           default: './resize-observable/index.js'
         },
-        './rxjs/*': {
+        // './resize-observable/*': {
+        //   import: './resize-observable/index.mjs',
+        //   types: './resize-observable/index.d.ts',
+        //   default: './resize-observable/index.js'
+        // },
+        './rxjs': {
           import: './rxjs/index.mjs',
           types: './rxjs/index.d.ts',
           default: './rxjs/index.js'
         },
-        './traits/*': {
+        // './rxjs/*': {
+        //   import: './rxjs/index.mjs',
+        //   types: './rxjs/index.d.ts',
+        //   default: './rxjs/index.js'
+        // },
+        './traits': {
           import: './traits/index.mjs',
           types: './traits/index.d.ts',
           default: './traits/index.js'
         },
-        './types/*': {
+        // './traits/*': {
+        //   import: './traits/index.mjs',
+        //   types: './traits/index.d.ts',
+        //   default: './traits/index.js'
+        // },
+        './types': {
           import: './types/index.mjs',
           types: './types/index.d.ts',
           default: './types/index.js'
         }
+        // './types/*': {
+        //   import: './types/index.mjs',
+        //   types: './types/index.d.ts',
+        //   default: './types/index.js'
+        // }
       }
     }
   });
