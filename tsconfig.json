@@ -49,8 +49,8 @@
   "include": ["./**/*.ts"],
   "ts-node": {
     "compilerOptions": {
-      "target": "ES6",
-      "module": "UMD"
+      "target": "ESNext",
+      "module": "NodeNext"
     }
   }
 }

@@ -2,16 +2,7 @@
   "name": "@workspaces/internal",
   "private": true,
   "scripts": {
-    "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\"",
-    "build": "ts-node ./do-build.ts"
-  },
-  "devDependencies": {
-    "barrelsby": "*",
-    "dts-bundle-generator": "*",
-    "esbuild": "*",
-    "ts-node": "*",
-    "tslib": "*",
-    "typescript": "*"
+    "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\""
   },
   "exports": {
     ".": {
