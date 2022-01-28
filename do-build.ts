@@ -1,170 +1,233 @@
-import { buildPackageJson } from '@workspaces/build';
-import { getAllNestedDirectoryPaths, getAllNestedFilePaths } from '@workspaces/filesystem';
-import { mkdir, rename, rm } from 'fs/promises';
+import {
+  buildBundleTypings,
+  buildFileDeclarations,
+  buildPackageJson,
+  Dependencies,
+  getGroupedSourceFileDataByPackageName,
+  PackageJson,
+  PackageJsonExports,
+  PackageJsonExportsItem,
+  SourceFileData
+} from '@workspaces/build';
+import { getAllNestedFilePaths } from '@workspaces/filesystem';
+import { build, BuildOptions } from 'esbuild';
+import { readFile, rm } from 'fs/promises';
 
-interface BuildArtifacts {
-  filePaths: string[];
-  packageName: string;
-}
+const distFolderPath: string = `${__dirname}/dist`;
+const packagesFolderPath: string = `${__dirname}/packages`;
+const tsConfigFilePath: string = './tsconfig.json';
+const rootPackageJsonFilePath: string = `${__dirname}/package.json`;
 
-const removeDistFolder = (): Promise<unknown> => rm(`${__dirname}/dist`, { force: true, recursive: true });
+const esBuildConfig: BuildOptions = {
+  chunkNames: 'chunks/[name]-[hash]',
+  bundle: true,
+  splitting: true,
+  external: ['rxjs', '@ngxs/store', 'typescript', 'dts-bundle-generator'],
+  minify: true,
+  platform: 'neutral',
+  sourcemap: 'external',
+  target: 'esnext',
+  format: 'esm',
+  treeShaking: true,
+  tsconfig: tsConfigFilePath,
+  mainFields: ['module', 'main', 'browser'],
+  color: true,
+  metafile: true,
+  legalComments: 'none'
+};
+const browserOnlyPackages: Set<string> = new Set<string>(['ngxs', 'resize-observable']);
+const nodeOnlyPackages: Set<string> = new Set<string>(['build', 'filesystem']);
+const typesOnlyPackages: Set<string> = new Set<string>(['traits', 'types', 'interfaces']);
+const typeOnlyFileEndings: Set<string> = new Set<string>(
+  ['type', 'interface', 'trait'].flatMap((prefix: string) => [`.${prefix}.ts`, `${prefix}s/index.ts`])
+);
 
-const collectPackageBuildArtifacts = async (): Promise<void> => {
-  const regExpPattern: RegExp = new RegExp(/\/packages\/[a-zA-Z]*\/dist$/gm);
-  const artifactsPaths: string[] = await getAllNestedDirectoryPaths(`${__dirname}/packages`).then((paths: string[]) =>
-    paths.filter((path: string) => regExpPattern.test(path))
+getAllNestedFilePaths(packagesFolderPath).then((sourceFilePaths: string[]) => {
+  const tsSourceFilePaths: string[] = sourceFilePaths.filter(
+    (filePath: string) => filePath.includes('/src/') && filePath.endsWith('.ts') && !filePath.endsWith('.spec.ts')
   );
 
-  artifactsPaths
-    .map((path: string) => {
-      const packageName: string = path.replace(__dirname, '').replace('/packages/', '').replace('/dist', '');
-      return getAllNestedFilePaths(path).then((filePaths: string[]) => ({ filePaths, packageName }));
-    })
-    .forEach(async (buildArtifacts: Promise<BuildArtifacts>) => {
-      const { filePaths, packageName }: BuildArtifacts = await buildArtifacts;
+  const sourceFilesDataByPackageName: Map<string, SourceFileData[]> =
+    getGroupedSourceFileDataByPackageName(tsSourceFilePaths);
 
-      filePaths.forEach(async (filePath: string) => {
-        const targetFilePath: string = filePath.replace(`/packages/${packageName}/dist/`, `/dist/${packageName}/`);
-        const fileName: string = filePath.slice(filePath.lastIndexOf('/') + 1);
+  return Promise.resolve()
+    .then(() => rm(distFolderPath, { force: true, recursive: true }))
+    .then(() => generateBundle(sourceFilesDataByPackageName))
+    .then(() => generateTypings(sourceFilesDataByPackageName))
+    .then(() => generatePackageJson(sourceFilePaths, sourceFilesDataByPackageName));
+});
 
-        await mkdir(targetFilePath.replace(fileName, ''), { recursive: true });
-        await rename(filePath, targetFilePath);
+async function generateBundle(sourceFilesDataByPackageName: Map<string, SourceFileData[]>): Promise<void> {
+  sourceFilesDataByPackageName.forEach(async (filesData: SourceFileData[], packageName: string) => {
+    if (typesOnlyPackages.has(packageName) || packageName === 'internal') {
+      return;
+    }
+
+    const entryPoints: string[] = filesData
+      .map((fileData: SourceFileData) => fileData.filePath)
+      .filter((filePath: string) => {
+        const invalidEndings: string[] = Array.from(typeOnlyFileEndings);
+        const isTypeOnlyFile: boolean = invalidEndings.some((ending: string) => filePath.endsWith(ending));
+        return !isTypeOnlyFile;
       });
-    });
-};
+    const buildConfig: BuildOptions = {
+      ...esBuildConfig,
+      outdir: `${distFolderPath}/${packageName}/`,
+      entryPoints
+    };
 
-const generateDistPackageJson = (): Promise<unknown> =>
-  buildPackageJson({
-    currentPackageJsonPath: './package.json',
-    targetPackageJsonPath: './dist/package.json',
-    override: {
-      type: 'commonjs',
-      sideEffects: false,
-      workspaces: [],
-      types: './index/public-api.d.ts',
-      exports: {
-        '.': {
-          import: './index/public-api.mjs',
-          default: './index/public-api.js'
-        },
-        './build': {
-          import: './build/index.mjs',
-          types: './build/index.d.ts',
-          default: './build/index.js'
-        },
-        // './build/*': {
-        //   import: './build/index.mjs',
-        //   types: './build/index.d.ts',
-        //   default: './build/index.js'
-        // },
-        './common': {
-          import: './common/index.mjs',
-          types: './common/index.d.ts',
-          default: './common/index.js'
-        },
-        // './common/*': {
-        //   import: './common/index.mjs',
-        //   types: './common/index.d.ts',
-        //   default: './common/index.js'
-        // },
-        './constants': {
-          import: './constants/index.mjs',
-          types: './constants/index.d.ts',
-          default: './constants/index.js'
-        },
-        // './constants/*': {
-        //   import: './constants/index.mjs',
-        //   types: './constants/index.d.ts',
-        //   default: './constants/index.js'
-        // },
-        './filesystem': {
-          import: './filesystem/index.mjs',
-          types: './filesystem/index.d.ts',
-          default: './filesystem/index.js'
-        },
-        // './filesystem/*': {
-        //   import: './filesystem/index.mjs',
-        //   types: './filesystem/index.d.ts',
-        //   default: './filesystem/index.js'
-        // },
-        './index/*': {
-          default: null
-        },
-        './interfaces': {
-          import: './interfaces/index.mjs',
-          types: './interfaces/index.d.ts',
-          default: './interfaces/index.js'
-        },
-        // './interfaces/*': {
-        //   import: './interfaces/index.mjs',
-        //   types: './interfaces/index.d.ts',
-        //   default: './interfaces/index.js'
-        // },
-        './internal/*': {
-          default: null
-        },
-        './ngxs': {
-          import: './ngxs/index.mjs',
-          types: './ngxs/index.d.ts',
-          default: './ngxs/index.js'
-        },
-        // './ngxs/*': {
-        //   import: './ngxs/index.mjs',
-        //   types: './ngxs/index.d.ts',
-        //   default: './ngxs/index.js'
-        // },
-        './resize-observable': {
-          import: './resize-observable/index.mjs',
-          types: './resize-observable/index.d.ts',
-          default: './resize-observable/index.js'
-        },
-        // './resize-observable/*': {
-        //   import: './resize-observable/index.mjs',
-        //   types: './resize-observable/index.d.ts',
-        //   default: './resize-observable/index.js'
-        // },
-        './rxjs': {
-          import: './rxjs/index.mjs',
-          types: './rxjs/index.d.ts',
-          default: './rxjs/index.js'
-        },
-        // './rxjs/*': {
-        //   import: './rxjs/index.mjs',
-        //   types: './rxjs/index.d.ts',
-        //   default: './rxjs/index.js'
-        // },
-        './traits': {
-          import: './traits/index.mjs',
-          types: './traits/index.d.ts',
-          default: './traits/index.js'
-        },
-        // './traits/*': {
-        //   import: './traits/index.mjs',
-        //   types: './traits/index.d.ts',
-        //   default: './traits/index.js'
-        // },
-        './types': {
-          import: './types/index.mjs',
-          types: './types/index.d.ts',
-          default: './types/index.js'
+    if (browserOnlyPackages.has(packageName)) {
+      Object.assign(buildConfig, {
+        platform: 'browser'
+      });
+    }
+
+    if (nodeOnlyPackages.has(packageName)) {
+      Object.assign(buildConfig, {
+        platform: 'node'
+      });
+    }
+
+    const commonJsConfig: BuildOptions = {
+      ...buildConfig,
+      splitting: false,
+      format: 'cjs',
+      outExtension: { '.js': '.cjs' }
+    };
+
+    const esModuleConfig: BuildOptions = {
+      ...buildConfig,
+      splitting: true,
+      format: 'esm',
+      outExtension: { '.js': '.mjs' }
+    };
+
+    await build(commonJsConfig);
+    await build(esModuleConfig);
+  });
+}
+
+async function generateTypings(sourceFilesDataByPackageName: Map<string, SourceFileData[]>): Promise<void> {
+  sourceFilesDataByPackageName.forEach(async (filesData: SourceFileData[], packageName: string) => {
+    if (packageName === 'internal') {
+      return;
+    }
+
+    const isIndexPackage: boolean = packageName === 'index';
+    const mainFilePath: string = isIndexPackage
+      ? `${packagesFolderPath}/index/src/public-api.ts`
+      : `${packagesFolderPath}/${packageName}/src/index.ts`;
+
+    if (!isIndexPackage) {
+      await buildFileDeclarations(
+        filesData
+          .map((fileData: SourceFileData) => fileData.filePath)
+          .filter((filePath: string) => !filePath.endsWith(mainFilePath)),
+        {
+          outDir: `${distFolderPath}/${packageName}`
         }
-        // './types/*': {
-        //   import: './types/index.mjs',
-        //   types: './types/index.d.ts',
-        //   default: './types/index.js'
-        // }
+      );
+    }
+
+    const bundleTypingsFilePath: string = isIndexPackage
+      ? `${distFolderPath}/index/public-api.d.ts`
+      : `${distFolderPath}/${packageName}/index.d.ts`;
+
+    await buildBundleTypings({
+      configPath: tsConfigFilePath,
+      inputPath: mainFilePath,
+      outputPath: bundleTypingsFilePath,
+      librariesOptions: {
+        inlinedLibraries: ['@npm/types', 'dts-bundle-generator', 'typescript']
       }
+    });
+  });
+}
+
+async function generatePackageJson(
+  sourceFilePaths: string[],
+  sourceFilesDataByPackageName: Map<string, SourceFileData[]>
+): Promise<void> {
+  const packageJsonFilePaths: string[] = sourceFilePaths.filter((filePath: string) =>
+    filePath.endsWith('package.json')
+  );
+
+  const collectedDependencies: Dependencies = await packageJsonFilePaths
+    .concat([rootPackageJsonFilePath])
+    .reduce(async (accumulatedData: Promise<Dependencies>, packageJsonFilePath: string) => {
+      const fileContent: string = await readFile(packageJsonFilePath, { encoding: 'utf8' });
+      const parsedFileContent: PackageJson = JSON.parse(fileContent);
+      const accumulatedDependencies: Dependencies = await accumulatedData;
+
+      const dependencies: Dependencies | undefined = parsedFileContent.dependencies;
+      if (dependencies !== undefined) {
+        Object.assign(accumulatedDependencies, dependencies);
+      }
+
+      const optionalDependencies: Dependencies | undefined = parsedFileContent.optionalDependencies;
+      if (optionalDependencies !== undefined) {
+        Object.assign(accumulatedDependencies, optionalDependencies);
+      }
+
+      const peerDependencies: Dependencies | undefined = parsedFileContent.peerDependencies;
+      if (peerDependencies !== undefined) {
+        Object.assign(accumulatedDependencies, peerDependencies);
+      }
+
+      return accumulatedData;
+    }, Promise.resolve({}));
+
+  const exportsEntries: [string, PackageJsonExportsItem][] = Array.from(sourceFilesDataByPackageName.values())
+    .flat(1)
+    .filter((sourceFileData: SourceFileData) => {
+      const ignoreExportsFor: Set<string> = new Set(['index', 'internal']);
+      return !ignoreExportsFor.has(sourceFileData.packageName);
+    })
+    .map(({ packageName, filePathFromPackageSrc }: SourceFileData) => {
+      const filePathWithoutExtension: string = `./${packageName}${filePathFromPackageSrc}`.replace('.ts', '');
+
+      const exportsItem: PackageJsonExportsItem = typesOnlyPackages.has(packageName)
+        ? {
+            types: `${filePathWithoutExtension}.d.ts`
+          }
+        : {
+            types: `${filePathWithoutExtension}.d.ts`,
+            import: `${filePathWithoutExtension}.mjs`,
+            require: `${filePathWithoutExtension}.cjs`,
+            default: `${filePathWithoutExtension}.cjs`
+          };
+
+      if (filePathWithoutExtension.endsWith('/index')) {
+        return [filePathWithoutExtension.replace('/index', ''), exportsItem];
+      }
+
+      return [filePathWithoutExtension, exportsItem];
+    });
+
+  const rootTypesFilePath: string = `./index/public-api.d.ts`;
+  const rootEsmFilePath: string = `./index/public-api.mjs`;
+  const rootCommonJsFilePath: string = `./index/public-api.cjs`;
+  const topLevelExport: [string, PackageJsonExportsItem] = [
+    '.',
+    {
+      types: rootTypesFilePath,
+      import: rootEsmFilePath,
+      require: rootCommonJsFilePath,
+      default: rootCommonJsFilePath
+    }
+  ];
+  const exports: PackageJsonExports = Object.fromEntries([topLevelExport].concat(exportsEntries));
+
+  await buildPackageJson({
+    currentPackageJsonPath: rootPackageJsonFilePath,
+    targetPackageJsonPath: `${distFolderPath}/package.json`,
+    override: {
+      optionalDependencies: collectedDependencies,
+      exports,
+      sideEffects: false,
+      types: rootTypesFilePath,
+      main: rootCommonJsFilePath,
+      es2015: rootEsmFilePath
     }
   });
-
-Promise.resolve()
-  .then(removeDistFolder)
-  .then(collectPackageBuildArtifacts)
-  .then(generateDistPackageJson)
-  .catch((error: Error) => {
-    throw error;
-  })
-  .finally(() => {
-    // eslint-disable-next-line no-console
-    console.log('Package build done.');
-  });
+}

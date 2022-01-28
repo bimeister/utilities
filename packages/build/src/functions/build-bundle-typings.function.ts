@@ -1,10 +1,11 @@
-import { generateDtsBundle } from 'dts-bundle-generator';
+import { EntryPointConfig, generateDtsBundle, LibrariesOptions } from 'dts-bundle-generator';
 import { writeFile } from 'fs/promises';
 
 interface TypingsBuildConfig {
   inputPath: string;
   outputPath: string;
   configPath: string;
+  librariesOptions?: LibrariesOptions;
 }
 
 const defaultConfig: TypingsBuildConfig = {
@@ -15,26 +16,27 @@ const defaultConfig: TypingsBuildConfig = {
 
 export function buildBundleTypings(options: Partial<TypingsBuildConfig> = defaultConfig): Promise<void> {
   const config: TypingsBuildConfig = {
+    librariesOptions: {},
     ...defaultConfig,
     ...options
+  };
+
+  const bundleGeneratorConfig: EntryPointConfig = {
+    filePath: config.inputPath,
+    libraries: config.librariesOptions,
+    output: {
+      noBanner: true
+      // inlineDeclareExternals: true,
+      // inlineDeclareGlobals: true
+    }
   };
 
   const buildTypings: Promise<string[]> = new Promise(
     (resolve: (payload: string[]) => void, reject: (reason: unknown) => void) => {
       try {
-        const result: string[] = generateDtsBundle(
-          [
-            {
-              filePath: config.inputPath,
-              output: {
-                noBanner: true
-              }
-            }
-          ],
-          {
-            preferredConfigPath: config.configPath
-          }
-        );
+        const result: string[] = generateDtsBundle([bundleGeneratorConfig], {
+          preferredConfigPath: config.configPath
+        });
 
         resolve(result);
       } catch (error: unknown) {
