@@ -7,5 +7,5 @@ coverage/
 /dist/
 node_modules/
 *.log
-/packages/*/src/index.ts
+/packages/*/src/**/index.ts
 /packages/*/dist/

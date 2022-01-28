@@ -1,21 +1,6 @@
 {
   "name": "@workspaces/index",
   "private": true,
-  "scripts": {
-    "build": "ts-node ./do-build.ts"
-  },
-  "optionalDependencies": {
-    "@ngxs/store": "^3.0.0",
-    "rxjs": "^6.6.0"
-  },
-  "devDependencies": {
-    "barrelsby": "*",
-    "dts-bundle-generator": "*",
-    "esbuild": "*",
-    "ts-node": "*",
-    "tslib": "*",
-    "typescript": "*"
-  },
   "exports": {
     ".": {
       "default": "./src/public-api.ts"

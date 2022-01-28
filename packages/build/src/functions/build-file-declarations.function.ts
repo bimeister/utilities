@@ -1,11 +1,15 @@
 import { CompilerOptions, createProgram, EmitResult, Program } from 'typescript';
 
-export function buildFileDeclarations(sourceFilePaths: string[]): EmitResult {
+export function buildFileDeclarations(
+  sourceFilePaths: string[],
+  additionalOptions: Partial<CompilerOptions> = {}
+): EmitResult {
   const options: CompilerOptions = {
-    emitDeclarationOnly: true,
-    declaration: true,
     outDir: './dist/',
     removeComments: false,
+    ...additionalOptions,
+    emitDeclarationOnly: true,
+    declaration: true,
     sourceMap: false
   };
 
