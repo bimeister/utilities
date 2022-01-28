@@ -98,11 +98,11 @@ NPM (dev):
   script:
     - node ./node_modules/@bimeister/build-cli/executable.js npm-package npmrc-prepare --npmrc_path="./.npmrc"
       --auth_token="${NPM_AUTH_TOKEN}" --org_email="info@bimeister.com"
-      --registry="https://git.bimeister.com/api/v4/projects/98/packages/npm/" --remove_scoped_registries="true"
+      --registry="https://git.bimeister.io/api/v4/projects/98/packages/npm/" --remove_scoped_registries="true"
     - cp ./.npmrc ./.npmignore ./LICENSE --target-directory ./dist/
     - node ./node_modules/@bimeister/build-cli/executable.js npm-package package-json-prepare
       --package_json_path="./dist/package.json" --commit_hash="${GIT_COMMIT_HASH}-dev"
-    - npm publish ./dist/ --tag="${TAG}" --access="public"
+    - npm publish ./dist/ --tag="${TAG}" --access="public" --verbose
 
 NPM (stable):
   stage: deploy
@@ -119,7 +119,7 @@ NPM (stable):
   script:
     - node ./node_modules/@bimeister/build-cli/executable.js npm-package npmrc-prepare --npmrc_path="./.npmrc"
       --auth_token="${NPM_AUTH_TOKEN}" --org_email="info@bimeister.com"
-      --registry="https://git.bimeister.com/api/v4/projects/98/packages/npm/" --remove_scoped_registries="true"
+      --registry="https://git.bimeister.io/api/v4/projects/98/packages/npm/" --remove_scoped_registries="true"
     - cp ./.npmrc ./.npmignore --target-directory ./dist/ && cp ./package.json ./LICENSE --target-directory ./dist/
     - cp ./.npmrc ./.npmignore ./LICENSE --target-directory ./dist/
     - node ./node_modules/@bimeister/build-cli/executable.js npm-package package-json-prepare
