@@ -1,5 +1,5 @@
+import { isEmpty, isNil } from '@bimeister/utilities.common';
 import type { StateOperator } from '@ngxs/store';
-import { isEmpty, isNil } from '@workspaces/common';
 
 export function removeItemByProperty<T extends object>(
   propertyName: keyof T,

@@ -1,4 +1,4 @@
-import { isEmpty } from '@workspaces/common';
+import { isEmpty } from '@bimeister/utilities.common';
 import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 

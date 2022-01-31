@@ -1,6 +1,6 @@
-import type { PackageJson } from '@npm/types';
-import { isNil } from '@workspaces/common';
+import { isEmpty, isNil } from '@bimeister/utilities.common';
 import { readFile, writeFile } from 'fs/promises';
+import type { PackageJson } from './../interfaces/package-json.interface';
 
 interface PackageJsonBuilderOptions {
   currentPackageJsonPath: string;
@@ -36,5 +36,11 @@ export async function buildPackageJson(options: PackageJsonBuilderOptions): Prom
       ? targetPackageJsonContent
       : { ...targetPackageJsonContent, ...override };
 
-  return writeFile(targetPackageJsonPath, JSON.stringify(overWrittenContent));
+  const minifiedContent: Partial<PackageJson> = Object.fromEntries(
+    Object.entries(overWrittenContent).filter(
+      ([_key, value]: [string, PackageJson[keyof PackageJson]]) => !isEmpty(value)
+    )
+  );
+
+  return writeFile(targetPackageJsonPath, JSON.stringify(minifiedContent));
 }

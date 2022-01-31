@@ -1,4 +1,4 @@
-import { VOID } from '@workspaces/constants';
+import { VOID } from '@bimeister/utilities.constants';
 import { asyncScheduler, BehaviorSubject, of } from 'rxjs';
 import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
 import { observeOnOptional } from './observe-on-optional';

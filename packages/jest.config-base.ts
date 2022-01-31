@@ -6,19 +6,7 @@ const transpilingOptions: Config.InitialOptions = {
     '^.+\\.(ts)$': 'ts-jest'
   },
   preset: 'ts-jest',
-  testEnvironment: 'jsdom',
-  moduleNameMapper: {
-    'packages/common': ['<rootDir>/common/index.ts'],
-    'packages/constants': ['<rootDir>/constants/index.ts'],
-    'packages/index': ['<rootDir>/index/index.ts'],
-    'packages/interfaces': ['<rootDir>/interfaces/index.ts'],
-    'packages/internal': ['<rootDir>/internal/index.ts'],
-    'packages/ngxs': ['<rootDir>/ngxs/index.ts'],
-    'packages/resize-observable': ['<rootDir>/rxjs/index.ts'],
-    'packages/rxjs': ['<rootDir>/interfaces/index.ts'],
-    'packages/traits': ['<rootDir>/traits/index.ts'],
-    'packages/types': ['<rootDir>/types/index.ts']
-  }
+  testEnvironment: 'jsdom'
 };
 
 const baseConfig: Config.InitialOptions = {

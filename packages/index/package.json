@@ -1,5 +1,5 @@
 {
-  "name": "@workspaces/index",
+  "name": "@bimeister/utilities.index",
   "private": true,
   "exports": {
     ".": {

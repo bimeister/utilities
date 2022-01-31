@@ -1,4 +1,4 @@
-import type { Nullable } from '@workspaces/types';
+import type { Nullable } from '@bimeister/utilities.types';
 import { parse } from 'uuid';
 
 export function getArrayBufferFromString(inputString: Nullable<string>): Uint8Array | null {

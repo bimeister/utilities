@@ -1,4 +1,4 @@
-import type { RxjsFilterPredicate } from '@workspaces/internal';
+import type { RxjsFilterPredicate } from '@bimeister/utilities.internal';
 import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 
