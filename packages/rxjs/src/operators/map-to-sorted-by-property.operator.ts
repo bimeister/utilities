@@ -1,5 +1,5 @@
-import { sortByProperty } from '@workspaces/common';
-import type { SortType } from '@workspaces/internal';
+import { sortByProperty } from '@bimeister/utilities.common';
+import type { SortType } from '@bimeister/utilities.internal';
 import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

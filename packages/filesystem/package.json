@@ -1,5 +1,5 @@
 {
-  "name": "@workspaces/filesystem",
+  "name": "@bimeister/utilities.filesystem",
   "private": true,
   "scripts": {
     "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\""

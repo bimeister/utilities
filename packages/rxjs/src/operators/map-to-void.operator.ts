@@ -1,4 +1,4 @@
-import { VOID } from '@workspaces/constants';
+import { VOID } from '@bimeister/utilities.constants';
 import type { Observable, OperatorFunction } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 

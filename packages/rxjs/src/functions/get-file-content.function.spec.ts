@@ -1,5 +1,5 @@
-import { blobToFile, isEqual } from '@workspaces/common';
-import { blobMock, jsonMock } from '@workspaces/internal';
+import { blobToFile, isEqual } from '@bimeister/utilities.common';
+import { blobMock, jsonMock } from '@bimeister/utilities.internal';
 import { getFileContent } from './get-file-content.function';
 
 describe('get-file-content.function.ts', () => {

@@ -1,4 +1,4 @@
-import { VOID } from '@workspaces/constants';
+import { VOID } from '@bimeister/utilities.constants';
 import { isEmpty } from './is-empty.function';
 
 export function getPagedArray<T>(items: T[], perPageCount: number): T[][] {

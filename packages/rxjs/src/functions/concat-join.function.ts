@@ -1,4 +1,4 @@
-import { isEmpty } from '@workspaces/common';
+import { isEmpty } from '@bimeister/utilities.common';
 import { concat, EMPTY, Observable, Subscriber, TeardownLogic } from 'rxjs';
 
 export const concatJoin = <T>(...sources: Observable<T>[]): Observable<T[]> => {

@@ -1,5 +1,5 @@
-import { isNil } from '@workspaces/common';
-import type { Nullable } from '@workspaces/types';
+import { isNil } from '@bimeister/utilities.common';
+import type { Nullable } from '@bimeister/utilities.types';
 import { BehaviorSubject, merge, Observable, of, timer } from 'rxjs';
 import { switchMapTo, take } from 'rxjs/operators';
 import { concatJoin } from './../functions/concat-join.function';

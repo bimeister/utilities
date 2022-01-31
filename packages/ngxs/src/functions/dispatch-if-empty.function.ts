@@ -1,6 +1,6 @@
+import { isNil } from '@bimeister/utilities.common';
+import { filterNotNil } from '@bimeister/utilities.rxjs';
 import type { StateContext } from '@ngxs/store';
-import { isNil } from '@workspaces/common';
-import { filterNotNil } from '@workspaces/rxjs';
 import { iif, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { getFromStateByProperty } from './get-from-state-by-property.function';
