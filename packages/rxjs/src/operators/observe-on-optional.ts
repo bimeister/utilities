@@ -1,5 +1,5 @@
-import { isNil } from '@workspaces/common';
-import type { Nullable } from '@workspaces/types';
+import { isNil } from '@bimeister/utilities.common';
+import type { Nullable } from '@bimeister/utilities.types';
 import type { MonoTypeOperatorFunction, Observable, SchedulerLike } from 'rxjs';
 import { observeOn } from 'rxjs/operators';
 

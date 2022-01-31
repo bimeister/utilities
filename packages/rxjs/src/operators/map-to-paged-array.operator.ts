@@ -1,4 +1,4 @@
-import { getPagedArray } from '@workspaces/common';
+import { getPagedArray } from '@bimeister/utilities.common';
 import type { Observable, OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
 

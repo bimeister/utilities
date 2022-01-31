@@ -1,5 +1,5 @@
+import { isEmpty, isNil } from '@bimeister/utilities.common';
 import type { StateOperator } from '@ngxs/store';
-import { isEmpty, isNil } from '@workspaces/common';
 
 export function setItemsByProperty<T extends object>(newItems: T[], propertyName: keyof T): StateOperator<T[]> {
   return (state: Readonly<T[]>): T[] => {

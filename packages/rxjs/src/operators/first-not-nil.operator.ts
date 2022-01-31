@@ -1,4 +1,4 @@
-import { isNil } from '@workspaces/common';
+import { isNil } from '@bimeister/utilities.common';
 import type { Observable, OperatorFunction } from 'rxjs';
 import { first } from 'rxjs/operators';
 

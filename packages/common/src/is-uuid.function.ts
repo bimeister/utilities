@@ -1,4 +1,4 @@
-import type { Uuid } from '@workspaces/types';
+import type { Uuid } from '@bimeister/utilities.types';
 import { validate } from 'uuid';
 
 export function isUuid(input: string): input is Uuid {

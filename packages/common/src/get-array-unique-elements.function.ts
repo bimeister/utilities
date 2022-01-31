@@ -1,4 +1,4 @@
-import type { Primitive } from '@workspaces/types';
+import type { Primitive } from '@bimeister/utilities.types';
 import { isEmpty } from './is-empty.function';
 import { isNil } from './is-nil.function';
 import { isObjectKeyUsed } from './is-object-key-used.function';

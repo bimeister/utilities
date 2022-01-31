@@ -1,4 +1,4 @@
-import { blobMock } from '@workspaces/internal';
+import { blobMock } from '@bimeister/utilities.internal';
 import { blobToFile } from './blob-to-file.function';
 import { fileListToArray } from './file-list-to-array.function';
 

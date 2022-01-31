@@ -1,4 +1,4 @@
-import { getSubstringBetween } from '@workspaces/common';
+import { getSubstringBetween } from '@bimeister/utilities.common';
 import type { SourceFileData } from '../interfaces';
 
 export function getGroupedSourceFileDataByPackageName(sourceFilePaths: string[]): Map<string, SourceFileData[]> {

@@ -1,4 +1,4 @@
-import { VOID } from '@workspaces/constants';
+import { VOID } from '@bimeister/utilities.constants';
 import { getPagedArray } from './get-paged-array.function';
 
 describe('get-paged-array.function.ts', () => {

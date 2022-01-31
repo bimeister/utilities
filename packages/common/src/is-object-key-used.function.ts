@@ -1,5 +1,5 @@
-import type { WithProperty } from '@workspaces/traits';
-import type { Nullable } from '@workspaces/types';
+import type { WithProperty } from '@bimeister/utilities.traits';
+import type { Nullable } from '@bimeister/utilities.types';
 import { isNil } from './is-nil.function';
 
 export function isObjectKeyUsed<T extends object, K extends string = string>(
