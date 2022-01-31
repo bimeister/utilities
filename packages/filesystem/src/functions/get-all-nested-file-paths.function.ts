@@ -1,4 +1,4 @@
-import { combinePromises } from '@workspaces/common';
+import { combinePromises } from '@bimeister/utilities.common';
 import { readdir } from 'fs/promises';
 import type { SortedPaths } from './../interfaces/sorted-paths.interface';
 import { getSortedPaths } from './get-sorted-paths.function';

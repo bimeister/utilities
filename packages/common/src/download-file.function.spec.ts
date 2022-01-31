@@ -1,4 +1,4 @@
-import { blobMock, nameMock } from '@workspaces/internal';
+import { blobMock, nameMock } from '@bimeister/utilities.internal';
 import { downloadFile } from './download-file.function';
 
 describe('download-file.function.ts', () => {

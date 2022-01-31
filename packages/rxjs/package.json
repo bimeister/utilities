@@ -1,5 +1,5 @@
 {
-  "name": "@workspaces/rxjs",
+  "name": "@bimeister/utilities.rxjs",
   "private": true,
   "scripts": {
     "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\"",

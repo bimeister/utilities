@@ -1,4 +1,4 @@
-import { combinePromises } from '@workspaces/common';
+import { combinePromises } from '@bimeister/utilities.common';
 import type { Stats } from 'fs';
 import { lstat } from 'fs/promises';
 import type { SortedPaths } from './../interfaces/sorted-paths.interface';

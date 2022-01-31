@@ -1,4 +1,4 @@
-import type { Nullable } from '@workspaces/types';
+import type { Nullable } from '@bimeister/utilities.types';
 import { isNil } from './is-nil.function';
 
 export const fileListToArray: (fileList: FileList) => File[] = (fileList: FileList): File[] => {

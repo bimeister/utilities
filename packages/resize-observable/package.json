@@ -1,5 +1,5 @@
 {
-  "name": "@workspaces/resize-observable",
+  "name": "@bimeister/utilities.resize-observable",
   "private": true,
   "scripts": {
     "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\"",

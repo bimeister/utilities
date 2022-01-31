@@ -8,8 +8,8 @@ import {
   PackageJsonExports,
   PackageJsonExportsItem,
   SourceFileData
-} from '@workspaces/build';
-import { getAllNestedFilePaths } from '@workspaces/filesystem';
+} from '@bimeister/utilities.build';
+import { getAllNestedFilePaths } from '@bimeister/utilities.filesystem';
 import { build, BuildOptions } from 'esbuild';
 import { readFile, rm } from 'fs/promises';
 
@@ -179,44 +179,61 @@ async function generatePackageJson(
 
   const exportsEntries: [string, PackageJsonExportsItem][] = Array.from(sourceFilesDataByPackageName.values())
     .flat(1)
-    .filter((sourceFileData: SourceFileData) => {
+    .filter(({ packageName, filePath }: SourceFileData) => {
       const ignoreExportsFor: Set<string> = new Set(['index', 'internal']);
-      return !ignoreExportsFor.has(sourceFileData.packageName);
+      const packageShouldBeExported: boolean = !ignoreExportsFor.has(packageName);
+
+      const isBarrelExportFile: boolean = filePath.endsWith('/index.ts');
+      return packageShouldBeExported && isBarrelExportFile;
     })
     .map(({ packageName, filePathFromPackageSrc }: SourceFileData) => {
       const filePathWithoutExtension: string = `./${packageName}${filePathFromPackageSrc}`.replace('.ts', '');
 
       const exportsItem: PackageJsonExportsItem = typesOnlyPackages.has(packageName)
         ? {
-            types: `${filePathWithoutExtension}.d.ts`
+            typings: `${filePathWithoutExtension}.d.ts`
           }
         : {
-            types: `${filePathWithoutExtension}.d.ts`,
             import: `${filePathWithoutExtension}.mjs`,
             require: `${filePathWithoutExtension}.cjs`,
+            fesm2020: `${filePathWithoutExtension}.mjs`,
+            fesm2015: `${filePathWithoutExtension}.mjs`,
+            esm2020: `${filePathWithoutExtension}.mjs`,
+            module: `${filePathWithoutExtension}.mjs`,
+            es2020: `${filePathWithoutExtension}.mjs`,
+            main: `${filePathWithoutExtension}.cjs`,
+            typings: `${filePathWithoutExtension}.d.ts`,
             default: `${filePathWithoutExtension}.cjs`
           };
 
-      if (filePathWithoutExtension.endsWith('/index')) {
-        return [filePathWithoutExtension.replace('/index', ''), exportsItem];
-      }
-
-      return [filePathWithoutExtension, exportsItem];
+      return [filePathWithoutExtension.replace('/index', ''), exportsItem];
     });
 
   const rootTypesFilePath: string = `./index/public-api.d.ts`;
   const rootEsmFilePath: string = `./index/public-api.mjs`;
   const rootCommonJsFilePath: string = `./index/public-api.cjs`;
-  const topLevelExport: [string, PackageJsonExportsItem] = [
-    '.',
-    {
-      types: rootTypesFilePath,
-      import: rootEsmFilePath,
-      require: rootCommonJsFilePath,
-      default: rootCommonJsFilePath
-    }
+  const topLevelExports: [string, PackageJsonExportsItem][] = [
+    [
+      './package.json',
+      {
+        default: './package.json'
+      }
+    ],
+    [
+      '.',
+      {
+        fesm2020: rootEsmFilePath,
+        fesm2015: rootEsmFilePath,
+        esm2020: rootEsmFilePath,
+        typings: rootTypesFilePath,
+        module: rootEsmFilePath,
+        es2020: rootEsmFilePath,
+        main: rootCommonJsFilePath,
+        default: rootCommonJsFilePath
+      }
+    ]
   ];
-  const exports: PackageJsonExports = Object.fromEntries([topLevelExport].concat(exportsEntries));
+  const exports: PackageJsonExports = Object.fromEntries(topLevelExports.concat(exportsEntries));
 
   await buildPackageJson({
     currentPackageJsonPath: rootPackageJsonFilePath,
@@ -225,9 +242,14 @@ async function generatePackageJson(
       optionalDependencies: collectedDependencies,
       exports,
       sideEffects: false,
-      types: rootTypesFilePath,
-      main: rootCommonJsFilePath,
-      es2015: rootEsmFilePath
+      workspaces: [],
+      fesm2020: rootEsmFilePath,
+      fesm2015: rootEsmFilePath,
+      esm2020: rootEsmFilePath,
+      typings: rootTypesFilePath,
+      module: rootEsmFilePath,
+      es2020: rootEsmFilePath,
+      main: rootCommonJsFilePath
     }
   });
 }

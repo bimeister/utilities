@@ -1,4 +1,4 @@
-import type { Predicate } from '@workspaces/types';
+import type { Predicate } from '@bimeister/utilities.types';
 import { isNil } from './is-nil.function';
 
 export const isNonEmptyObject: Predicate<unknown> = (object: unknown): boolean => {

@@ -1,4 +1,4 @@
-import { isNil } from '@workspaces/common';
+import { isNil } from '@bimeister/utilities.common';
 import { fromEvent, Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 
