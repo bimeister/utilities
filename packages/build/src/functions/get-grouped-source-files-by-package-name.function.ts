@@ -15,7 +15,7 @@ export function getGroupedSourceFileDataByPackageName(sourceFilePaths: string[])
       }
 
       const filePathFromPackageSrc: string | undefined = getSubstringBetween(filePath, {
-        dropLeftPattern: new RegExp(/^.*\/packages\/\w*\/src/gm)
+        dropLeftPattern: new RegExp(/^.*\/packages\/[\w-]*\/src/gm)
       });
       if (filePathFromPackageSrc === undefined) {
         return null;
@@ -23,7 +23,7 @@ export function getGroupedSourceFileDataByPackageName(sourceFilePaths: string[])
 
       const fileName: string | undefined = getSubstringBetween(filePathFromPackageSrc, {
         dropLeftPattern: new RegExp(/^.*\//),
-        dropRightPattern: new RegExp(/\.\w*$/)
+        dropRightPattern: new RegExp(/\.[\w-]*$/)
       });
       if (fileName === undefined) {
         return null;

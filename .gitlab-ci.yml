@@ -6,7 +6,7 @@ default:
   tags:
     - docker-executor
   image:
-    name: node:16-slim
+    name: dockerhub.bimeister.io/proxy_cache/library/node:16-slim
     entrypoint: ['']
 
 stages:
@@ -102,7 +102,7 @@ NPM (dev):
     - cp ./.npmrc ./.npmignore ./LICENSE --target-directory ./dist/
     - node ./node_modules/@bimeister/build-cli/executable.js npm-package package-json-prepare
       --package_json_path="./dist/package.json" --commit_hash="${GIT_COMMIT_HASH}-dev"
-    - npm publish ./dist/ --tag="${TAG}" --access="public" --verbose
+    - npm publish ./dist/ --tag="${TAG}" --access="public"
 
 NPM (stable):
   stage: deploy

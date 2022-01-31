@@ -1,5 +1,3 @@
-import { ResizeObserver, ResizeObserverEntry } from '@juggle/resize-observer';
-import type { ResizeObserverOptions } from '@juggle/resize-observer/lib/ResizeObserverOptions';
 import { Observable, Subscriber } from 'rxjs';
 
 export function resizeObservable(

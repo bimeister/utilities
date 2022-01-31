@@ -1,4 +1,3 @@
-import { combinePromises } from '@bimeister/utilities.common';
 import { readdir } from 'fs/promises';
 import type { SortedPaths } from './../interfaces/sorted-paths.interface';
 import { getSortedPaths } from './get-sorted-paths.function';
@@ -13,7 +12,7 @@ export async function getAllNestedDirectoryPaths(directoryPath: string): Promise
     async (path: string) => await getAllNestedDirectoryPaths(path)
   );
 
-  const nestedLevelsDirectoryPaths: Promise<string[][]> = combinePromises(await nextLevelDirectoryPaths.flat(1));
+  const nestedLevelsDirectoryPaths: Promise<string[][]> = Promise.all(await nextLevelDirectoryPaths.flat(1));
 
   return nestedLevelsDirectoryPaths.then((paths: string[][]) => {
     const flattenedNestedPaths: string[] = paths.flat(1);

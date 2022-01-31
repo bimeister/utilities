@@ -8,9 +8,6 @@
   "dependencies": {
     "rxjs": "^6.6.0"
   },
-  "devDependencies": {
-    "@juggle/resize-observer": "^3.0.0"
-  },
   "exports": {
     ".": {
       "default": "./src/index.ts"
