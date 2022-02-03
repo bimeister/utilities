@@ -1,6 +1,6 @@
 /.*/
-/dist/
+/**/dist/**/
 /docs/
 /deploy/
-/node_modules/
+/**/node_modules/**/
 /coverage/

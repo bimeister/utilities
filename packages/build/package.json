@@ -2,7 +2,7 @@
   "name": "@bimeister/utilities.build",
   "private": true,
   "scripts": {
-    "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\""
+    "barrel": "barrelsby --config ./../barrelsby.json --directory ./src"
   },
   "dependencies": {
     "dts-bundle-generator": "^6.2.0",
