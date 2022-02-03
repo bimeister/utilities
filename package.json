@@ -15,10 +15,10 @@
     "lint:fix": "eslint --config ./.eslintrc ./packages/**/src/**/*.ts --fix",
     "test": "jest --clearCache && jest --config ./packages/jest.config.ts --passWithNoTests --coverage true",
     "test:ci": "jest --clearCache && jest --config ./packages/jest.config-pipeline.ts --passWithNoTests --coverage true --ci",
-    "prettier:check": "prettier --config ./.prettierrc --ignore-path ./.prettierignore --check \"./**/*.{json,js,ts}\"",
-    "prettier:format": "prettier --loglevel log --config ./.prettierrc --ignore-path ./.prettierignore --write \"./**/*.{json,js,ts}\"",
+    "prettier:check": "prettier --config ./.prettierrc --ignore-path ./.prettierignore --check ./**/*.{json,js,ts}",
+    "prettier:format": "prettier --loglevel log --config ./.prettierrc --ignore-path ./.prettierignore --write ./**/*.{json,js,ts}",
     "autofix": "npm run lint:fix && npm run prettier:format",
-    "cspell:check": "cspell \"packages/**/src/**/*.*\" --config=\"cspell.json\""
+    "cspell:check": "cspell lint './packages/**/*.*' --config cspell.json"
   },
   "optionalDependencies": {
     "@ngxs/store": "^3.0.0",
@@ -61,6 +61,7 @@
     "packages/interfaces",
     "packages/internal",
     "packages/ngxs",
+    "packages/performance",
     "packages/resize-observable",
     "packages/rxjs",
     "packages/traits",

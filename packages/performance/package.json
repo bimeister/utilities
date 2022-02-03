@@ -1,0 +1,12 @@
+{
+  "name": "@bimeister/utilities.performance",
+  "private": true,
+  "scripts": {
+    "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\""
+  },
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    }
+  }
+}
