@@ -26,8 +26,6 @@ export function buildBundleTypings(options: Partial<TypingsBuildConfig> = defaul
     libraries: config.librariesOptions,
     output: {
       noBanner: true
-      // inlineDeclareExternals: true,
-      // inlineDeclareGlobals: true
     }
   };
 

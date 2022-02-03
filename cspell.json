@@ -11,5 +11,6 @@
       "path": "./cspell.local-terms.txt"
     }
   ],
-  "import": ["./node_modules/cspell-dict-russian/cspell-ext.json"]
+  "import": ["./node_modules/cspell-dict-russian/cspell-ext.json"],
+  "words": ["barrelsby"]
 }

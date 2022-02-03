@@ -39,6 +39,7 @@
       "@bimeister/utilities.interfaces": ["./packages/interfaces/src/index.ts"],
       "@bimeister/utilities.internal": ["./packages/internal/src/index.ts"],
       "@bimeister/utilities.ngxs": ["./packages/ngxs/src/index.ts"],
+      "@bimeister/utilities.performance": ["./packages/performance/src/index.ts"],
       "@bimeister/utilities.resize-observable": ["./packages/resize-observable/src/index.ts"],
       "@bimeister/utilities.rxjs": ["./packages/rxjs/src/index.ts"],
       "@bimeister/utilities.traits": ["./packages/traits/src/index.ts"],

@@ -36,7 +36,7 @@ const esBuildConfig: BuildOptions = {
   legalComments: 'none'
 };
 const browserOnlyPackages: Set<string> = new Set<string>(['ngxs', 'resize-observable']);
-const nodeOnlyPackages: Set<string> = new Set<string>(['build', 'filesystem']);
+const nodeOnlyPackages: Set<string> = new Set<string>(['build', 'filesystem', 'performance']);
 const typesOnlyPackages: Set<string> = new Set<string>(['traits', 'types', 'interfaces']);
 const typeOnlyFileEndings: Set<string> = new Set<string>(
   ['type', 'interface', 'trait'].flatMap((prefix: string) => [`.${prefix}.ts`, `${prefix}s/index.ts`])
