@@ -1,7 +1,7 @@
-import type { ComparatorFunction } from '@bimeister/utilities.types';
+import type { Comparator } from '@bimeister/utilities.types';
 import { sortByProperty } from './sort-by-property.function';
 
-const customComparatorDateAscending: ComparatorFunction = <T>(a: T, b: T) => {
+const customComparatorDateAscending: Comparator = <T>(a: T, b: T) => {
   if (typeof a !== 'string' || typeof b !== 'string') {
     return 0;
   }
@@ -14,7 +14,7 @@ const customComparatorDateAscending: ComparatorFunction = <T>(a: T, b: T) => {
   return 0;
 };
 
-const customComparatorDateDescending: ComparatorFunction = <T>(a: T, b: T) => {
+const customComparatorDateDescending: Comparator = <T>(a: T, b: T) => {
   if (typeof a !== 'string' || typeof b !== 'string') {
     return 0;
   }

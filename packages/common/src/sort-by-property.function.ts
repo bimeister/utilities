@@ -1,15 +1,11 @@
-import type { ComparatorFunction } from '@bimeister/utilities.types';
+import type { Comparator } from '@bimeister/utilities.types';
 import { isNil } from './is-nil.function';
 import { isObjectKeyUsed } from './is-object-key-used.function';
 
 type SortDirection = 'ascending' | 'descending';
 
 /** @example property = 'property.property...' */
-export function sortByProperty<T extends object>(
-  array: T[],
-  property: keyof T | string,
-  comparator?: ComparatorFunction
-): T[];
+export function sortByProperty<T extends object>(array: T[], property: keyof T | string, comparator?: Comparator): T[];
 export function sortByProperty<T extends object, K extends SortDirection = 'ascending'>(
   array: T[],
   property: keyof T | string,
@@ -18,7 +14,7 @@ export function sortByProperty<T extends object, K extends SortDirection = 'asce
 export function sortByProperty<T extends object>(
   array: T[],
   property: keyof T | string,
-  sortDirectionOrComparator: SortDirection | ComparatorFunction = 'ascending'
+  sortDirectionOrComparator: SortDirection | Comparator = 'ascending'
 ): T[] {
   if (!Array.isArray(array)) {
     return array;
@@ -75,7 +71,7 @@ const extractDataByKeyPath = <T extends object>(entity: T, keyPath: string[]): a
   return extractedData.get(targetKey);
 };
 
-const ascendingCompare: ComparatorFunction = <T>(a: T, b: T): number => {
+const ascendingCompare: Comparator = <T>(a: T, b: T): number => {
   const [aProperty, bProperty]: [T, T] = convertPropertiesToCompare(a, b);
 
   if (aProperty < bProperty) {
@@ -87,7 +83,7 @@ const ascendingCompare: ComparatorFunction = <T>(a: T, b: T): number => {
   return 0;
 };
 
-const descendingCompare: ComparatorFunction = <T>(a: T, b: T): number => {
+const descendingCompare: Comparator = <T>(a: T, b: T): number => {
   const [aProperty, bProperty]: [T, T] = convertPropertiesToCompare(a, b);
 
   if (aProperty > bProperty) {
@@ -99,11 +95,7 @@ const descendingCompare: ComparatorFunction = <T>(a: T, b: T): number => {
   return 0;
 };
 
-const sortWithComparator = <T extends object>(
-  array: T[],
-  property: string | keyof T,
-  comparer: ComparatorFunction
-): T[] => {
+const sortWithComparator = <T extends object>(array: T[], property: string | keyof T, comparer: Comparator): T[] => {
   const sortedArray: T[] = [...array].sort((a: T, b: T): number => {
     const computedA: any = extractDataByNestedKey(a, property);
     const computedB: any = extractDataByNestedKey(b, property);
