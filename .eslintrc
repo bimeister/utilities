@@ -274,6 +274,10 @@
       {
         "name": "any",
         "message": "use only for testing purposes"
+      },
+      {
+        "name": "pluck",
+        "message": "will be removed in v8; use map((foo) => foo?.bar) instead"
       }
     ]
   }
