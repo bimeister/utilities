@@ -1,5 +1,4 @@
 /.*/
-!/.gitlab/
 /.vscode/
 coverage/
 /docs/
@@ -9,3 +8,4 @@ node_modules/
 *.log
 /packages/*/src/**/index.ts
 /packages/*/dist/
+!/.github/
