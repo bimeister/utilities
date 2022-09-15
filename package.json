@@ -5,11 +5,12 @@
   "description": "BIMeister utilities library",
   "repository": {
     "type": "git",
-    "url": "https://git.bimeister.io/common/utilities"
+    "url": "https://github.com/bimeister/utilities"
   },
   "scripts": {
     "barrel": "npm run barrel --workspaces",
     "build": "ts-node ./do-build.ts",
+    "prepublish": "ts-node do-prepublish.ts",
     "build:docs": "typedoc --options typedoc.json",
     "lint": "eslint --config ./.eslintrc ./packages/**/src/**/*.ts",
     "lint:fix": "eslint --config ./.eslintrc ./packages/**/src/**/*.ts --fix",

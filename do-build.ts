@@ -191,20 +191,20 @@ async function generatePackageJson(
 
       const exportsItem: PackageJsonExportsItem = typesOnlyPackages.has(packageName)
         ? {
-            typings: `${filePathWithoutExtension}.d.ts`
-          }
+          typings: `${filePathWithoutExtension}.d.ts`
+        }
         : {
-            import: `${filePathWithoutExtension}.mjs`,
-            require: `${filePathWithoutExtension}.cjs`,
-            fesm2020: `${filePathWithoutExtension}.mjs`,
-            fesm2015: `${filePathWithoutExtension}.mjs`,
-            esm2020: `${filePathWithoutExtension}.mjs`,
-            module: `${filePathWithoutExtension}.mjs`,
-            es2020: `${filePathWithoutExtension}.mjs`,
-            main: `${filePathWithoutExtension}.cjs`,
-            typings: `${filePathWithoutExtension}.d.ts`,
-            default: `${filePathWithoutExtension}.cjs`
-          };
+          import: `${filePathWithoutExtension}.mjs`,
+          require: `${filePathWithoutExtension}.cjs`,
+          fesm2020: `${filePathWithoutExtension}.mjs`,
+          fesm2015: `${filePathWithoutExtension}.mjs`,
+          esm2020: `${filePathWithoutExtension}.mjs`,
+          module: `${filePathWithoutExtension}.mjs`,
+          es2020: `${filePathWithoutExtension}.mjs`,
+          main: `${filePathWithoutExtension}.cjs`,
+          typings: `${filePathWithoutExtension}.d.ts`,
+          default: `${filePathWithoutExtension}.cjs`
+        };
 
       return [filePathWithoutExtension.replace('/index', ''), exportsItem];
     });
