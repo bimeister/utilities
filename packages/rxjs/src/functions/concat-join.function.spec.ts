@@ -1,10 +1,10 @@
-import { getShuffledArray } from '@bimeister/utilities.common';
-import { BehaviorSubject, Observable, of, timer } from 'rxjs';
-import { switchMapTo, take, withLatestFrom } from 'rxjs/operators';
-import { concatJoin } from './concat-join.function';
+import { getShuffledArray } from "@bimeister/utilities.common";
+import { BehaviorSubject, Observable, of, throwError, timer } from "rxjs";
+import { switchMapTo, take, withLatestFrom } from "rxjs/operators";
+import { concatJoin } from "./concat-join.function";
 
-describe('concat-join.function.ts', () => {
-  it('should never emit if nothing is passed', (done: jest.DoneCallback) => {
+describe("concat-join.function.ts", () => {
+  it("should never emit if nothing is passed", (done: jest.DoneCallback) => {
     const emitted$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     concatJoin().subscribe(() => emitted$.next(true));
 
@@ -15,6 +15,7 @@ describe('concat-join.function.ts', () => {
         done();
       });
   }, 10000);
+
 
   it('should emit items in sequence they passed', (done: jest.DoneCallback) => {
     const input: number[] = getShuffledArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -28,6 +29,13 @@ describe('concat-join.function.ts', () => {
         done();
       });
   }, 10000);
+
+  it('should emit items in sequence they passed', () => {
+    const input$: Observable<unknown>[] = [throwError('error')];
+    const errorFn: VoidFunction = jest.fn();
+    concatJoin(...input$).subscribe({error: errorFn});
+    expect(errorFn).toBeCalledTimes(1);
+  });
 
   it('should be completed after all emits', (done: jest.DoneCallback) => {
     const input: number[] = getShuffledArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);

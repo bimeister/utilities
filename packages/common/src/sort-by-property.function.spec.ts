@@ -97,7 +97,7 @@ describe('sort-by-property.function.ts', () => {
       { word: { is: { much: { deeper: { than: { you: { expected: 'lorem' } } } } } } },
       { word: { is: { much: { deeper: { than: { you: { expected: 'sit' } } } } } } }
     ];
-    expect(sortByProperty(unsortedDeepObjects, 'word.is.much.deeper.than.you.expected', 'ascending')).toEqual(
+    expect(sortByProperty(unsortedDeepObjects, 'word.is.much.deeper.than.you.expected')).toEqual(
       ascendingSortedObjects
     );
   });
@@ -127,6 +127,26 @@ describe('sort-by-property.function.ts', () => {
       { date: '2019-12-30T02:09:00' }
     ];
     expect(sortByProperty(unsortedDateList, 'date', customComparatorDateDescending)).toEqual(descendingSortedItems);
+  });
+
+  it('should descending sort by custom comparator', () => {
+    const unsortedDateList: object[] = [
+      { date: {full: '2021-12-30T02:09:00', short: '2021-12-30'}},
+      { date: {full: '2020-12-30T02:09:00', short: '2020-12-30'}},
+      { date: {full: '2019-12-30T02:09:00', short: '2019-12-30'}},
+      { date: {full: '2022-12-30T02:09:00', short: '2022-12-30'}},
+      { date: {full: '2023-12-30T02:09:00', short: '2023-12-30'}},
+    ];
+
+    const descendingSortedItems: object[] =[
+      { date: {full: '2023-12-30T02:09:00', short: '2023-12-30'}},
+      { date: {full: '2022-12-30T02:09:00', short: '2022-12-30'}},
+      { date: {full: '2021-12-30T02:09:00', short: '2021-12-30'}},
+      { date: {full: '2020-12-30T02:09:00', short: '2020-12-30'}},
+      { date: {full: '2019-12-30T02:09:00', short: '2019-12-30'}},
+    ]
+
+    expect(sortByProperty(unsortedDateList, 'date.full', customComparatorDateDescending)).toEqual(descendingSortedItems);
   });
 
   it('should ascending sort by custom comparator', () => {

@@ -21,6 +21,10 @@ describe('get-incremented-name.function.ts', () => {
   });
 
   it('should increment name if there is incremented name in namespace', () => {
-    expect(getIncrementedName(nameSample, [nameSample, incrementedNameSample])).toBe(incrementedTwiceNameSample);
+    expect(getIncrementedName(nameSample, [nameSample, incrementedNameSample, nameSample])).toBe(incrementedTwiceNameSample);
+  });
+
+  it('should increment name if there is incremented name in namespace', () => {
+    expect(getIncrementedName(nameSample, [nameSample, incrementedNameSample, `${NAME_MOCK} ()`])).toBe(incrementedTwiceNameSample);
   });
 });
