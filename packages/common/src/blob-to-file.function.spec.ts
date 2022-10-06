@@ -6,12 +6,12 @@ describe('blob-to-file.function.ts', () => {
   const sampleFileName: string = nameMock;
 
   it('should return file as instance of Blob object', () => {
-    const resultFile: unknown = blobToFile(sampleBlob, sampleFileName);
+    const resultFile: File = blobToFile(sampleBlob, sampleFileName);
     expect(resultFile instanceof Blob).toBe(true);
   });
 
   it('should return file as instance of File object', () => {
-    const resultFile: unknown = blobToFile(sampleBlob, sampleFileName);
+    const resultFile: File = blobToFile(sampleBlob, sampleFileName);
     expect(resultFile instanceof File).toBe(true);
   });
 
