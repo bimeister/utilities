@@ -15,4 +15,5 @@ const pipelineConfig: Config.InitialOptions = {
     ]
   ]
 };
+// eslint-disable-next-line import/no-default-export
 export default pipelineConfig;
