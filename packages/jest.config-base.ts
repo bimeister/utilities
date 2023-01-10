@@ -3,6 +3,7 @@ import type { Config } from '@jest/types';
 const transpilingOptions: Config.InitialOptions = {
   testTimeout: 10_000,
   transform: {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     '^.+\\.(ts)$': 'ts-jest'
   },
   preset: 'ts-jest',
@@ -22,6 +23,7 @@ const baseConfig: Config.InitialOptions = {
   rootDir: './',
   roots: ['<rootDir>/'],
   globals: {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     'ts-jest': {
       tsconfig: '<rootDir>/../tsconfig.test.json'
     }
@@ -69,8 +71,9 @@ const baseConfig: Config.InitialOptions = {
     '!**/build/**/*.ts', // except build utilities
     '!**/traits/**/*.ts', // except traits files
     '!**/performance/**/*.ts', // except performance files
-    '!**/index/**/*.ts', // except index files
+    '!**/index/**/*.ts' // except index files
   ]
 };
 
+// eslint-disable-next-line import/no-default-export
 export default baseConfig;

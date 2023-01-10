@@ -1,14 +1,16 @@
 {
   "entryPoints": [
-    "./packages/common/index.ts",
-    "./packages/constants/index.ts",
-    "./packages/index/index.ts",
-    "./packages/interfaces/index.ts",
-    "./packages/internal/index.ts",
-    "./packages/ngxs/index.ts",
-    "./packages/resize-observable/index.ts",
-    "./packages/rxjs/index.ts",
-    "./packages/types/index.ts"
+    "./packages/build/src/index.ts",
+    "./packages/common/src/index.ts",
+    "./packages/constants/src/index.ts",
+    "./packages/filesystem/src/index.ts",
+    "./packages/interfaces/src/index.ts",
+    "./packages/internal/src/index.ts",
+    "./packages/performance/src/index.ts",
+    "./packages/resize-observable/src/index.ts",
+    "./packages/rxjs/src/index.ts",
+    "./packages/traits/src/index.ts",
+    "./packages/types/src/index.ts"
   ],
   "entryPointStrategy": "expand",
   "out": "docs",

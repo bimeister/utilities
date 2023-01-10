@@ -10,7 +10,7 @@ import {
   SourceFileData
 } from '@bimeister/utilities.build';
 import { getAllNestedFilePaths } from '@bimeister/utilities.filesystem';
-import { build, BuildOptions } from 'esbuild';
+import { build, BuildOptions, BuildResult } from 'esbuild';
 import { readFile, rm } from 'fs/promises';
 
 const distFolderPath: string = `${__dirname}/dist`;
@@ -57,54 +57,61 @@ getAllNestedFilePaths(packagesFolderPath).then((sourceFilePaths: string[]) => {
     .then(() => generatePackageJson(sourceFilePaths, sourceFilesDataByPackageName));
 });
 
-async function generateBundle(sourceFilesDataByPackageName: Map<string, SourceFileData[]>): Promise<void> {
-  sourceFilesDataByPackageName.forEach(async (filesData: SourceFileData[], packageName: string) => {
-    if (typesOnlyPackages.has(packageName) || packageName === 'internal') {
-      return;
-    }
+function generateBundle(
+  sourceFilesDataByPackageName: Map<string, SourceFileData[]>
+): Promise<(BuildResult | undefined)[]> {
+  return Promise.all(
+    Array.from(sourceFilesDataByPackageName)
+      .map(([packageName, filesData]: [string, SourceFileData[]]) => {
+        if (typesOnlyPackages.has(packageName) || packageName === 'internal') {
+          return;
+        }
 
-    const entryPoints: string[] = filesData
-      .map((fileData: SourceFileData) => fileData.filePath)
-      .filter((filePath: string) => {
-        const invalidEndings: string[] = Array.from(typeOnlyFileEndings);
-        const isTypeOnlyFile: boolean = invalidEndings.some((ending: string) => filePath.endsWith(ending));
-        return !isTypeOnlyFile;
-      });
-    const buildConfig: BuildOptions = {
-      ...esBuildConfig,
-      outdir: `${distFolderPath}/${packageName}/`,
-      entryPoints
-    };
+        const entryPoints: string[] = filesData
+          .map((fileData: SourceFileData) => fileData.filePath)
+          .filter((filePath: string) => {
+            const invalidEndings: string[] = Array.from(typeOnlyFileEndings);
+            const isTypeOnlyFile: boolean = invalidEndings.some((ending: string) => filePath.endsWith(ending));
+            return !isTypeOnlyFile;
+          });
+        const buildConfig: BuildOptions = {
+          ...esBuildConfig,
+          outdir: `${distFolderPath}/${packageName}/`,
+          entryPoints
+        };
 
-    if (browserOnlyPackages.has(packageName)) {
-      Object.assign(buildConfig, {
-        platform: 'browser'
-      });
-    }
+        if (browserOnlyPackages.has(packageName)) {
+          Object.assign(buildConfig, {
+            platform: 'browser'
+          });
+        }
 
-    if (nodeOnlyPackages.has(packageName)) {
-      Object.assign(buildConfig, {
-        platform: 'node'
-      });
-    }
+        if (nodeOnlyPackages.has(packageName)) {
+          Object.assign(buildConfig, {
+            platform: 'node'
+          });
+        }
 
-    const commonJsConfig: BuildOptions = {
-      ...buildConfig,
-      splitting: false,
-      format: 'cjs',
-      outExtension: { '.js': '.cjs' }
-    };
+        const commonJsConfig: BuildOptions = {
+          ...buildConfig,
+          splitting: false,
+          format: 'cjs',
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          outExtension: { '.js': '.cjs' }
+        };
 
-    const esModuleConfig: BuildOptions = {
-      ...buildConfig,
-      splitting: true,
-      format: 'esm',
-      outExtension: { '.js': '.mjs' }
-    };
+        const esModuleConfig: BuildOptions = {
+          ...buildConfig,
+          splitting: true,
+          format: 'esm',
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          outExtension: { '.js': '.mjs' }
+        };
 
-    await build(commonJsConfig);
-    await build(esModuleConfig);
-  });
+        return [build(commonJsConfig), build(esModuleConfig)];
+      })
+      .flat(1)
+  );
 }
 
 async function generateTypings(sourceFilesDataByPackageName: Map<string, SourceFileData[]>): Promise<void> {
@@ -191,20 +198,20 @@ async function generatePackageJson(
 
       const exportsItem: PackageJsonExportsItem = typesOnlyPackages.has(packageName)
         ? {
-          typings: `${filePathWithoutExtension}.d.ts`
-        }
+            typings: `${filePathWithoutExtension}.d.ts`
+          }
         : {
-          import: `${filePathWithoutExtension}.mjs`,
-          require: `${filePathWithoutExtension}.cjs`,
-          fesm2020: `${filePathWithoutExtension}.mjs`,
-          fesm2015: `${filePathWithoutExtension}.mjs`,
-          esm2020: `${filePathWithoutExtension}.mjs`,
-          module: `${filePathWithoutExtension}.mjs`,
-          es2020: `${filePathWithoutExtension}.mjs`,
-          main: `${filePathWithoutExtension}.cjs`,
-          typings: `${filePathWithoutExtension}.d.ts`,
-          default: `${filePathWithoutExtension}.cjs`
-        };
+            import: `${filePathWithoutExtension}.mjs`,
+            require: `${filePathWithoutExtension}.cjs`,
+            fesm2020: `${filePathWithoutExtension}.mjs`,
+            fesm2015: `${filePathWithoutExtension}.mjs`,
+            esm2020: `${filePathWithoutExtension}.mjs`,
+            module: `${filePathWithoutExtension}.mjs`,
+            es2020: `${filePathWithoutExtension}.mjs`,
+            main: `${filePathWithoutExtension}.cjs`,
+            typings: `${filePathWithoutExtension}.d.ts`,
+            default: `${filePathWithoutExtension}.cjs`
+          };
 
       return [filePathWithoutExtension.replace('/index', ''), exportsItem];
     });
