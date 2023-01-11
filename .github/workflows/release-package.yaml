@@ -1,4 +1,4 @@
-name: Run Checks
+name: Release Package
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
       - name: Share prepared workspace with other jobs
         uses: actions/cache@v3
         with:
-          name: workspace
+          key: "workspace:${{github.sha}}"
           path: workspace.tar
 
   static_files:
@@ -40,7 +40,7 @@ jobs:
       - name: Download prepared workspace
         uses: actions/cache@v3
         with:
-          key: workspace
+          key: "workspace:${{github.sha}}"
           path: workspace.tar
 
       - name: Restore workspace from archive
@@ -53,9 +53,9 @@ jobs:
         run: tar --totals --create --file dist.tar ./
 
       - name: Share prepared workspace with other jobs
-        uses: actions/upload-artifact@v3
+        uses: actions/cache@v3
         with:
-          name: dist
+          name: "dist:${{github.sha}}"
           path: dist.tar
 
   publish:
@@ -64,9 +64,10 @@ jobs:
     needs: [ static_files ]
     steps:
       - name: Download prepared dist
-        uses: actions/download-artifact@v3
+        uses: actions/cache@v3
         with:
-          name: dist
+          key: "dist:${{github.sha}}"
+          path: dist.tar
 
       - name: Restore dist from archive
         run: tar --totals --extract --file dist.tar && rm --force dist.tar
