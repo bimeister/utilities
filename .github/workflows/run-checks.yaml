@@ -26,14 +26,11 @@ jobs:
       - name: Generate Public API
         run: npm run barrel
 
-      - name: Pack prepared workspace to archive
-        run: tar --totals --create --file workspace.tar ./
-
       - name: Share prepared workspace with other jobs
         uses: actions/cache@v3
         with:
           key: "workspace:${{github.sha}}"
-          path: workspace.tar
+          path: ./
 
   static_files:
     name: Build Static Files
@@ -44,9 +41,8 @@ jobs:
         uses: actions/cache@v3
         with:
           key: "workspace:${{github.sha}}"
-          path: workspace.tar
-      - name: Restore workspace from archive
-        run: tar --totals --extract --file workspace.tar && rm --force workspace.tar
+          path: ./
+     
       - name: Build static files
         run: npm run build
 
@@ -59,9 +55,8 @@ jobs:
         uses: actions/cache@v3
         with:
           key: "workspace:${{github.sha}}"
-          path: workspace.tar
-      - name: Restore workspace from archive
-        run: tar --totals --extract --file workspace.tar && rm --force workspace.tar
+          path: ./
+      
       - name: Lint sources
         run: npm run lint
 
@@ -74,9 +69,8 @@ jobs:
         uses: actions/cache@v3
         with:
           key: "workspace:${{github.sha}}"
-          path: workspace.tar
-      - name: Restore workspace from archive
-        run: tar --totals --extract --file workspace.tar && rm --force workspace.tar
+          path: ./
+      
       - name: Check spelling in sources
         run: npm run cspell:check
 
@@ -89,9 +83,8 @@ jobs:
         uses: actions/cache@v3
         with:
           key: "workspace:${{github.sha}}"
-          path: workspace.tar
-      - name: Restore workspace from archive
-        run: tar --totals --extract --file workspace.tar && rm --force workspace.tar
+          path: ./
+      
       - name: Check codestyle
         run: npm run prettier:check
 

@@ -35,7 +35,7 @@ async function createPackageJson(): Promise<void> {
 
   const updatedProperVersion: string = isNil(GIT_COMMIT_HASH)
     ? currentProperVersion
-    : `${currentProperVersion}-${GIT_COMMIT_HASH}`;
+    : `${currentProperVersion}-${GIT_COMMIT_HASH.slice(0, 8)}`;
   contentValueByKey.set('version', updatedProperVersion);
 
   const updatedContent: object = Object.fromEntries(contentValueByKey.entries());
