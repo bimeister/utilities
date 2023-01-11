@@ -19,19 +19,19 @@ describe('get-array-unique-elements.function.ts', () => {
 
   it('should return array of same type', () => {
     const booleanArray: boolean[] = [true, false];
-    getArrayUniqueElements(booleanArray).every(resultItem => expect(typeof resultItem).toBe('boolean'));
+    getArrayUniqueElements(booleanArray).every((resultItem) => expect(typeof resultItem).toBe('boolean'));
 
     const numberArray: number[] = [-Infinity, -2, -1, 0, 1, 2, Infinity];
-    getArrayUniqueElements(numberArray).every(resultItem => expect(typeof resultItem).toBe('number'));
+    getArrayUniqueElements(numberArray).every((resultItem) => expect(typeof resultItem).toBe('number'));
 
     const stringArray: string[] = ['aaa', 'bbb', 'ccc'];
-    getArrayUniqueElements(stringArray).every(resultItem => expect(typeof resultItem).toBe('string'));
+    getArrayUniqueElements(stringArray).every((resultItem) => expect(typeof resultItem).toBe('string'));
 
     const objectArray: (object & { id: number })[] = [{ id: 1 }, { id: 2 }, { id: 3 }];
-    getArrayUniqueElements(objectArray, 'id').every(resultItem => expect(typeof resultItem).toBe('object'));
+    getArrayUniqueElements(objectArray, 'id').every((resultItem) => expect(typeof resultItem).toBe('object'));
 
     const arrayArray: (object & { length: number })[] = [[], [], []];
-    getArrayUniqueElements(arrayArray, 'length').every(resultItem => expect(typeof resultItem).toBe('object'));
+    getArrayUniqueElements(arrayArray, 'length').every((resultItem) => expect(typeof resultItem).toBe('object'));
   });
 
   it('should correctly remove primitive duplicates', () => {
