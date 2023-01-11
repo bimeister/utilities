@@ -1,38 +1,42 @@
 import { env } from 'process';
-import { copyFile, readFile, writeFile } from 'fs/promises';
+import { copyFile, mkdir, readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { isEmpty } from '@bimeister/utilities.common';
+import { existsSync } from 'fs';
 
 const NPM_AUTH_TOKEN: string = `${env.AUTH_TOKEN}`;
 const GIT_COMMIT_HASH: string = `${env.GIT_COMMIT_HASH}`;
 const CURRENT_LOCATION: string = `${__dirname}`;
 
+function createDistFolder(): Promise<string | undefined> {
+  return mkdir('./dist', { recursive: true });
+}
+
 async function createNpmRc(): Promise<void> {
   const npmrcPath: string = './.npmrc';
   const authToken: string = `${NPM_AUTH_TOKEN}`;
   const orgEmail: string = 'info@bimeister.com';
-  const registry: string = `https://npm.pkg.github.com/:_authToken=${{authToken}}`;
+  const registry: string = `https://npm.pkg.github.com/:_authToken=${{ authToken }}`;
 
   const npmRcPath: string = join(CURRENT_LOCATION, npmrcPath);
   const npmRcContentLines: string[] = await readFile(npmRcPath, 'utf-8').then((content: string) =>
     content.split(/\r?\n/)
   );
 
-  const currentContentEntries: [string, string][] = npmRcContentLines
-    .map((line: string): [string, string] => {
-      const dividedLine: string[] = line.split('=');
+  const currentContentEntries: [string, string][] = npmRcContentLines.map((line: string): [string, string] => {
+    const dividedLine: string[] = line.split('=');
 
-      const invalidKeyValuePair: boolean = dividedLine.length !== 2;
-      if (invalidKeyValuePair) {
-        return ["", ""];
-      }
+    const invalidKeyValuePair: boolean = dividedLine.length !== 2;
+    if (invalidKeyValuePair) {
+      return ['', ''];
+    }
 
-      const [rawKey, rawValue]: string[] = dividedLine;
-      const key: string = String(rawKey).trim();
-      const value: string = String(rawValue).trim();
+    const [rawKey, rawValue]: string[] = dividedLine;
+    const key: string = String(rawKey).trim();
+    const value: string = String(rawValue).trim();
 
-      return [key, value];
-    });
+    return [key, value];
+  });
 
   const currentContentValueByKey: Map<string, string> = new Map<string, string>(currentContentEntries);
 
@@ -46,27 +50,32 @@ async function createNpmRc(): Promise<void> {
     .replace('https://', '');
   currentContentValueByKey.set(`//${processedSourceRegistry}:_authToken`, authToken);
 
-    currentContentValueByKey.forEach((_: string, key: string) => {
-      const isScopedRegistry: boolean = key.startsWith('@');
-      if (!isScopedRegistry) {
-        return;
-      }
-      currentContentValueByKey.delete(key);
-    });
+  currentContentValueByKey.forEach((_: string, key: string) => {
+    const isScopedRegistry: boolean = key.startsWith('@');
+    if (!isScopedRegistry) {
+      return;
+    }
+    currentContentValueByKey.delete(key);
+  });
 
   const updatedContent: string = Array.from(currentContentValueByKey.entries())
     .map(([key, value]: [string, string]) => `${key} = ${value}`)
     .join('\n');
 
-  await writeFile(`${CURRENT_LOCATION}/dist/${npmrcPath}`, updatedContent);
+  return writeFile(`${CURRENT_LOCATION}/dist/${npmrcPath}`, updatedContent);
 }
 
 async function createPackageJson(): Promise<void> {
   const commitHash: string = `${GIT_COMMIT_HASH}`;
-  const packageJsonPath: string = './dist/package.json';
+  const packageJsonPath: string = 'dist/package.json';
+  const targetPackageJsonPath: string = `${CURRENT_LOCATION}/${packageJsonPath}`;
 
-  const currentContent: object = await readFile(`${CURRENT_LOCATION}/${packageJsonPath}`, 'utf-8').then(
-    (content: string) => (isEmpty(content) ? {} : JSON.parse(content))
+  if (!existsSync(targetPackageJsonPath)) {
+    throw new Error(`Looks like you forgot run build first. Path ${targetPackageJsonPath} does not exist.`);
+  }
+
+  const currentContent: object = await readFile(targetPackageJsonPath, 'utf-8').then((content: string) =>
+    Boolean(isEmpty(content)) ? {} : JSON.parse(content)
   );
   const currentContentEntries: [string, unknown][] = Object.entries(currentContent);
 
@@ -80,12 +89,14 @@ async function createPackageJson(): Promise<void> {
 
   const updatedContent: object = Object.fromEntries(contentValueByKey.entries());
 
-  await writeFile(`${CURRENT_LOCATION}/${packageJsonPath}`, JSON.stringify(updatedContent));
+  return writeFile(targetPackageJsonPath, JSON.stringify(updatedContent));
 }
 
-  Promise.resolve()
-    .then(() => copyFile('./.npmrc', './dist/.npmrc'))
-    .then(() => copyFile('./.npmignore', './dist/.npmignore'))
-    .then(() => copyFile('./LICENSE', './dist/LICENSE'))
-    .then(() => createNpmRc())
-    .then(() => createPackageJson());
+Promise.resolve()
+  .then(() => createDistFolder())
+  .then(() => copyFile('./.npmrc', './dist/.npmrc'))
+  .then(() => copyFile('./.npmignore', './dist/.npmignore'))
+  .then(() => copyFile('./LICENSE.md', './dist/LICENSE.md'))
+  .then(() => createNpmRc())
+  .then(() => createPackageJson())
+  .catch((error: unknown) => console.warn(error));
