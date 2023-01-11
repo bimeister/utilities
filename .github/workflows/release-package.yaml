@@ -3,14 +3,10 @@ name: Run Checks
 on:
   push:
     branches:
-      - '**'
+      - 'main'
   pull_request:
     branches:
       - $default-branch
-
-env:
-  GIT_COMMIT_HASH: ${{github.sha}}
-  AUTH_TOKEN: ${GITHUB_TOKEN}
 
 jobs:
   install_dependencies:
@@ -21,16 +17,20 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16.15.1
+          node-version: 18
           cache: 'npm'
+
       - name: Install dependencies by lockfile
         run: npm clean-install
+
       - name: Generate Public API
         run: npm run barrel
+
       - name: Pack prepared workspace to archive
         run: tar --totals --create --file workspace.tar ./
+
       - name: Share prepared workspace with other jobs
-        uses: actions/upload-artifact@v3
+        uses: actions/cache@v3
         with:
           name: workspace
           path: workspace.tar
@@ -41,15 +41,20 @@ jobs:
     needs: [ install_dependencies ]
     steps:
       - name: Download prepared workspace
-        uses: actions/download-artifact@v3
+        uses: actions/cache@v3
         with:
-          name: workspace
+          key: workspace
+          path: workspace.tar
+
       - name: Restore workspace from archive
         run: tar --totals --extract --file workspace.tar && rm --force workspace.tar
+
       - name: Build static files
         run: npm run build
+
       - name: Pack static files to archive
         run: tar --totals --create --file dist.tar ./
+
       - name: Share prepared workspace with other jobs
         uses: actions/upload-artifact@v3
         with:
@@ -65,18 +70,23 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
+
       - name: Restore dist from archive
         run: tar --totals --extract --file dist.tar && rm --force dist.tar
+
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           always-auth: true
-          node-version: 16.15.1
-          registry-url: https://github.com/bimeister/utilities
-          scope: '@bimeister'
+          node-version: 18
+
       - name: Do prepublish
-        run: npm run prepublish
+        run: npm run build:prepublish
+        env:
+          NODE_AUTH_TOKEN: ${NPM_DEPLOY_TOKEN}
+          GIT_COMMIT_HASH: ${{github.sha}}
+        
       - name: Publish
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${AUTH_TOKEN}
+          NODE_AUTH_TOKEN: ${NPM_DEPLOY_TOKEN}

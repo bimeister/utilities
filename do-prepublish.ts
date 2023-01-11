@@ -4,7 +4,7 @@ import { join } from 'path';
 import { isEmpty } from '@bimeister/utilities.common';
 import { existsSync } from 'fs';
 
-const NPM_AUTH_TOKEN: string = `${env.AUTH_TOKEN}`;
+const NODE_AUTH_TOKEN: string = `${env.NODE_AUTH_TOKEN}`;
 const GIT_COMMIT_HASH: string = `${env.GIT_COMMIT_HASH}`;
 const CURRENT_LOCATION: string = `${__dirname}`;
 
@@ -14,9 +14,8 @@ function createDistFolder(): Promise<string | undefined> {
 
 async function createNpmRc(): Promise<void> {
   const npmrcPath: string = './.npmrc';
-  const authToken: string = `${NPM_AUTH_TOKEN}`;
   const orgEmail: string = 'info@bimeister.com';
-  const registry: string = `https://npm.pkg.github.com/:_authToken=${{ authToken }}`;
+  const registry: string = `//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}`;
 
   const npmRcPath: string = join(CURRENT_LOCATION, npmrcPath);
   const npmRcContentLines: string[] = await readFile(npmRcPath, 'utf-8').then((content: string) =>
@@ -40,7 +39,7 @@ async function createNpmRc(): Promise<void> {
 
   const currentContentValueByKey: Map<string, string> = new Map<string, string>(currentContentEntries);
 
-  currentContentValueByKey.set('_auth', authToken);
+  currentContentValueByKey.set('_auth', NODE_AUTH_TOKEN);
   currentContentValueByKey.set('email', orgEmail);
 
   const sourceRegistryWithTrailingSlash: string = registry.endsWith('/') ? registry : `${registry}/`;
@@ -48,7 +47,7 @@ async function createNpmRc(): Promise<void> {
   const processedSourceRegistry: string = sourceRegistryWithTrailingSlash
     .replace('http://', '')
     .replace('https://', '');
-  currentContentValueByKey.set(`//${processedSourceRegistry}:_authToken`, authToken);
+  currentContentValueByKey.set(`//${processedSourceRegistry}:_authToken`, NODE_AUTH_TOKEN);
 
   currentContentValueByKey.forEach((_: string, key: string) => {
     const isScopedRegistry: boolean = key.startsWith('@');

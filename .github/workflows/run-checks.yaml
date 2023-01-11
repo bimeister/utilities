@@ -3,13 +3,10 @@ name: Run Checks
 on:
   push:
     branches:
-      - '**'
+      - 'main'
   pull_request:
     branches:
       - $default-branch
-
-env:
-  GIT_COMMIT_HASH: ${{github.sha}}
 
 jobs:
   install_dependencies:
@@ -52,14 +49,6 @@ jobs:
         run: tar --totals --extract --file workspace.tar && rm --force workspace.tar
       - name: Build static files
         run: npm run build
-      - name: Pack static files to archive
-        run: tar --totals --create --file dist.tar ./dist
-      - name: Share prepared workspace with other jobs
-        uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          path: dist.tar
-
 
   run_lint:
     name: Lint
