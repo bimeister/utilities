@@ -69,7 +69,7 @@ const baseConfig: Config.InitialOptions = {
     '!**/build/**/*.ts', // except build utilities
     '!**/traits/**/*.ts', // except traits files
     '!**/performance/**/*.ts', // except performance files
-    '!**/index/**/*.ts', // except index files
+    '!**/index/**/*.ts' // except index files
   ]
 };
 

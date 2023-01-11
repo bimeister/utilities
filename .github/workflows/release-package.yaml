@@ -1,16 +1,9 @@
-name: Run Checks
+name: Release Package
 
 on:
   push:
     branches:
-      - '**'
-  pull_request:
-    branches:
-      - $default-branch
-
-env:
-  GIT_COMMIT_HASH: ${{github.sha}}
-  AUTH_TOKEN: ${GITHUB_TOKEN}
+      - 'main'
 
 jobs:
   install_dependencies:
@@ -21,18 +14,22 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16.15.1
+          node-version: 18
           cache: 'npm'
+
       - name: Install dependencies by lockfile
         run: npm clean-install
+
       - name: Generate Public API
         run: npm run barrel
+
       - name: Pack prepared workspace to archive
         run: tar --totals --create --file workspace.tar ./
+
       - name: Share prepared workspace with other jobs
-        uses: actions/upload-artifact@v3
+        uses: actions/cache@v3
         with:
-          name: workspace
+          key: "workspace:${{github.sha}}"
           path: workspace.tar
 
   static_files:
@@ -41,19 +38,24 @@ jobs:
     needs: [ install_dependencies ]
     steps:
       - name: Download prepared workspace
-        uses: actions/download-artifact@v3
+        uses: actions/cache@v3
         with:
-          name: workspace
+          key: "workspace:${{github.sha}}"
+          path: workspace.tar
+
       - name: Restore workspace from archive
         run: tar --totals --extract --file workspace.tar && rm --force workspace.tar
+
       - name: Build static files
         run: npm run build
+
       - name: Pack static files to archive
         run: tar --totals --create --file dist.tar ./
+
       - name: Share prepared workspace with other jobs
-        uses: actions/upload-artifact@v3
+        uses: actions/cache@v3
         with:
-          name: dist
+          key: "dist:${{github.sha}}"
           path: dist.tar
 
   publish:
@@ -62,21 +64,27 @@ jobs:
     needs: [ static_files ]
     steps:
       - name: Download prepared dist
-        uses: actions/download-artifact@v3
+        uses: actions/cache@v3
         with:
-          name: dist
+          key: "dist:${{github.sha}}"
+          path: dist.tar
+
       - name: Restore dist from archive
         run: tar --totals --extract --file dist.tar && rm --force dist.tar
+
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           always-auth: true
-          node-version: 16.15.1
-          registry-url: https://github.com/bimeister/utilities
-          scope: '@bimeister'
+          node-version: 18
+
+      - name: 'Authorize to NPM Registry'
+        run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_DEPLOY_TOKEN}}" >> dist/.npmrc
+
       - name: Do prepublish
-        run: npm run prepublish
-      - name: Publish
-        run: npm publish
+        run: npm run build:prepublish
         env:
-          NODE_AUTH_TOKEN: ${AUTH_TOKEN}
+          GIT_COMMIT_HASH: ${{github.sha}}
+        
+      - name: Publish
+        run: cd dist && npm publish --access public
