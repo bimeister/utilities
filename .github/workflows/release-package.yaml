@@ -85,6 +85,9 @@ jobs:
         run: npm run build:prepublish
         env:
           GIT_COMMIT_HASH: ${{github.sha}}
+
+      - name: Logs
+        run: cat dist/.npmrc
         
       - name: Publish
         run: cd dist && npm publish --access public
