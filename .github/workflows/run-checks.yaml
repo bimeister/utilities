@@ -10,7 +10,6 @@ on:
 
 env:
   GIT_COMMIT_HASH: ${{github.sha}}
-  AUTH_TOKEN: ${{GITHUB_TOKEN}}
 
 jobs:
   install_dependencies:
