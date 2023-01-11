@@ -21,18 +21,22 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16.15.1
+          node-version: latest
           cache: 'npm'
+
       - name: Install dependencies by lockfile
         run: npm clean-install
+
       - name: Generate Public API
         run: npm run barrel
+
       - name: Pack prepared workspace to archive
         run: tar --totals --create --file workspace.tar ./
+
       - name: Share prepared workspace with other jobs
-        uses: actions/upload-artifact@v3
+        uses: actions/cache@v3
         with:
-          name: workspace
+          key: workspace
           path: workspace.tar
 
   static_files:
@@ -41,9 +45,10 @@ jobs:
     needs: [ install_dependencies ]
     steps:
       - name: Download prepared workspace
-        uses: actions/download-artifact@v3
+        uses: actions/cache@v3
         with:
-          name: workspace
+          key: workspace
+          path: workspace.tar
       - name: Restore workspace from archive
         run: tar --totals --extract --file workspace.tar && rm --force workspace.tar
       - name: Build static files
@@ -63,9 +68,10 @@ jobs:
     needs: [ install_dependencies ]
     steps:
       - name: Download prepared workspace
-        uses: actions/download-artifact@v3
+        uses: actions/cache@v3
         with:
-          name: workspace
+          key: workspace
+          path: workspace.tar
       - name: Restore workspace from archive
         run: tar --totals --extract --file workspace.tar && rm --force workspace.tar
       - name: Lint sources
@@ -77,9 +83,10 @@ jobs:
     needs: [ install_dependencies ]
     steps:
       - name: Download prepared workspace
-        uses: actions/download-artifact@v3
+        uses: actions/cache@v3
         with:
-          name: workspace
+          key: workspace
+          path: workspace.tar
       - name: Restore workspace from archive
         run: tar --totals --extract --file workspace.tar && rm --force workspace.tar
       - name: Check spelling in sources
@@ -91,9 +98,10 @@ jobs:
     needs: [ install_dependencies ]
     steps:
       - name: Download prepared workspace
-        uses: actions/download-artifact@v3
+        uses: actions/cache@v3
         with:
-          name: workspace
+          key: workspace
+          path: workspace.tar
       - name: Restore workspace from archive
         run: tar --totals --extract --file workspace.tar && rm --force workspace.tar
       - name: Check codestyle
