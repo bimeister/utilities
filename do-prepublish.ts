@@ -37,7 +37,8 @@ async function createPackageJson(): Promise<void> {
   const metadataSuffix: string = IS_DEV_PUBLISH ? 'dev' : 'stable';
   const updatedProperVersion: string = isNil(GIT_COMMIT_HASH)
     ? currentProperVersion
-    : `${currentProperVersion}-${metadataSuffix}+${GIT_COMMIT_HASH.slice(0, 8)}`;
+    : `${currentProperVersion}-${metadataSuffix}.sha${GIT_COMMIT_HASH.slice(0, 8)}`;
+
   contentValueByKey.set('version', updatedProperVersion);
 
   const updatedContent: object = Object.fromEntries(contentValueByKey.entries());
