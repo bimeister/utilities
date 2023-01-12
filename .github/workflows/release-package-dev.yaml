@@ -1,0 +1,82 @@
+name: Release Package Dev
+
+on: workflow_dispatch
+
+jobs:
+  install_dependencies:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies by lockfile
+        run: npm clean-install
+
+      - name: Generate Public API
+        run: npm run barrel
+
+      - name: Share prepared workspace with other jobs
+        uses: actions/cache@v3
+        with:
+          key: "workspace:${{github.sha}}"
+          path: ./
+
+  static_files:
+    name: Build Static Files
+    runs-on: ubuntu-latest
+    needs: [ install_dependencies ]
+    steps:
+      - name: Download prepared workspace
+        uses: actions/cache@v3
+        with:
+          key: "workspace:${{github.sha}}"
+          path: ./
+
+      - name: Build static files
+        run: npm run build
+
+      - name: Share prepared dist with other jobs
+        uses: actions/cache@v3
+        with:
+          key: "dist:${{github.sha}}"
+          path: ./dist
+
+  publish:
+    name: Run publish
+    runs-on: ubuntu-latest
+    needs: [ static_files ]
+    steps:
+      - name: Download prepared workspace
+        uses: actions/cache@v3
+        with:
+          key: "workspace:${{github.sha}}"
+          path: ./
+
+      - name: Download prepared dist
+        uses: actions/cache@v3
+        with:
+          key: "dist:${{github.sha}}"
+          path: ./dist
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          always-auth: true
+          node-version: 18
+
+      - name: 'Authorize to NPM Registry'
+        run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_DEPLOY_TOKEN}}" >> dist/.npmrc
+
+      - name: Do prepublish
+        run: npm run build:prepublish
+        env:
+          GIT_COMMIT_HASH: ${{github.sha}}
+          IS_DEV_PUBLISH: true
+        
+      - name: Publish
+        run: cd dist && npm publish --access public
