@@ -3,6 +3,7 @@ import { copyFile, mkdir, readFile, writeFile } from 'fs/promises';
 import { isEmpty, isNil } from '@bimeister/utilities.common';
 import { existsSync } from 'fs';
 
+const IS_DEV_PUBLISH: boolean = Boolean(env.IS_DEV_PUBLISH);
 const GIT_COMMIT_HASH: string | undefined = env.GIT_COMMIT_HASH;
 const CURRENT_LOCATION: string = `${__dirname}`;
 
@@ -33,9 +34,10 @@ async function createPackageJson(): Promise<void> {
     throw new Error('Package.json version is not a string');
   }
 
+  const metadataSuffix: string = IS_DEV_PUBLISH ? 'dev' : 'stable';
   const updatedProperVersion: string = isNil(GIT_COMMIT_HASH)
     ? currentProperVersion
-    : `${currentProperVersion}-${GIT_COMMIT_HASH.slice(0, 8)}`;
+    : `${currentProperVersion}-${metadataSuffix}+${GIT_COMMIT_HASH.slice(0, 8)}`;
   contentValueByKey.set('version', updatedProperVersion);
 
   const updatedContent: object = Object.fromEntries(contentValueByKey.entries());
