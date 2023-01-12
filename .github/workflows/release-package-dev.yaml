@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
@@ -73,7 +75,9 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_DEPLOY_TOKEN}}" >> dist/.npmrc
 
       - name: Do prepublish
-        run: npm run build:prepublish
+        run: |
+          export VERSION=$(git describe --abbrev=0 --tags)
+          npm run build:prepublish
         env:
           GIT_COMMIT_HASH: ${{github.sha}}
           IS_DEV_PUBLISH: true

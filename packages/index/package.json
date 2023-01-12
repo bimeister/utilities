@@ -1,6 +1,7 @@
 {
   "name": "@bimeister/utilities.index",
   "private": true,
+  "version": "local",
   "exports": {
     ".": {
       "default": "./src/public-api.ts"

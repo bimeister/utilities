@@ -1,6 +1,7 @@
 {
   "name": "@bimeister/utilities.internal",
   "private": true,
+  "version": "local",
   "scripts": {
     "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\""
   },
