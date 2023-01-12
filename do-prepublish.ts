@@ -6,6 +6,7 @@ import { existsSync } from 'fs';
 const IS_DEV_PUBLISH: boolean = Boolean(env.IS_DEV_PUBLISH);
 const GIT_COMMIT_HASH: string | undefined = env.GIT_COMMIT_HASH;
 const CURRENT_LOCATION: string = `${__dirname}`;
+const VERSION: string | undefined = env.VERSION;
 
 function createDistFolder(): Promise<string | undefined> {
   return mkdir('./dist', { recursive: true });
@@ -28,16 +29,14 @@ async function createPackageJson(): Promise<void> {
     currentContentEntries.map(([key, value]: [string, unknown]) => [key, value])
   );
 
-  const currentProperVersion: unknown = contentValueByKey.get('version');
-
-  if (typeof currentProperVersion !== 'string') {
-    throw new Error('Package.json version is not a string');
+  if (isNil(VERSION)) {
+    throw new Error('Package.json version is invalid');
   }
 
   const metadataSuffix: string = IS_DEV_PUBLISH ? 'dev' : 'stable';
   const updatedProperVersion: string = isNil(GIT_COMMIT_HASH)
-    ? currentProperVersion
-    : `${currentProperVersion}-${metadataSuffix}.sha${GIT_COMMIT_HASH.slice(0, 8)}`;
+    ? VERSION
+    : `${VERSION}-${metadataSuffix}.sha.${GIT_COMMIT_HASH.slice(0, 8)}`;
 
   contentValueByKey.set('version', updatedProperVersion);
 

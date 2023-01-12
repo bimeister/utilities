@@ -1,9 +1,8 @@
-name: Release Package Stable
+name: Release Package
 
 on:
-  push:
-    branches:
-      - 'main'
+  release:
+    types: [published]
 
 jobs:
   install_dependencies:
@@ -11,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
@@ -77,12 +74,14 @@ jobs:
       - name: 'Authorize to NPM Registry'
         run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_DEPLOY_TOKEN}}" >> dist/.npmrc
 
-      - name: Do prepublish
+      - name: 'Update package version'
         run: |
-          export VERSION=$(git describe --abbrev=0 --tags)
-          npm run build:prepublish
-        env:
-          GIT_COMMIT_HASH: ${{github.sha}}
+          cd dist
+          npm version "${{ github.event.release.tag_name }}"
+          cd -
+
+      - name: Do prepublish
+        run: npm run build:prepublish
         
       - name: Publish
         run: cd dist && npm publish --access public

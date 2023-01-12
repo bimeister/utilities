@@ -1,6 +1,6 @@
 {
   "name": "@bimeister/utilities",
-  "version": "0.2.0",
+  "version": "#.#.#",
   "license": "Apache-2.0",
   "description": "Bimeister utilities library",
   "keywords": [
