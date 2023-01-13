@@ -2,6 +2,7 @@ import { env } from 'process';
 import { copyFile, mkdir, readFile, writeFile } from 'fs/promises';
 import { isEmpty, isNil } from '@bimeister/utilities.common';
 import { existsSync } from 'fs';
+import { join } from 'path';
 
 const IS_DEV_PUBLISH: boolean = Boolean(env.IS_DEV_PUBLISH);
 const GIT_COMMIT_HASH: string | undefined = env.GIT_COMMIT_HASH;
@@ -13,8 +14,8 @@ function createDistFolder(): Promise<string | undefined> {
 }
 
 async function createPackageJson(): Promise<void> {
-  const packageJsonPath: string = 'dist/package.json';
-  const targetPackageJsonPath: string = `${CURRENT_LOCATION}/${packageJsonPath}`;
+  const packageJsonPath: string = join('dist', 'package.json');
+  const targetPackageJsonPath: string = join(CURRENT_LOCATION, packageJsonPath);
 
   if (!existsSync(targetPackageJsonPath)) {
     throw new Error(`Looks like you forgot run build first. Path ${targetPackageJsonPath} does not exist.`);
