@@ -37,7 +37,6 @@
     "@typescript-eslint/parser": "latest",
     "barrelsby": "^2.0.0",
     "cspell": "^5.0.0",
-    "cspell-dict-russian": "^1.2.0",
     "esbuild": "~0.14.0",
     "eslint": "latest",
     "eslint-config-prettier": "latest",

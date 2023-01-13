@@ -3,14 +3,13 @@
   "language": "en",
   "ignoreRegExpList": ["CStyleComment"],
   "ignorePaths": ["**/node_modules/**", "**/dist/**"],
-  "dictionaries": ["en_us", "en-gb", "russian", "typescript", "node", "bash", "softwareTerms", "localTerms"],
+  "dictionaries": ["en_us", "en-gb", "typescript", "node", "bash", "softwareTerms", "localTerms"],
   "dictionaryDefinitions": [
     {
       "name": "localTerms",
-      "description": "BIMeister utilities local terms",
+      "description": "Bimeister utilities local terms",
       "path": "./cspell.local-terms.txt"
     }
   ],
-  "import": ["./node_modules/cspell-dict-russian/cspell-ext.json"],
   "words": ["barrelsby"]
 }
