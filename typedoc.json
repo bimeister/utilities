@@ -6,6 +6,7 @@
     "./packages/filesystem/src/index.ts",
     "./packages/interfaces/src/index.ts",
     "./packages/internal/src/index.ts",
+    "./packages/intersection-observable/index.ts",
     "./packages/performance/src/index.ts",
     "./packages/resize-observable/src/index.ts",
     "./packages/rxjs/src/index.ts",

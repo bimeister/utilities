@@ -64,6 +64,7 @@
     "packages/index",
     "packages/interfaces",
     "packages/internal",
+    "packages/intersection-observable",
     "packages/ngxs",
     "packages/performance",
     "packages/resize-observable",

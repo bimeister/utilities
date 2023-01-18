@@ -39,6 +39,11 @@ const baseConfig: Config.InitialOptions = {
     },
     {
       ...transpilingOptions,
+      displayName: 'intersection-observable',
+      testRegex: '\\/resize-observable\\/src\\/.*\\.spec\\.ts$'
+    },
+    {
+      ...transpilingOptions,
       displayName: 'resize-observable',
       testRegex: '\\/resize-observable\\/src\\/.*\\.spec\\.ts$'
     },
