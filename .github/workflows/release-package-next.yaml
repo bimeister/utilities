@@ -1,4 +1,4 @@
-name: Release Package Stable
+name: Release Package Next
 
 on:
   push:
@@ -85,4 +85,4 @@ jobs:
           GIT_COMMIT_HASH: ${{github.sha}}
         
       - name: Publish
-        run: cd dist && npm publish --access public
+        run: cd dist && npm publish --access public --tag next
