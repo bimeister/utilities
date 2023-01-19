@@ -34,7 +34,7 @@ async function createPackageJson(): Promise<void> {
     throw new Error('Package.json version is invalid');
   }
 
-  const metadataSuffix: string = IS_DEV_PUBLISH ? 'dev' : 'stable';
+  const metadataSuffix: string = IS_DEV_PUBLISH ? 'dev' : 'next';
   const updatedProperVersion: string = isNil(GIT_COMMIT_HASH)
     ? VERSION
     : `${VERSION}-${metadataSuffix}.sha.${GIT_COMMIT_HASH.slice(0, 8)}`;

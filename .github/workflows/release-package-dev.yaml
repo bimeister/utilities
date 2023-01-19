@@ -83,4 +83,4 @@ jobs:
           IS_DEV_PUBLISH: true
         
       - name: Publish
-        run: cd dist && npm publish --access public
+        run: cd dist && npm publish --access public --tag dev
