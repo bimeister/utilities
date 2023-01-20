@@ -2,6 +2,16 @@
   "name": "@bimeister/utilities.types",
   "private": true,
   "version": "local",
+  "homepage": "https://github.com/bimeister/utilities",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bimeister/utilities",
+    "directory": "packages/types"
+  },
+  "bugs": {
+    "url": "https://github.com/bimeister/utilities/issues",
+    "email": "opensource@bimeister.com"
+  },
   "scripts": {
     "barrel": "barrelsby --config=\"./../barrelsby.json\" --directory=\"./src\""
   },
