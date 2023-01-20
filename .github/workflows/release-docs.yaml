@@ -1,0 +1,89 @@
+name: Release Docs
+
+# on:
+#   release:
+#     types: [published]
+on:
+  push:
+    branches:
+      - '**'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  install_dependencies:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies by lockfile
+        run: npm clean-install
+
+      - name: Generate Public API
+        run: npm run barrel
+
+      - name: Share prepared workspace with other jobs
+        uses: actions/cache@v3
+        with:
+          key: "workspace:${{github.sha}}"
+          path: ./
+
+  static_files:
+    name: Build Docs Files
+    runs-on: ubuntu-latest
+    needs:
+      - install_dependencies
+    steps:
+      - name: Download prepared workspace
+        uses: actions/cache@v3
+        with:
+          key: "workspace:${{github.sha}}"
+          path: ./
+
+      - name: Build docs files
+        run: npm run build:docs && cp ./docs/index.html ./docs/404.html
+
+      - name: Share prepared dist with other jobs
+        uses: actions/cache@v3
+        with:
+          key: "docs:${{github.sha}}"
+          path: ./docs
+
+  deploy:
+    name: Deploy to GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs:
+      - static_files
+    steps:
+      - name: Download prepared workspace
+        uses: actions/cache@v3
+        with:
+          key: "docs:${{github.sha}}"
+          path: ./docs
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: './docs'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
