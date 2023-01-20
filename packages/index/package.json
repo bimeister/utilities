@@ -2,6 +2,16 @@
   "name": "@bimeister/utilities.index",
   "private": true,
   "version": "local",
+  "homepage": "https://github.com/bimeister/utilities",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bimeister/utilities",
+    "directory": "packages/local"
+  },
+  "bugs": {
+    "url": "https://github.com/bimeister/utilities/issues",
+    "email": "opensource@bimeister.com"
+  },
   "exports": {
     ".": {
       "default": "./src/public-api.ts"

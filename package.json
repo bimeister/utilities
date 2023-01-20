@@ -8,9 +8,14 @@
     "tools",
     "library"
   ],
+  "homepage": "https://github.com/bimeister/utilities",
   "repository": {
     "type": "git",
     "url": "https://github.com/bimeister/utilities"
+  },
+  "bugs": {
+    "url": "https://github.com/bimeister/utilities/issues",
+    "email": "opensource@bimeister.com"
   },
   "scripts": {
     "barrel": "npm run barrel --workspaces",
