@@ -1,12 +1,9 @@
 name: Release Docs
 
-# on:
-#   release:
-#     types: [published]
 on:
-  push:
-    branches:
-      - '**'
+  release:
+    types: [published]
+
 
 permissions:
   contents: read
@@ -56,7 +53,9 @@ jobs:
           path: ./
 
       - name: Build docs files
-        run: npm run build:docs && cp ./docs/index.html ./docs/404.html
+        run: |
+          npm run build:docs
+          cp ./docs/index.html ./docs/404.html
 
       - name: Share prepared dist with other jobs
         uses: actions/cache@v3
