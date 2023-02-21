@@ -31,13 +31,28 @@ describe('filter-by-instance-of.operator.ts', () => {
     const emits: unknown[] = [];
 
     input$
-      .pipe(filterByInstanceOf([SomeClassA, SomeClassB]))
+      .pipe(filterByInstanceOf(SomeClassA, SomeClassB))
       .subscribe((output: SomeClassA | SomeClassB): void => {
         emits.push(output);
       })
       .unsubscribe();
 
     expect(emits).toEqual([new SomeClassA(), new SomeClassB()]);
+  });
+
+  it('should emit valid value only once for one of multiple types', () => {
+    const input$: Observable<unknown> = from([1, 'string', { name: 'Some name' }, new SomeClassB()]);
+
+    const emits: unknown[] = [];
+
+    input$
+      .pipe(filterByInstanceOf(SomeClassA, SomeClassB))
+      .subscribe((output: SomeClassA | SomeClassB): void => {
+        emits.push(output);
+      })
+      .unsubscribe();
+
+    expect(emits).toContainEqual(new SomeClassB());
   });
 
   it('should not emit any value for single type', () => {
@@ -61,7 +76,7 @@ describe('filter-by-instance-of.operator.ts', () => {
     const emits: unknown[] = [];
 
     input$
-      .pipe(filterByInstanceOf([SomeClassA, SomeClassB]))
+      .pipe(filterByInstanceOf(SomeClassA, SomeClassB))
       .subscribe((output: SomeClassA | SomeClassB): void => {
         emits.push(output);
       })
