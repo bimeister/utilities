@@ -1,7 +1,6 @@
 {
   "name": "@bimeister/utilities.build",
   "private": true,
-  "version": "local",
   "homepage": "https://bimeister.github.io/utilities/",
   "repository": {
     "type": "git",
