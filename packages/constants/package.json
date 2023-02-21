@@ -1,7 +1,6 @@
 {
   "name": "@bimeister/utilities.constants",
   "private": true,
-  "version": "local",
   "homepage": "https://bimeister.github.io/utilities/",
   "repository": {
     "type": "git",

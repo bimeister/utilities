@@ -1,7 +1,6 @@
 {
   "name": "@bimeister/utilities.performance",
   "private": true,
-  "version": "local",
   "homepage": "https://bimeister.github.io/utilities/",
   "repository": {
     "type": "git",
