@@ -22,7 +22,7 @@ const esBuildConfig: BuildOptions = {
   chunkNames: 'chunks/[name]-[hash]',
   bundle: true,
   splitting: true,
-  external: ['rxjs', '@ngxs/store', 'typescript', 'dts-bundle-generator'],
+  external: ['rxjs', 'typescript', 'dts-bundle-generator'],
   minify: true,
   platform: 'neutral',
   sourcemap: 'external',
@@ -35,7 +35,7 @@ const esBuildConfig: BuildOptions = {
   metafile: true,
   legalComments: 'none'
 };
-const browserOnlyPackages: Set<string> = new Set<string>(['ngxs', 'resize-observable', 'intersection-observable']);
+const browserOnlyPackages: Set<string> = new Set<string>(['resize-observable', 'intersection-observable']);
 const nodeOnlyPackages: Set<string> = new Set<string>(['build', 'filesystem', 'performance']);
 const typesOnlyPackages: Set<string> = new Set<string>(['traits', 'types', 'interfaces']);
 const typeOnlyFileEndings: Set<string> = new Set<string>(

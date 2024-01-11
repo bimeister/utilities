@@ -3,4 +3,3 @@ bimeister
 fesm
 esm
 млрд
-ngxs
