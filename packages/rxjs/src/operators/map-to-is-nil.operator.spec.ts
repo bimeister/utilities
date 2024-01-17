@@ -1,5 +1,5 @@
-import { from, Observable } from 'rxjs';
 import { mapToIsNil } from '@bimeister/utilities.rxjs';
+import { from, Observable } from 'rxjs';
 
 describe('map-to-is-nil.operator.spec.ts', () => {
   it('should values map to is nil', () => {

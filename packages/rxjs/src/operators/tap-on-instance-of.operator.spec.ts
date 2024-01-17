@@ -13,18 +13,30 @@ class SomeClassC {
   public readonly name: string = 'Some name C';
 }
 
-describe('tap-on-instance-of.operator.ts', () => {
-  it('should invoke callback for valid value only once for single type', () => {
-    const input$: Observable<unknown> = from([1, 'string', { name: 'Some name' }, new SomeClassA()]);
+class SomeClassD {
+  public readonly name: string = 'Some name D';
+  constructor(public readonly userName: string) {}
+}
 
-    const callbacks: number[] = [];
+describe('tap-on-instance-of.operator.ts', () => {
+  it('should invoke callback for valid value multiple times for single type', () => {
+    const input$: Observable<unknown> = from([
+      1,
+      'string',
+      { name: 'Some name' },
+      new SomeClassD('admin'),
+      new SomeClassD('admin1'),
+      new SomeClassA()
+    ]);
+
+    const callbacks: string[] = [];
 
     input$
-      .pipe(tapOnInstanceOf(SomeClassA, () => callbacks.push(1)))
+      .pipe(tapOnInstanceOf(SomeClassD, ({ userName }: SomeClassD) => callbacks.push(userName)))
       .subscribe()
       .unsubscribe();
 
-    expect(callbacks).toEqual([1]);
+    expect(callbacks).toEqual(['admin', 'admin1']);
   });
 
   it('should invoke callback for valid value only once for multiple types', () => {

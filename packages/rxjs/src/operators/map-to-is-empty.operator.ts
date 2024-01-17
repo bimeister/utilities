@@ -2,7 +2,19 @@ import { isEmpty } from '@bimeister/utilities.common';
 import type { Observable, OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export const mapToIsEmpty =
-  <T>(): OperatorFunction<T, boolean> =>
+/**
+ * Maps values emitted by the source observable to a boolean indicating whether the value is considered empty.
+ *
+ * @template T - The type of elements emitted by the source observable.
+ * @returns - An operator that maps values to a boolean indicating whether they are considered empty.
+ * @example
+ * const input$: Observable<unknown> = from([null, '', 0, undefined, [], new Map(), {}, [1]]
+
+  input$
+    .pipe(mapToIsEmpty())
+    .subscribe((output: unknown) => { ... } )
+ */
+export const mapToIsEmpty: <T>() => OperatorFunction<T, boolean> =
+  <T>() =>
   (source: Observable<T>): Observable<boolean> =>
     source.pipe(map<T, boolean>((value: T) => isEmpty(value)));
