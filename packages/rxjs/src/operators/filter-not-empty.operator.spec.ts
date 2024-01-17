@@ -1,5 +1,5 @@
-import { from, Observable } from 'rxjs';
 import { filterNotEmpty } from '@bimeister/utilities.rxjs';
+import { from, Observable } from 'rxjs';
 
 describe('filter-not-empty.operator.ts', () => {
   it('should return not empty values', () => {

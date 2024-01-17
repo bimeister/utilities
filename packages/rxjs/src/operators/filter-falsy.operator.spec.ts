@@ -1,5 +1,5 @@
-import { from, Observable } from 'rxjs';
 import { filterFalsy } from '@bimeister/utilities.rxjs';
+import { from, Observable } from 'rxjs';
 
 describe('filter-falsy.operator.ts', () => {
   it('should filter truth value', () => {

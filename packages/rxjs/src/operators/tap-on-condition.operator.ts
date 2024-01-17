@@ -8,15 +8,11 @@ import { tap } from 'rxjs/operators';
  * @param condition - The condition to check before invoking the callback.
  * @param callback - The callback function to be invoked when the condition is true.
  * @returns - An operator that performs a side effect for each emission on the source observable.
+ * @example
+ * // Displays a successful toast of saved settings if the isSaved flag is true.
+ * source$.pipe(..., tapOnCondition(this.isSaved, () => this.showSuccessToast()), ...)
  */
 export function tapOnCondition<T>(condition: boolean, callback: VoidFunction): OperatorFunction<T, T> {
-  /**
-   * Returns a new observable that, when subscribed, taps into the source observable
-   * and invokes the callback if the specified condition is true.
-   *
-   * @param source$ - The source observable to tap into.
-   * @returns - An observable that emits the same values as the source observable.
-   */
   return (source$: Observable<T>) =>
     source$.pipe(
       tap(() => {
