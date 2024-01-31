@@ -13,9 +13,9 @@ jobs:
     name: Install Dependencies
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'npm'
@@ -27,7 +27,7 @@ jobs:
         run: npm run barrel
 
       - name: Share prepared workspace with other jobs
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: "workspace:${{github.sha}}"
           path: ./
@@ -38,7 +38,7 @@ jobs:
     needs: [ install_dependencies ]
     steps:
       - name: Download prepared workspace
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: "workspace:${{github.sha}}"
           path: ./
@@ -52,7 +52,7 @@ jobs:
     needs: [ install_dependencies ]
     steps:
       - name: Download prepared workspace
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: "workspace:${{github.sha}}"
           path: ./
@@ -66,7 +66,7 @@ jobs:
     needs: [ install_dependencies ]
     steps:
       - name: Download prepared workspace
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: "workspace:${{github.sha}}"
           path: ./
@@ -80,7 +80,7 @@ jobs:
     needs: [ install_dependencies ]
     steps:
       - name: Download prepared workspace
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: "workspace:${{github.sha}}"
           path: ./
