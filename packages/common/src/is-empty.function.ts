@@ -3,6 +3,9 @@
  * @module Common
  */
 import { isNil } from './is-nil.function';
+import { isObject } from './is-object.function';
+import { isString } from './is-string.function';
+import { isSymbol } from './is-symbol.function';
 
 export function isEmpty(input: unknown): boolean {
   if (isNil(input)) {
@@ -48,16 +51,4 @@ function isEmptyString(input: string): boolean {
 
 function isEmptySetOrMap(input: Set<unknown> | Map<unknown, unknown>): boolean {
   return input.size === 0;
-}
-
-function isObject(input: unknown): input is object {
-  return typeof input === 'object';
-}
-
-function isString(input: unknown): input is string {
-  return typeof input === 'string';
-}
-
-function isSymbol(input: unknown): input is symbol {
-  return typeof input === 'symbol';
 }
