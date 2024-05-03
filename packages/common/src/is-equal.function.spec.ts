@@ -80,4 +80,84 @@ describe('is-equal.function.ts', () => {
     const b: unknown[] = Array.from(Array(15).keys()).map((index: number) => ({ id: index, name: index }));
     expect(isEqual(a, b)).toBe(false);
   });
+
+  it('should be true if sets of strings are equal', () => {
+    const a: Set<string> = new Set<string>(['1', '2', '3']);
+    const b: Set<string> = new Set<string>(['1', '2', '3']);
+    expect(isEqual(a, b)).toBe(true);
+  });
+
+  it('should be false if sets of strings are not equal', () => {
+    const a: Set<string> = new Set<string>(['1', '2', '3']);
+    const b: Set<string> = new Set<string>(['1', '2', '3', '4']);
+    expect(isEqual(a, b)).toBe(false);
+  });
+
+  it('should be true if sets of numbers are equal', () => {
+    const a: Set<number> = new Set<number>([1, 2, 3]);
+    const b: Set<number> = new Set<number>([1, 2, 3]);
+    expect(isEqual(a, b)).toBe(true);
+  });
+
+  it('should be false if sets of numbers are not equal', () => {
+    const a: Set<number> = new Set<number>([1, 2, 3]);
+    const b: Set<number> = new Set<number>([1, 2, 3, 4]);
+    expect(isEqual(a, b)).toBe(false);
+  });
+
+  it('should be true if maps of strings are equal', () => {
+    const a: Map<string, number> = new Map<string, number>([
+      ['1', 1],
+      ['2', 2],
+      ['3', 3]
+    ]);
+    const b: Map<string, number> = new Map<string, number>([
+      ['1', 1],
+      ['2', 2],
+      ['3', 3]
+    ]);
+    expect(isEqual(a, b)).toBe(true);
+  });
+
+  it('should be false if maps of strings are not equal', () => {
+    const a: Map<string, number> = new Map<string, number>([
+      ['1', 1],
+      ['2', 2],
+      ['3', 3]
+    ]);
+    const b: Map<string, number> = new Map<string, number>([
+      ['1', 1],
+      ['2', 2],
+      ['3', 4]
+    ]);
+    expect(isEqual(a, b)).toBe(false);
+  });
+
+  it('should be true if maps of objects are equal', () => {
+    const a: Map<string, unknown> = new Map<string, unknown>([
+      ['1', { id: 1 }],
+      ['2', { id: 2 }],
+      ['3', { id: 3 }]
+    ]);
+    const b: Map<string, unknown> = new Map<string, unknown>([
+      ['1', { id: 1 }],
+      ['2', { id: 2 }],
+      ['3', { id: 3 }]
+    ]);
+    expect(isEqual(a, b)).toBe(true);
+  });
+
+  it('should be false if maps of objects are not equal', () => {
+    const a: Map<string, unknown> = new Map<string, unknown>([
+      ['1', { id: 1 }],
+      ['2', { id: 2 }],
+      ['3', { id: 3 }]
+    ]);
+    const b: Map<string, unknown> = new Map<string, unknown>([
+      ['1', { id: 1 }],
+      ['2', { id: 2 }],
+      ['3', { id: 4 }]
+    ]);
+    expect(isEqual(a, b)).toBe(false);
+  });
 });
