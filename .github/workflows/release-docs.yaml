@@ -2,7 +2,7 @@ name: Release Docs
 
 on:
   release:
-    types: [published]
+    types: [published, updated]
 
 
 permissions:
@@ -19,11 +19,11 @@ jobs:
     name: Install Dependencies
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'npm'
@@ -35,7 +35,7 @@ jobs:
         run: npm run barrel
 
       - name: Share prepared workspace with other jobs
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: "workspace:${{github.sha}}"
           path: ./
@@ -47,7 +47,7 @@ jobs:
       - install_dependencies
     steps:
       - name: Download prepared workspace
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: "workspace:${{github.sha}}"
           path: ./
@@ -58,7 +58,7 @@ jobs:
           cp ./docs/index.html ./docs/404.html
 
       - name: Share prepared dist with other jobs
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: "docs:${{github.sha}}"
           path: ./docs
@@ -73,7 +73,7 @@ jobs:
       - static_files
     steps:
       - name: Download prepared workspace
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: "docs:${{github.sha}}"
           path: ./docs
