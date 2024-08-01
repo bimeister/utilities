@@ -1,12 +1,22 @@
 import { from, Observable } from 'rxjs';
 import { firstEventByInstanceOf } from './first-event-by-instance-of.operator';
 
-class SomeClassA {
+class Base {}
+
+class SomeClassA extends Base {
   public readonly name: string = 'Some name A';
 }
 
-class SomeClassB {
+class SomeClassB extends Base {
   public readonly name: string = 'Some name B';
+}
+
+class SomeClassC extends Base {
+  public readonly name: string = 'Some name C';
+}
+
+class SomeClassD extends Base {
+  public readonly name: string = 'Some name D';
 }
 
 describe('first-event-by-instance-of.operator.ts', () => {
@@ -85,6 +95,25 @@ describe('first-event-by-instance-of.operator.ts', () => {
       },
       complete: () => {
         expect(emits).toEqual([new SomeClassB()]);
+        done();
+      }
+    });
+  });
+
+  it('should emit valid value for arrays of instances and complete', (done: jest.DoneCallback) => {
+    const input$: Observable<Base[]> = from([
+      [new SomeClassA(), new SomeClassB()],
+      [new SomeClassC(), new SomeClassD()]
+    ]);
+
+    const emits: unknown[] = [];
+
+    input$.pipe(firstEventByInstanceOf(SomeClassD)).subscribe({
+      next: (output: Base[]) => {
+        emits.push(output);
+      },
+      complete: () => {
+        expect(emits).toEqual([[new SomeClassC(), new SomeClassD()]]);
         done();
       }
     });
