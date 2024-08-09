@@ -2,22 +2,14 @@ import { isEqual } from './is-equal.function';
 
 describe('is-equal.function.ts', () => {
   it('should be true if objects are equal', () => {
-    const a: unknown = {
-      property: 'property'
-    };
-    const b: unknown = {
-      property: 'property'
-    };
+    const a: unknown = { property: 'property' };
+    const b: unknown = { property: 'property' };
     expect(isEqual(a, b)).toBe(true);
   });
 
   it('should be false if objects are not equal', () => {
-    const a: unknown = {
-      propertyOne: true
-    };
-    const b: unknown = {
-      propertyTwo: false
-    };
+    const a: unknown = { propertyOne: true };
+    const b: unknown = { propertyTwo: false };
     expect(isEqual(a, b)).toBe(false);
   });
 
@@ -79,6 +71,20 @@ describe('is-equal.function.ts', () => {
     const a: unknown[] = Array.from(Array(10).keys()).map((index: number) => ({ id: index, name: index }));
     const b: unknown[] = Array.from(Array(15).keys()).map((index: number) => ({ id: index, name: index }));
     expect(isEqual(a, b)).toBe(false);
+  });
+
+  it('should be true if arrays of numbers are equal when sorted with a custom predicate', () => {
+    const a: number[] = [3, 1, 2];
+    const b: number[] = [1, 2, 3];
+    const sortPredicate: (x: number, y: number) => number = (x: number, y: number) => x - y;
+    expect(isEqual(a, b, sortPredicate)).toBe(true);
+  });
+
+  it('should be false if arrays of numbers are not equal even after sorting with a custom predicate', () => {
+    const a: number[] = [3, 1, 2];
+    const b: number[] = [1, 2, 4];
+    const sortPredicate: (x: number, y: number) => number = (x: number, y: number) => x - y;
+    expect(isEqual(a, b, sortPredicate)).toBe(false);
   });
 
   it('should be true if sets of strings are equal', () => {

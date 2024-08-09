@@ -2,7 +2,26 @@ import { isNil } from './is-nil.function';
 import { isNumber } from './is-number.function';
 import { isString } from './is-string.function';
 
-export function isEqual(a: unknown, b: unknown): boolean {
+/**
+ * Compares two values of any type for equality.
+ *
+ * @param a - The first value to compare.
+ * @param b - The second value to compare.
+ * @returns `true` if the values are equal, otherwise `false`.
+ */
+export function isEqual<T>(a: T, b: T): boolean;
+
+/**
+ * Compares two arrays for equality with an optional sort predicate.
+ *
+ * @param a - The first array to compare.
+ * @param b - The second array to compare.
+ * @param sortPredicate - An optional predicate to sort the arrays before comparison.
+ * @returns `true` if the arrays are equal, otherwise `false`.
+ */
+export function isEqual<T>(a: T[], b: T[], sortPredicate?: (x: T, y: T) => number): boolean;
+
+export function isEqual<T>(a: T | T[], b: T | T[], sortPredicate?: (x: T, y: T) => number): boolean {
   if (isNil(a) && isNil(b)) {
     return true;
   }
@@ -16,7 +35,7 @@ export function isEqual(a: unknown, b: unknown): boolean {
   }
 
   if (Array.isArray(a) && Array.isArray(b)) {
-    return areArraysEqual(a, b);
+    return areArraysEqual(a, b, sortPredicate);
   }
 
   if (a instanceof Set && b instanceof Set) {
@@ -30,26 +49,17 @@ export function isEqual(a: unknown, b: unknown): boolean {
   return JSON.stringify(a) === JSON.stringify(b);
 }
 
-function areArraysEqual<T>(a: T[], b: T[]): boolean {
+function areArraysEqual<T>(a: T[], b: T[], sortPredicate?: (x: T, y: T) => number): boolean {
   if (a.length !== b.length) {
     return false;
   }
 
-  return a.every((item: T, index: number) => {
-    if (isNil(item) && isNil(b[index])) {
-      return true;
-    }
+  if (!isNil(sortPredicate)) {
+    a = [...a].sort(sortPredicate);
+    b = [...b].sort(sortPredicate);
+  }
 
-    if (isString(item) && isString(b[index])) {
-      return item === b[index];
-    }
-
-    if (isNumber(item) && isNumber(b[index])) {
-      return item === b[index];
-    }
-
-    return JSON.stringify(item) === JSON.stringify(b[index]);
-  });
+  return a.every((item: T, index: number) => isEqual(item, b[index]));
 }
 
 function areSetsEqual<T>(a: Set<T>, b: Set<T>): boolean {
