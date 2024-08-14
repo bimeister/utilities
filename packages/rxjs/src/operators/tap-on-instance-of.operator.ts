@@ -10,8 +10,8 @@ import { tap } from 'rxjs/operators';
  * @param callback - The callback function to be invoked when an instance of the specified type is found.
  * @returns - An operator that performs a side effect for each emission on the source observable.
  * @example
- * // Based on the values produced by the source observable,
- * // performs a side-effect only on an instance of the specified SomeClass type
+ * Based on the values produced by the source observable,
+ * performs a side-effect only on an instance of the specified SomeClass type
  * const input$: Observable<unknown> = from([1, 'string', { name: 'Some name' }, new SomeClass()]);
 
    input$

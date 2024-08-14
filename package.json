@@ -27,7 +27,7 @@
     "test": "jest --clearCache && jest --config ./packages/jest.config.ts --passWithNoTests --coverage true",
     "test:ci": "jest --clearCache && jest --config ./packages/jest.config-pipeline.ts --passWithNoTests --coverage true --ci",
     "prettier:check": "prettier --config ./.prettierrc --ignore-path ./.prettierignore --check ./**/**/*.{json,js,ts}",
-    "prettier:format": "prettier --loglevel log --config ./.prettierrc --ignore-path ./.prettierignore --write ./**/**/*.{json,js,ts}",
+    "prettier:format": "prettier --log-level log --config ./.prettierrc --ignore-path ./.prettierignore --write ./**/**/*.{json,js,ts}",
     "autofix": "npm run lint:fix && npm run prettier:format",
     "cspell:check": "cspell lint './packages/**/*.*' --config cspell.json"
   },
