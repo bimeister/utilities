@@ -55,11 +55,19 @@ function areArraysEqual<T>(a: T[], b: T[], sortPredicate?: (x: T, y: T) => numbe
   }
 
   if (!isNil(sortPredicate)) {
-    a = [...a].sort(sortPredicate);
-    b = [...b].sort(sortPredicate);
+    a = a.slice().sort(sortPredicate);
+    b = b.slice().sort(sortPredicate);
   }
 
-  return a.every((item: T, index: number) => isEqual(item, b[index]));
+  const firstArrayLength: number = a.length;
+
+  for (let i: number = 0; i < firstArrayLength; i++) {
+    if (!isEqual(a[i], b[i])) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 function areSetsEqual<T>(a: Set<T>, b: Set<T>): boolean {
@@ -67,7 +75,13 @@ function areSetsEqual<T>(a: Set<T>, b: Set<T>): boolean {
     return false;
   }
 
-  return [...a].every((item: T) => b.has(item));
+  for (const item of a) {
+    if (!b.has(item)) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 function areMapsEqual<T, K>(a: Map<T, K>, b: Map<T, K>): boolean {
