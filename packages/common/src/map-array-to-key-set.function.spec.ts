@@ -43,4 +43,28 @@ describe('map-array-to-key-set.function.ts', () => {
     expect(resultNames.has('Bob')).toBe(true);
     expect(resultNames.has('Charlie')).toBe(true);
   });
+
+  it('should filter out null and undefined values when ignoreNils is true', () => {
+    const array: { id: number; name: string | null | undefined }[] = [
+      { id: 1, name: 'Alice' },
+      { id: 2, name: null },
+      { id: 3, name: undefined }
+    ];
+    const result: Set<string> = mapArrayToKeySet(array, 'name', true);
+    expect(result.size).toBe(1);
+    expect(result.has('Alice')).toBe(true);
+  });
+
+  it('should include null and undefined values when ignoreNils is false', () => {
+    const array: { id: number; name: string | null | undefined }[] = [
+      { id: 1, name: 'Alice' },
+      { id: 2, name: null },
+      { id: 3, name: undefined }
+    ];
+    const result: Set<string | null | undefined> = mapArrayToKeySet(array, 'name', false);
+    expect(result.size).toBe(3);
+    expect(result.has('Alice')).toBe(true);
+    expect(result.has(null)).toBe(true);
+    expect(result.has(undefined)).toBe(true);
+  });
 });
