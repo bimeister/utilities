@@ -1,32 +1,34 @@
 import type { Constructor } from 'packages/types/src/constructor.type';
-import type { Observable, OperatorFunction } from 'rxjs';
+import type { MonoTypeOperatorFunction, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 /**
  * Conditionally applies a callback using the tap operator based on the instance of specified types.
  *
- * @template I - The type of instances to check for in the source observable.
- * @param typeOrTypes - The type or types to check for instance of in the source observable.
- * @param callback - The callback function to be invoked when an instance of the specified type is found.
- * @returns - An operator that performs a side effect for each emission on the source observable.
+ * @template T - The type of values emitted by the source observable.
+ * @template U - The type of values that are checked for instances in the source observable.
+ * @param typeOrTypes - The type or types to check for instances in the source observable.
+ * @param callback - The callback function to be invoked when an instance of the specified type(s) is found.
+ * @returns - An operator that performs a side effect only for the emissions of the specified instance type(s).
  * @example
- * Based on the values produced by the source observable,
- * performs a side-effect only on an instance of the specified SomeClass type
- * const input$: Observable<unknown> = from([1, 'string', { name: 'Some name' }, new SomeClass()]);
-
-   input$
-    .pipe(tapOnInstanceOf(SomeClass, () => this.showAlert()))
+ *  Example with a single type
+ *  const input$: Observable<unknown> = from([1, 'string', new SomeClass()]);
+ *  input$.pipe(tapOnInstanceOf(SomeClass, (instance) => console.log('Found instance:', instance)));
+ *
+ *  Example with multiple types
+ *  const input$: Observable<unknown> = from([1, 'string', new SomeClassA(), new SomeClassB()]);
+ *  input$.pipe(tapOnInstanceOf([SomeClassA, SomeClassB], (instance) => console.log('Found instance:', instance)));
  */
-export function tapOnInstanceOf<T>(
-  typeOrTypes: Constructor<T> | Constructor<T>[],
-  callback: (value: T) => void
-): OperatorFunction<unknown, unknown> {
-  return (source$: Observable<unknown>) =>
+export function tapOnInstanceOf<T, U>(
+  typeOrTypes: Constructor<U> | Constructor<U>[],
+  callback: (value: U) => void
+): MonoTypeOperatorFunction<T> {
+  return (source$: Observable<T>) =>
     source$.pipe(
-      tap((value: unknown) => {
-        const types: Constructor<T>[] = Array.isArray(typeOrTypes) ? typeOrTypes : [typeOrTypes];
+      tap((value: T) => {
+        const types: Constructor<U>[] = Array.isArray(typeOrTypes) ? typeOrTypes : [typeOrTypes];
 
-        types.forEach((type: Constructor<T>) => {
+        types.forEach((type: Constructor<U>) => {
           if (value instanceof type) {
             callback(value);
           }
