@@ -3,7 +3,7 @@ import { getArrayUniqueElements } from './get-array-unique-elements.function';
 enum TestEnum {
   First,
   Second,
-  Third
+  Third,
 }
 
 describe('get-array-unique-elements.function.ts', () => {
@@ -19,19 +19,23 @@ describe('get-array-unique-elements.function.ts', () => {
 
   it('should return array of same type', () => {
     const booleanArray: boolean[] = [true, false];
-    getArrayUniqueElements(booleanArray).every((resultItem) => expect(typeof resultItem).toBe('boolean'));
+    getArrayUniqueElements(booleanArray).every((resultItem: boolean) => expect(typeof resultItem).toBe('boolean'));
 
     const numberArray: number[] = [-Infinity, -2, -1, 0, 1, 2, Infinity];
-    getArrayUniqueElements(numberArray).every((resultItem) => expect(typeof resultItem).toBe('number'));
+    getArrayUniqueElements(numberArray).every((resultItem: number) => expect(typeof resultItem).toBe('number'));
 
     const stringArray: string[] = ['aaa', 'bbb', 'ccc'];
-    getArrayUniqueElements(stringArray).every((resultItem) => expect(typeof resultItem).toBe('string'));
+    getArrayUniqueElements(stringArray).every((resultItem: string) => expect(typeof resultItem).toBe('string'));
 
     const objectArray: (object & { id: number })[] = [{ id: 1 }, { id: 2 }, { id: 3 }];
-    getArrayUniqueElements(objectArray, 'id').every((resultItem) => expect(typeof resultItem).toBe('object'));
+    getArrayUniqueElements(objectArray, 'id').every((resultItem: object & { id: number }) =>
+      expect(typeof resultItem).toBe('object')
+    );
 
     const arrayArray: (object & { length: number })[] = [[], [], []];
-    getArrayUniqueElements(arrayArray, 'length').every((resultItem) => expect(typeof resultItem).toBe('object'));
+    getArrayUniqueElements(arrayArray, 'length').every((resultItem: object & { length: number }) =>
+      expect(typeof resultItem).toBe('object')
+    );
   });
 
   it('should correctly remove primitive duplicates', () => {
@@ -55,13 +59,13 @@ describe('get-array-unique-elements.function.ts', () => {
       { id: 1, type: TestEnum.First },
       { id: 2, type: TestEnum.Second },
       { id: 3, type: TestEnum.Third },
-      { id: 1, type: TestEnum.Third }
+      { id: 1, type: TestEnum.Third },
     ];
 
     const expected: Element[] = [
       { id: 1, type: TestEnum.First },
       { id: 2, type: TestEnum.Second },
-      { id: 3, type: TestEnum.Third }
+      { id: 3, type: TestEnum.Third },
     ];
 
     expect(getArrayUniqueElements(objectArray, 'id')).toEqual(expected);
@@ -74,7 +78,7 @@ describe('get-array-unique-elements.function.ts', () => {
       TestEnum.Second,
       TestEnum.First,
       TestEnum.Third,
-      TestEnum.Third
+      TestEnum.Third,
     ];
 
     const result: TestEnum[] = getArrayUniqueElements<TestEnum>(enumValuesArray);

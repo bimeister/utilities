@@ -9,7 +9,7 @@ describe('get-all-nested-file-paths.function.ts', () => {
     const result: string[] = await getAllNestedFilePaths('packages/build/src/types');
     expect(result).toEqual([
       'packages/build/src/types/index.ts',
-      'packages/build/src/types/package-json-dependencies.type.ts'
+      'packages/build/src/types/package-json-dependencies.type.ts',
     ]);
   });
 });

@@ -1,7 +1,7 @@
-import type { Config } from '@jest/types';
+import type { Config } from 'jest';
 import baseConfig from './jest.config-base';
 
-const pipelineConfig: Config.InitialOptions = {
+const pipelineConfig: Config = {
   ...baseConfig,
   collectCoverage: true,
   reporters: [
@@ -10,9 +10,9 @@ const pipelineConfig: Config.InitialOptions = {
       'jest-junit',
       {
         outputDirectory: '<rootDir>/../coverage',
-        suiteName: 'Unit Tests'
-      }
-    ]
-  ]
+        suiteName: 'Unit Tests',
+      },
+    ],
+  ],
 };
 export default pipelineConfig;

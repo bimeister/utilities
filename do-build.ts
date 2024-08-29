@@ -7,7 +7,7 @@ import {
   PackageJson,
   PackageJsonExports,
   PackageJsonExportsItem,
-  SourceFileData
+  SourceFileData,
 } from '@bimeister/utilities.build';
 import { getAllNestedFilePaths } from '@bimeister/utilities.filesystem';
 import { build, BuildOptions, BuildResult } from 'esbuild';
@@ -33,7 +33,7 @@ const esBuildConfig: BuildOptions = {
   mainFields: ['module', 'main', 'browser'],
   color: true,
   metafile: true,
-  legalComments: 'none'
+  legalComments: 'none',
 };
 const browserOnlyPackages: Set<string> = new Set<string>(['resize-observable', 'intersection-observable']);
 const nodeOnlyPackages: Set<string> = new Set<string>(['build', 'filesystem', 'performance']);
@@ -77,18 +77,18 @@ function generateBundle(
         const buildConfig: BuildOptions = {
           ...esBuildConfig,
           outdir: `${distFolderPath}/${packageName}/`,
-          entryPoints
+          entryPoints,
         };
 
         if (browserOnlyPackages.has(packageName)) {
           Object.assign(buildConfig, {
-            platform: 'browser'
+            platform: 'browser',
           });
         }
 
         if (nodeOnlyPackages.has(packageName)) {
           Object.assign(buildConfig, {
-            platform: 'node'
+            platform: 'node',
           });
         }
 
@@ -97,7 +97,7 @@ function generateBundle(
           splitting: false,
           format: 'cjs',
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          outExtension: { '.js': '.cjs' }
+          outExtension: { '.js': '.cjs' },
         };
 
         const esModuleConfig: BuildOptions = {
@@ -105,7 +105,7 @@ function generateBundle(
           splitting: true,
           format: 'esm',
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          outExtension: { '.js': '.mjs' }
+          outExtension: { '.js': '.mjs' },
         };
 
         return [build(commonJsConfig), build(esModuleConfig)];
@@ -131,7 +131,7 @@ async function generateTypings(sourceFilesDataByPackageName: Map<string, SourceF
           .map((fileData: SourceFileData) => fileData.filePath)
           .filter((filePath: string) => !filePath.endsWith(mainFilePath)),
         {
-          outDir: `${distFolderPath}/${packageName}`
+          outDir: `${distFolderPath}/${packageName}`,
         }
       );
     }
@@ -145,8 +145,8 @@ async function generateTypings(sourceFilesDataByPackageName: Map<string, SourceF
       inputPath: mainFilePath,
       outputPath: bundleTypingsFilePath,
       librariesOptions: {
-        inlinedLibraries: ['@npm/types', 'dts-bundle-generator', 'typescript']
-      }
+        inlinedLibraries: ['@npm/types', 'dts-bundle-generator', 'typescript'],
+      },
     });
   });
 }
@@ -198,7 +198,7 @@ async function generatePackageJson(
 
       const exportsItem: PackageJsonExportsItem = typesOnlyPackages.has(packageName)
         ? {
-            typings: `${filePathWithoutExtension}.d.ts`
+            typings: `${filePathWithoutExtension}.d.ts`,
           }
         : {
             import: `${filePathWithoutExtension}.mjs`,
@@ -210,7 +210,7 @@ async function generatePackageJson(
             es2020: `${filePathWithoutExtension}.mjs`,
             main: `${filePathWithoutExtension}.cjs`,
             typings: `${filePathWithoutExtension}.d.ts`,
-            default: `${filePathWithoutExtension}.cjs`
+            default: `${filePathWithoutExtension}.cjs`,
           };
 
       return [filePathWithoutExtension.replace('/index', ''), exportsItem];
@@ -223,8 +223,8 @@ async function generatePackageJson(
     [
       './package.json',
       {
-        default: './package.json'
-      }
+        default: './package.json',
+      },
     ],
     [
       '.',
@@ -236,9 +236,9 @@ async function generatePackageJson(
         module: rootEsmFilePath,
         es2020: rootEsmFilePath,
         main: rootCommonJsFilePath,
-        default: rootCommonJsFilePath
-      }
-    ]
+        default: rootCommonJsFilePath,
+      },
+    ],
   ];
   const exports: PackageJsonExports = Object.fromEntries(topLevelExports.concat(exportsEntries));
 
@@ -256,7 +256,7 @@ async function generatePackageJson(
       typings: rootTypesFilePath,
       module: rootEsmFilePath,
       es2020: rootEsmFilePath,
-      main: rootCommonJsFilePath
-    }
+      main: rootCommonJsFilePath,
+    },
   });
 }

@@ -10,7 +10,7 @@ export function buildFileDeclarations(
     ...additionalOptions,
     emitDeclarationOnly: true,
     declaration: true,
-    sourceMap: false
+    sourceMap: false,
   };
 
   const compilerProgram: Program = createProgram(sourceFilePaths, options);

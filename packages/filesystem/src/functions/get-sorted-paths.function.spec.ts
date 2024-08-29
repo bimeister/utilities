@@ -12,7 +12,7 @@ describe('get-sorted-paths.function.ts', () => {
     const results: SortedPaths = await getSortedPaths(paths, directoryPath);
     expect(results).toEqual({
       directoryPaths: ['packages/common', 'packages/build/src/types', 'packages/build'],
-      filePaths: ['packages/build/src/interfaces/package-json.interface.ts']
+      filePaths: ['packages/build/src/interfaces/package-json.interface.ts'],
     });
   });
 });

@@ -1,62 +1,59 @@
-import type { Config } from '@jest/types';
+import type { Config } from 'jest';
 
-const transpilingOptions: Config.InitialOptions = {
-  testTimeout: 10_000,
+const transpilingOptions: Config = {
   transform: {
-    '^.+\\.(ts)$': 'ts-jest'
+    '^.+\\.(ts|mjs|html|svg)$': [
+      'ts-jest',
+      {
+        tsconfig: '<rootDir>/../tsconfig.test.json',
+        stringifyContentPathRegex: '\\.(html|svg)$',
+      },
+    ],
   },
   preset: 'ts-jest',
-  testEnvironment: 'jsdom'
+  testEnvironment: 'jsdom',
 };
 
-const baseConfig: Config.InitialOptions = {
+const baseConfig: Config = {
   ...transpilingOptions,
   coverageThreshold: {
     global: {
       branches: 100,
       functions: 100,
       lines: 100,
-      statements: 100
-    }
+      statements: 100,
+    },
   },
-  rootDir: './',
-  roots: ['<rootDir>/'],
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/../tsconfig.test.json'
-    }
-  },
-  coverageDirectory: '<rootDir>/../coverage',
-  preset: 'ts-jest',
-  testRegex: '\\.spec\\.ts$',
+  rootDir: '../',
+  coverageDirectory: '<rootDir>/coverage',
+  testMatch: ['*.spec.ts'],
   moduleFileExtensions: ['ts', 'js'],
-  extensionsToTreatAsEsm: ['.ts'],
   projects: [
     {
       ...transpilingOptions,
       displayName: 'common',
-      testRegex: '\\/common\\/src\\/.*\\.spec\\.ts$'
+      testMatch: ['<rootDir>/common/src/**/*.spec.ts'],
     },
     {
       ...transpilingOptions,
       displayName: 'intersection-observable',
-      testRegex: '\\/resize-observable\\/src\\/.*\\.spec\\.ts$'
+      testMatch: ['<rootDir>/intersection-observable/src/**/*.spec.ts'],
     },
     {
       ...transpilingOptions,
       displayName: 'resize-observable',
-      testRegex: '\\/resize-observable\\/src\\/.*\\.spec\\.ts$'
+      testMatch: ['<rootDir>/resize-observable/src/**/*.spec.ts'],
     },
     {
       ...transpilingOptions,
       displayName: 'rxjs',
-      testRegex: '\\/rxjs\\/src\\/.*\\.spec\\.ts$'
+      testMatch: ['<rootDir>/rxjs/src/**/*.spec.ts'],
     },
     {
       ...transpilingOptions,
       displayName: 'filesystem',
-      testRegex: '\\/filesystem\\/src\\/functions\\/.*\\.spec\\.ts$'
-    }
+      testMatch: ['<rootDir>/filesystem/src/**/*.spec.ts'],
+    },
   ],
   verbose: true,
   collectCoverageFrom: [
@@ -74,8 +71,8 @@ const baseConfig: Config.InitialOptions = {
     '!**/build/**/*.ts', // except build utilities
     '!**/traits/**/*.ts', // except traits files
     '!**/performance/**/*.ts', // except performance files
-    '!**/index/**/*.ts' // except index files
-  ]
+    '!**/index/**/*.ts', // except index files
+  ],
 };
 
 export default baseConfig;

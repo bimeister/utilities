@@ -5,17 +5,33 @@
   "singleQuote": true,
   "quoteProps": "as-needed",
   "jsxSingleQuote": true,
-  "trailingComma": "none",
+  "trailingComma": "es5",
   "bracketSpacing": true,
   "bracketSameLine": false,
   "arrowParens": "always",
   "requirePragma": false,
   "insertPragma": false,
   "proseWrap": "always",
+  "experimentalTernaries": false,
   "htmlWhitespaceSensitivity": "css",
   "vueIndentScriptAndStyle": false,
   "endOfLine": "lf",
   "cursorOffset": 0,
-  "filepath": "none",
-  "printWidth": 120
+  "printWidth": 120,
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "angular",
+        "htmlWhitespaceSensitivity": "ignore",
+        "proseWrap": "never"
+      }
+    },
+    {
+      "files": ["tsconfig.*", ".eslintrc"],
+      "options": {
+        "trailingComma": "none"
+      }
+    }
+  ]
 }

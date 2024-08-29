@@ -4,13 +4,13 @@ import {
   PerformanceEntry,
   PerformanceObserver,
   PerformanceObserverCallback,
-  PerformanceObserverEntryList
+  PerformanceObserverEntryList,
 } from 'perf_hooks';
 
 type MeasureObserverCallback = (observer: PerformanceObserver, targetEntry: PerformanceEntry) => void;
 enum PerformanceMark {
   Start = 'Start',
-  End = 'End'
+  End = 'End',
 }
 
 export class MeasureObserver {

@@ -16,7 +16,7 @@ function getMarker<T>({
   input,
   index,
   leadingMarkerPredicate,
-  trailingMarkerPredicate
+  trailingMarkerPredicate,
 }: MarkerBuilderOptions<T>): Marker {
   const isLeadingMarker: boolean = leadingMarkerPredicate(input, index);
   const isTrailingMarker: boolean = trailingMarkerPredicate(input, index);

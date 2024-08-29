@@ -1,8 +1,8 @@
-import type { Config } from '@jest/types';
+import type { Config } from 'jest';
 import baseConfig from './jest.config-base';
 
-const config: Config.InitialOptions = {
+const config: Config = {
   ...baseConfig,
-  collectCoverage: false
+  collectCoverage: false,
 };
 export default config;

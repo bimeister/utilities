@@ -1,4 +1,4 @@
-import type { PackageJson as PartialPackageJson } from '@npm/types';
+import type { PackageJSON as PartialPackageJson } from '@npm/types';
 import type { Dependencies } from '../types/package-json-dependencies.type';
 import type { PackageJsonExports } from './package-json-exports.interface';
 

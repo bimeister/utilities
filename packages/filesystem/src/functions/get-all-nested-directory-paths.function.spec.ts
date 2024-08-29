@@ -11,7 +11,7 @@ describe('get-all-nested-directory-paths.function.ts', () => {
       'packages/build/src',
       'packages/build/src/functions',
       'packages/build/src/interfaces',
-      'packages/build/src/types'
+      'packages/build/src/types',
     ]);
   });
 });

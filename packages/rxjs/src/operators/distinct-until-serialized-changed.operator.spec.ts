@@ -11,7 +11,7 @@ describe('buffer-from-to.operator.ts', () => {
     const source$: Observable<User> = from([
       { id: 1, name: 'test' },
       { id: 1, name: 'test' },
-      { id: 1, name: 'test' }
+      { id: 1, name: 'test' },
     ]);
 
     const emits: unknown[] = [];
