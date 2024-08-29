@@ -11,7 +11,7 @@ describe('map-to-sorted-by-property.operator.spec.ts', () => {
       { word: 'amen' },
       { word: 'consenter' },
       { word: 'advising' },
-      { word: 'elite' }
+      { word: 'elite' },
     ]);
 
     const sortedObjects: object[] = [
@@ -22,7 +22,7 @@ describe('map-to-sorted-by-property.operator.spec.ts', () => {
       { word: 'elite' },
       { word: 'ipsum' },
       { word: 'lorem' },
-      { word: 'sit' }
+      { word: 'sit' },
     ];
 
     const emits: unknown[] = [];

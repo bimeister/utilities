@@ -15,7 +15,7 @@ describe('map-to-is-empty.operator.spec.ts', () => {
       {},
       { id: 1 },
       new Map<number, number>([[1, 1]]),
-      new Set<number>([1])
+      new Set<number>([1]),
     ]);
 
     const emits: unknown[] = [];

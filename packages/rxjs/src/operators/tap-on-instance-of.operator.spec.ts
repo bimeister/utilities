@@ -26,7 +26,7 @@ describe('tap-on-instance-of.operator.ts', () => {
       { name: 'Some name' },
       new SomeClassD('admin'),
       new SomeClassD('admin1'),
-      new SomeClassA()
+      new SomeClassA(),
     ]);
 
     const callbacks: string[] = [];
@@ -59,7 +59,7 @@ describe('tap-on-instance-of.operator.ts', () => {
       { name: 'Some name' },
       new SomeClassA(),
       new SomeClassB(),
-      new SomeClassC()
+      new SomeClassC(),
     ]);
 
     const callbacks: number[] = [];

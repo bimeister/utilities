@@ -1,13 +1,14 @@
 import type { WithProperty } from '@bimeister/utilities.traits';
 import type { Nullable } from '@bimeister/utilities.types';
 import { isNil } from './is-nil.function';
+import { isObject } from './is-object.function';
 
-export function isObjectKeyUsed<T extends object, K extends string = string>(
+export function isObjectKeyUsed<T extends object, K extends PropertyKey>(
   object: T,
-  key: Nullable<string>
+  key: Nullable<K>
 ): object is WithProperty<T, K>;
 export function isObjectKeyUsed(object: unknown, key: Nullable<string>): object is WithProperty<object, string> {
-  if (typeof object !== 'object') {
+  if (!isObject(object)) {
     return false;
   }
 

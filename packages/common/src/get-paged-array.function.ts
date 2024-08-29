@@ -11,7 +11,7 @@ export function getPagedArray<T>(items: T[], perPageCount: number): T[][] {
   }
 
   const pagesCount: number = Math.ceil(items.length / perPageCount);
-  return new Array(pagesCount).fill(VOID).map((_, index: number) => {
+  return new Array(pagesCount).fill(VOID).map((_: void, index: number) => {
     const currentSliceStartIndex: number = index * perPageCount;
     const currentSliceEndIndex: number = currentSliceStartIndex + perPageCount;
     return items.slice(currentSliceStartIndex, currentSliceEndIndex);

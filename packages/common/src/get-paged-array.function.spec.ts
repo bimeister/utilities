@@ -5,7 +5,7 @@ describe('get-paged-array.function.ts', () => {
   const initialItemsCount: number = 9876;
   const itemsPerPage: number = 10;
 
-  const initialItems: number[] = new Array(initialItemsCount).fill(VOID).map((_, index: number) => index);
+  const initialItems: number[] = new Array(initialItemsCount).fill(VOID).map((_: void, index: number) => index);
   const pagedItems: number[][] = getPagedArray(initialItems, itemsPerPage);
 
   it('should process invalid input', () => {

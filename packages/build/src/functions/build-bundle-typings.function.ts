@@ -11,29 +11,29 @@ interface TypingsBuildConfig {
 const defaultConfig: TypingsBuildConfig = {
   inputPath: './src/index.ts',
   outputPath: './dist/index.d.ts',
-  configPath: './tsconfig.json'
+  configPath: './tsconfig.json',
 };
 
 export function buildBundleTypings(options: Partial<TypingsBuildConfig> = defaultConfig): Promise<void> {
   const config: TypingsBuildConfig = {
     librariesOptions: {},
     ...defaultConfig,
-    ...options
+    ...options,
   };
 
   const bundleGeneratorConfig: EntryPointConfig = {
     filePath: config.inputPath,
     libraries: config.librariesOptions,
     output: {
-      noBanner: true
-    }
+      noBanner: true,
+    },
   };
 
   const buildTypings: Promise<string[]> = new Promise(
     (resolve: (payload: string[]) => void, reject: (reason: unknown) => void) => {
       try {
         const result: string[] = generateDtsBundle([bundleGeneratorConfig], {
-          preferredConfigPath: config.configPath
+          preferredConfigPath: config.configPath,
         });
 
         resolve(result);

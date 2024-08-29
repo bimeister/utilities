@@ -14,7 +14,7 @@ export const bytesToShortestUnit: (bytesCount: number) => string = (bytesCount: 
     return `${bytesCount} Б`;
   }
 
-  const valueInEachUnit: number[] = unitNames.map((_, index: number) => {
+  const valueInEachUnit: number[] = unitNames.map((_: string, index: number) => {
     const divider: number = Math.pow(divisionStep, index);
     return Math.trunc(bytesCount / divider);
   });

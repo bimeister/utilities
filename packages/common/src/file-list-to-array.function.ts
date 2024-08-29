@@ -8,6 +8,6 @@ export const fileListToArray: (fileList: FileList) => File[] = (fileList: FileLi
 
   return new Array(fileList.length)
     .fill(null)
-    .map((_, index: number) => fileList.item(index))
+    .map((_: string, index: number) => fileList.item(index))
     .filter((file: Nullable<File>): file is NonNullable<File> => !isNil(file));
 };
