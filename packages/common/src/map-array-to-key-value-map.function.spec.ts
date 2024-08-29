@@ -10,7 +10,7 @@ describe('map-array-to-key-value-map.function.ts', () => {
     const array: { id: number; name: string }[] = [
       { id: 1, name: 'Alice' },
       { id: 2, name: 'Bob' },
-      { id: 3, name: 'Charlie' }
+      { id: 3, name: 'Charlie' },
     ];
     const result: Map<number, { id: number; name: string }> = mapArrayToKeyValueMap(array, 'id');
     expect(result.size).toBe(3);
@@ -23,7 +23,7 @@ describe('map-array-to-key-value-map.function.ts', () => {
     const array: { id: number; name: string }[] = [
       { id: 1, name: 'Alice' },
       { id: 2, name: 'Bob' },
-      { id: 1, name: 'Charlie' }
+      { id: 1, name: 'Charlie' },
     ];
     const result: Map<number, { id: number; name: string }> = mapArrayToKeyValueMap(array, 'id');
     expect(result.size).toBe(2);

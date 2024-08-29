@@ -23,7 +23,7 @@ export async function getSortedPaths(paths: string[], directoryPath: string): Pr
     },
     {
       filePaths: [],
-      directoryPaths: []
+      directoryPaths: [],
     }
   );
 }

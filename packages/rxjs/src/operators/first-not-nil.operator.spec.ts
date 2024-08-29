@@ -10,7 +10,7 @@ describe('first-not-nil.operator.ts', () => {
     input$.pipe(firstNotNil()).subscribe({
       next: (output: number): void => {
         emits.push(output);
-      }
+      },
     });
 
     timer(9000)
@@ -30,7 +30,7 @@ describe('first-not-nil.operator.ts', () => {
       next: (output: number): void => {
         emits.push(output);
       },
-      complete: (): void => isCompleted$.next(true)
+      complete: (): void => isCompleted$.next(true),
     });
 
     timer(9000)

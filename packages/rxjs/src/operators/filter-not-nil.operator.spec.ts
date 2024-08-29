@@ -30,7 +30,7 @@ describe('filter-not-nil.operator.ts', () => {
       next: (output: number[]): void => {
         expect(output).toEqual(input.filter((value: Nullable<number>) => !isNil(value)));
         done();
-      }
+      },
     });
   }, 10000);
 });

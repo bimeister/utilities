@@ -83,7 +83,7 @@ describe('filter-by-instance-of.operator.ts', () => {
   it('should emit arrays containing valid instances', () => {
     const input$: Observable<Base[]> = from([
       [new SomeClassA(), new SomeClassB()],
-      [new SomeClassC(), new SomeClassD()]
+      [new SomeClassC(), new SomeClassD()],
     ]);
 
     const emits: unknown[] = [];
@@ -102,7 +102,7 @@ describe('filter-by-instance-of.operator.ts', () => {
     const input$: Observable<Base[]> = from([
       [new SomeClassA(), new SomeClassB()],
       [new SomeClassC(), new SomeClassD()],
-      [new SomeClassA(), new SomeClassD()]
+      [new SomeClassA(), new SomeClassD()],
     ]);
 
     const emits: unknown[] = [];
@@ -116,7 +116,7 @@ describe('filter-by-instance-of.operator.ts', () => {
 
     expect(emits).toEqual([
       [new SomeClassC(), new SomeClassD()],
-      [new SomeClassA(), new SomeClassD()]
+      [new SomeClassA(), new SomeClassD()],
     ]);
   });
 

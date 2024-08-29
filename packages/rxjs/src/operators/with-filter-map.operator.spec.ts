@@ -16,7 +16,7 @@ describe('with-filter-map.operator.ts', () => {
       )
       .subscribe({
         next: (result: string[]) => expect(result).toEqual(expectedValues),
-        complete: () => done()
+        complete: () => done(),
       });
   });
 
@@ -33,7 +33,7 @@ describe('with-filter-map.operator.ts', () => {
       )
       .subscribe({
         next: (result: string[]) => expect(result).toEqual(expectedValues),
-        complete: () => done()
+        complete: () => done(),
       });
   });
 });

@@ -15,11 +15,11 @@ const getCurrentIncrement: (stringToCheck: string) => number = (stringToCheck: s
   }
 
   const bracedIncrement: string = regExpResult[0];
-  enum bracketIndex {
+  enum BracketIndex {
     left = 1,
-    right = bracedIncrement.length - 1
+    right = bracedIncrement.length - 1,
   }
-  const increment: number = Number(bracedIncrement.substring(bracketIndex.left, bracketIndex.right));
+  const increment: number = Number(bracedIncrement.substring(BracketIndex.left, BracketIndex.right));
   return !isNil(increment) && !isNaN(increment) ? increment : 0;
 };
 
