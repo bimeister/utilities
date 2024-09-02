@@ -166,4 +166,34 @@ describe('is-equal.function.ts', () => {
     ]);
     expect(isEqual(a, b)).toBe(false);
   });
+
+  it('should be true if strings are equal case-insensitively when caseSensitive is false', () => {
+    const a: string = 'Hello';
+    const b: string = 'hello';
+    expect(isEqual(a, b, false)).toBe(true);
+  });
+
+  it('should be false if strings are not equal case-insensitively when caseSensitive is false', () => {
+    const a: string = 'Hello';
+    const b: string = 'World';
+    expect(isEqual(a, b, false)).toBe(false);
+  });
+
+  it('should be false if strings are equal but case-sensitive comparison is used (default behavior)', () => {
+    const a: string = 'Hello';
+    const b: string = 'hello';
+    expect(isEqual(a, b)).toBe(false);
+  });
+
+  it('should be false if strings are equal but case-sensitive comparison is explicitly set', () => {
+    const a: string = 'Hello';
+    const b: string = 'hello';
+    expect(isEqual(a, b, true)).toBe(false);
+  });
+
+  it('should be false if strings are equal but case-sensitive comparison is used', () => {
+    const a: string = 'Hello';
+    const b: string = 'hello';
+    expect(isEqual(a, b)).toBe(false);
+  });
 });

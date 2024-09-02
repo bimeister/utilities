@@ -21,12 +21,29 @@ export function isEqual<T>(a: T, b: T): boolean;
  */
 export function isEqual<T>(a: T[], b: T[], sortPredicate?: (x: T, y: T) => number): boolean;
 
-export function isEqual<T>(a: T | T[], b: T | T[], sortPredicate?: (x: T, y: T) => number): boolean {
+/**
+ * Compares two strings for equality with an optional case-sensitive flag.
+ *
+ * @param a - The first string to compare.
+ * @param b - The second string to compare.
+ * @param caseSensitive - Optional flag to perform case-sensitive comparison. Defaults to true.
+ * @returns `true` if the strings are equal, otherwise `false`.
+ */
+export function isEqual(a: string, b: string, caseSensitive?: boolean): boolean;
+
+export function isEqual<T>(
+  a: T | T[],
+  b: T | T[],
+  sortPredicateOrCaseSensitive?: ((x: T, y: T) => number) | boolean
+): boolean {
   if (isNil(a) && isNil(b)) {
     return true;
   }
 
   if (isString(a) && isString(b)) {
+    if (sortPredicateOrCaseSensitive === false) {
+      return a.toLowerCase() === b.toLowerCase();
+    }
     return a === b;
   }
 
@@ -34,8 +51,8 @@ export function isEqual<T>(a: T | T[], b: T | T[], sortPredicate?: (x: T, y: T) 
     return a === b;
   }
 
-  if (Array.isArray(a) && Array.isArray(b)) {
-    return areArraysEqual(a, b, sortPredicate);
+  if (Array.isArray(a) && Array.isArray(b) && typeof sortPredicateOrCaseSensitive === 'function') {
+    return areArraysEqual(a, b, sortPredicateOrCaseSensitive);
   }
 
   if (a instanceof Set && b instanceof Set) {
