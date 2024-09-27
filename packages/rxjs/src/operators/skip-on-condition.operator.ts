@@ -13,7 +13,7 @@ import { filter, map, withLatestFrom } from 'rxjs/operators';
  *                  The source value is emitted only if the predicate returns true.
  * @returns An operator function that returns an observable emitting the source values that pass the predicate check.
  */
-export function withFilterMap<T, O>(
+export function skipOnCondition<T, O>(
   other$: Observable<O>,
   predicate: (otherValue: O) => boolean
 ): OperatorFunction<T, T> {

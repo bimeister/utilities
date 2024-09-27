@@ -1,8 +1,8 @@
 import { Observable, of } from 'rxjs';
 import { toArray } from 'rxjs/operators';
-import { withFilterMap } from './with-filter-map.operator';
+import { skipOnCondition } from './skip-on-condition.operator';
 
-describe('with-filter-map.operator.ts', () => {
+describe('skip-on-condition.operator.ts', () => {
   it('should filter values correctly when predicate returns true', (done: jest.DoneCallback) => {
     const source$: Observable<string> = of('a', 'b', 'c');
     const other$: Observable<boolean> = of(true);
@@ -11,7 +11,7 @@ describe('with-filter-map.operator.ts', () => {
 
     source$
       .pipe(
-        withFilterMap(other$, (value: boolean) => value),
+        skipOnCondition(other$, (value: boolean) => value),
         toArray()
       )
       .subscribe({
@@ -28,7 +28,7 @@ describe('with-filter-map.operator.ts', () => {
 
     source$
       .pipe(
-        withFilterMap(other$, (value: boolean) => value),
+        skipOnCondition(other$, (value: boolean) => value),
         toArray()
       )
       .subscribe({
