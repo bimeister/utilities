@@ -63,6 +63,10 @@ export function isEqual<T>(
     return areMapsEqual(a, b);
   }
 
+  if (a instanceof Date && b instanceof Date) {
+    return areDatesEqual(a, b);
+  }
+
   return JSON.stringify(a) === JSON.stringify(b);
 }
 
@@ -113,4 +117,8 @@ function areMapsEqual<T, K>(a: Map<T, K>, b: Map<T, K>): boolean {
   }
 
   return true;
+}
+
+function areDatesEqual(a: Date, b: Date): boolean {
+  return a.getTime() === b.getTime();
 }
