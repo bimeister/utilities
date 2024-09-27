@@ -196,4 +196,28 @@ describe('is-equal.function.ts', () => {
     const b: string = 'hello';
     expect(isEqual(a, b)).toBe(false);
   });
+
+  it('should be true if dates are equal', () => {
+    const a: Date = new Date(2024, 8, 27);
+    const b: Date = new Date(2024, 8, 27);
+    expect(isEqual(a, b)).toBe(true);
+  });
+
+  it('should be false if dates are not equal', () => {
+    const a: Date = new Date(2024, 8, 27);
+    const b: Date = new Date(2024, 8, 28);
+    expect(isEqual(a, b)).toBe(false);
+  });
+
+  it('should be true if dates are equal including time', () => {
+    const a: Date = new Date('2024-09-27T12:30:00');
+    const b: Date = new Date('2024-09-27T12:30:00');
+    expect(isEqual(a, b)).toBe(true);
+  });
+
+  it('should be false if dates are different by time', () => {
+    const a: Date = new Date('2024-09-27T12:30:00');
+    const b: Date = new Date('2024-09-27T13:30:00');
+    expect(isEqual(a, b)).toBe(false);
+  });
 });
