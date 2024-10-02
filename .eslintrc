@@ -1,7 +1,7 @@
 {
   "root": true,
-  "ignorePatterns": ["index.ts", "api.ts"],
-  "plugins": ["prettier", "jsdoc", "deprecation", "editorconfig", "ban", "@typescript-eslint", "import"],
+  "ignorePatterns": ["index.ts", "api.ts", ".eslintrc", "jest.config*"],
+  "plugins": ["prettier", "editorconfig", "ban", "@typescript-eslint"],
   "extends": ["prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -15,15 +15,6 @@
       "error",
       {
         "default": "array"
-      }
-    ],
-    "@typescript-eslint/ban-types": [
-      "error",
-      {
-        "types": {
-          "Object": null
-        },
-        "extendDefaults": false
       }
     ],
     "@typescript-eslint/consistent-type-definitions": "error",
@@ -96,7 +87,6 @@
         "variableDeclarationIgnoreFunction": true
       }
     ],
-    "@typescript-eslint/type-annotation-spacing": "error",
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       {
@@ -107,8 +97,6 @@
     "@typescript-eslint/dot-notation": "off",
     "@typescript-eslint/no-dynamic-delete": "error",
     "@typescript-eslint/unified-signatures": "error",
-    "@typescript-eslint/semi": ["error", "always"],
-    "@typescript-eslint/no-extra-semi": "error",
     "@typescript-eslint/naming-convention": [
       "error",
       {
@@ -175,7 +163,6 @@
         }
       }
     ],
-    "jsdoc/no-types": "error",
     "complexity": [
       "error",
       {
@@ -188,7 +175,6 @@
     "default-case": "error",
     "default-case-last": "error",
     "eqeqeq": ["error", "always"],
-    "import/no-default-export": "error",
     "max-len": [
       "error",
       {
@@ -225,7 +211,6 @@
       }
     ],
     "no-throw-literal": "off",
-    "@typescript-eslint/no-throw-literal": ["error"],
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
@@ -267,7 +252,6 @@
       }
     ],
     "prefer-arrow/prefer-arrow-functions": "off",
-    "deprecation/deprecation": "warn",
     "editorconfig/charset": "error",
     "ban/ban": [
       "warn",

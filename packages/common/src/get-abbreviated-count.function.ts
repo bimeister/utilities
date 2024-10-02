@@ -4,7 +4,7 @@ import { isNil } from './is-nil.function';
 const abbreviationByRank: Map<number, string> = new Map<number, string>([
   [1, 'к'],
   [2, 'кк'],
-  [3, 'млрд']
+  [3, 'млрд'],
 ]);
 export function getAbbreviatedCount(count: Nullable<number>): string | null {
   if (isNil(count) || isNaN(count) || typeof count !== 'number') {

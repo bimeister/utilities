@@ -48,7 +48,7 @@ describe('filter-falsy.operator.ts', () => {
       { id: 1, name: 'Item 1' },
       null,
       { id: 2, name: 'Item 2' },
-      undefined
+      undefined,
     ]);
 
     const emits: (null | undefined)[] = [];

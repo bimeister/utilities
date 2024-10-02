@@ -8,7 +8,7 @@ describe('file-list-to-array.function.ts', () => {
       length: 0,
       item(_: number): File | null {
         return null;
-      }
+      },
     } as any;
 
     expect(fileListToArray(fileListMock)).toBeInstanceOf(Array);
@@ -22,7 +22,7 @@ describe('file-list-to-array.function.ts', () => {
       length: 1,
       item(index: number): File | null {
         return Object.is(index, 0) ? fileMock : null;
-      }
+      },
     } as any;
 
     expect(fileListToArray(fileListMock)).toBeInstanceOf(Array);

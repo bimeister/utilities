@@ -29,6 +29,4 @@ function valueExtractorIsUsed(valueExtractor: Nullable<Converter>): valueExtract
   return typeof valueExtractor === 'function';
 }
 
-const compare: Comparator = <T>(itemA: T, itemB: T): -1 | 0 | 1 => {
-  return itemA < itemB ? -1 : 1;
-};
+const compare: Comparator = <T>(itemA: T, itemB: T): -1 | 0 | 1 => (itemA < itemB ? -1 : 1);

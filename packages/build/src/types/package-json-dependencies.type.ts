@@ -1,3 +1,3 @@
-import type { PackageJson as PartialPackageJson } from '@npm/types';
+import type { PackageJSON as PartialPackageJson } from '@npm/types';
 
 export type Dependencies = NonNullable<PartialPackageJson['peerDependencies']>;

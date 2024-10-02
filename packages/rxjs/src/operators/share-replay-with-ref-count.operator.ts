@@ -13,6 +13,6 @@ export const shareReplayWithRefCount =
     source.pipe(
       shareReplay({
         refCount: true,
-        bufferSize: 1
+        bufferSize: 1,
       })
     );

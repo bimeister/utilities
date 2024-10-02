@@ -44,7 +44,7 @@ describe('concat-join.function.ts', () => {
 
     concatJoin(...input$).subscribe({
       next: (): void => emitted$.next(true),
-      complete: (): void => isCompleted$.next(true)
+      complete: (): void => isCompleted$.next(true),
     });
 
     timer(9000)

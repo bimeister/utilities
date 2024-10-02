@@ -115,12 +115,12 @@ describe('is-equal.function.ts', () => {
     const a: Map<string, number> = new Map<string, number>([
       ['1', 1],
       ['2', 2],
-      ['3', 3]
+      ['3', 3],
     ]);
     const b: Map<string, number> = new Map<string, number>([
       ['1', 1],
       ['2', 2],
-      ['3', 3]
+      ['3', 3],
     ]);
     expect(isEqual(a, b)).toBe(true);
   });
@@ -129,12 +129,12 @@ describe('is-equal.function.ts', () => {
     const a: Map<string, number> = new Map<string, number>([
       ['1', 1],
       ['2', 2],
-      ['3', 3]
+      ['3', 3],
     ]);
     const b: Map<string, number> = new Map<string, number>([
       ['1', 1],
       ['2', 2],
-      ['3', 4]
+      ['3', 4],
     ]);
     expect(isEqual(a, b)).toBe(false);
   });
@@ -143,12 +143,12 @@ describe('is-equal.function.ts', () => {
     const a: Map<string, unknown> = new Map<string, unknown>([
       ['1', { id: 1 }],
       ['2', { id: 2 }],
-      ['3', { id: 3 }]
+      ['3', { id: 3 }],
     ]);
     const b: Map<string, unknown> = new Map<string, unknown>([
       ['1', { id: 1 }],
       ['2', { id: 2 }],
-      ['3', { id: 3 }]
+      ['3', { id: 3 }],
     ]);
     expect(isEqual(a, b)).toBe(true);
   });
@@ -157,12 +157,12 @@ describe('is-equal.function.ts', () => {
     const a: Map<string, unknown> = new Map<string, unknown>([
       ['1', { id: 1 }],
       ['2', { id: 2 }],
-      ['3', { id: 3 }]
+      ['3', { id: 3 }],
     ]);
     const b: Map<string, unknown> = new Map<string, unknown>([
       ['1', { id: 1 }],
       ['2', { id: 2 }],
-      ['3', { id: 4 }]
+      ['3', { id: 4 }],
     ]);
     expect(isEqual(a, b)).toBe(false);
   });

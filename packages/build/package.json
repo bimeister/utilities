@@ -15,8 +15,8 @@
     "barrel": "barrelsby --config ./../barrelsby.json --directory ./src"
   },
   "dependencies": {
-    "dts-bundle-generator": "^6.2.0",
-    "typescript": "^4.0.0"
+    "dts-bundle-generator": "^9.5.1",
+    "typescript": "5.4.5"
   },
   "devDependencies": {
     "@npm/types": "latest"

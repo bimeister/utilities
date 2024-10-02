@@ -4,7 +4,7 @@ import { VOID } from '@bimeister/utilities.constants';
 const resizeObserverMock: ResizeObserver = {
   disconnect: () => VOID,
   observe: () => VOID,
-  unobserve: () => VOID
+  unobserve: () => VOID,
 };
 
 Object.defineProperty(window, 'ResizeObserver', { value: resizeObserverMock });

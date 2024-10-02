@@ -60,7 +60,7 @@ describe('filter-truthy.operator.ts', () => {
       { id: 1, name: 'Item 1' },
       null,
       { id: 2, name: 'Item 2' },
-      undefined
+      undefined,
     ]);
 
     const emits: Item[] = [];
@@ -71,7 +71,7 @@ describe('filter-truthy.operator.ts', () => {
 
     expect(emits).toEqual([
       { id: 1, name: 'Item 1' },
-      { id: 2, name: 'Item 2' }
+      { id: 2, name: 'Item 2' },
     ]);
   });
 });

@@ -10,7 +10,7 @@ describe('map-array-to-key-set.function.ts', () => {
     const array: { id: number; name: string }[] = [
       { id: 1, name: 'Alice' },
       { id: 2, name: 'Bob' },
-      { id: 3, name: 'Charlie' }
+      { id: 3, name: 'Charlie' },
     ];
     const result: Set<number> = mapArrayToKeySet(array, 'id');
     expect(result.size).toBe(3);
@@ -23,7 +23,7 @@ describe('map-array-to-key-set.function.ts', () => {
     const array: { id: number; name: string }[] = [
       { id: 1, name: 'Alice' },
       { id: 2, name: 'Bob' },
-      { id: 1, name: 'Charlie' }
+      { id: 1, name: 'Charlie' },
     ];
     const result: Set<number> = mapArrayToKeySet(array, 'id');
     expect(result.size).toBe(2);
@@ -35,7 +35,7 @@ describe('map-array-to-key-set.function.ts', () => {
     const array: { id: number; name: string }[] = [
       { id: 1, name: 'Alice' },
       { id: 2, name: 'Bob' },
-      { id: 3, name: 'Charlie' }
+      { id: 3, name: 'Charlie' },
     ];
     const resultNames: Set<string> = mapArrayToKeySet(array, 'name');
     expect(resultNames.size).toBe(3);
@@ -48,7 +48,7 @@ describe('map-array-to-key-set.function.ts', () => {
     const array: { id: number; name: string | null | undefined }[] = [
       { id: 1, name: 'Alice' },
       { id: 2, name: null },
-      { id: 3, name: undefined }
+      { id: 3, name: undefined },
     ];
     const result: Set<string> = mapArrayToKeySet(array, 'name', true);
     expect(result.size).toBe(1);
@@ -59,7 +59,7 @@ describe('map-array-to-key-set.function.ts', () => {
     const array: { id: number; name: string | null | undefined }[] = [
       { id: 1, name: 'Alice' },
       { id: 2, name: null },
-      { id: 3, name: undefined }
+      { id: 3, name: undefined },
     ];
     const result: Set<string | null | undefined> = mapArrayToKeySet(array, 'name', false);
     expect(result.size).toBe(3);

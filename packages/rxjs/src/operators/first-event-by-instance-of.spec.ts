@@ -32,7 +32,7 @@ describe('first-event-by-instance-of.operator.ts', () => {
       complete: () => {
         expect(emits).toEqual([new SomeClassA()]);
         done();
-      }
+      },
     });
   });
 
@@ -48,7 +48,7 @@ describe('first-event-by-instance-of.operator.ts', () => {
       complete: () => {
         expect(emits).toEqual([new SomeClassA()]);
         done();
-      }
+      },
     });
   });
 
@@ -64,7 +64,7 @@ describe('first-event-by-instance-of.operator.ts', () => {
       complete: () => {
         expect(emits).toEqual([new SomeClassB()]);
         done();
-      }
+      },
     });
   });
 
@@ -80,7 +80,7 @@ describe('first-event-by-instance-of.operator.ts', () => {
       complete: () => {
         expect(emits).toEqual([]);
         done();
-      }
+      },
     });
   });
 
@@ -96,14 +96,14 @@ describe('first-event-by-instance-of.operator.ts', () => {
       complete: () => {
         expect(emits).toEqual([new SomeClassB()]);
         done();
-      }
+      },
     });
   });
 
   it('should emit valid value for arrays of instances and complete', (done: jest.DoneCallback) => {
     const input$: Observable<Base[]> = from([
       [new SomeClassA(), new SomeClassB()],
-      [new SomeClassC(), new SomeClassD()]
+      [new SomeClassC(), new SomeClassD()],
     ]);
 
     const emits: unknown[] = [];
@@ -115,7 +115,7 @@ describe('first-event-by-instance-of.operator.ts', () => {
       complete: () => {
         expect(emits).toEqual([[new SomeClassC(), new SomeClassD()]]);
         done();
-      }
+      },
     });
   });
 });

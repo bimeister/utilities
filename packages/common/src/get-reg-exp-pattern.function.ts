@@ -13,9 +13,9 @@ const patternByName: Map<RegExpPatternName, RegExp> = new Map<RegExpPatternName,
         '(:[0-9]{1,5})?' + // port
         '(/.*)?' + // path
         '$'
-    )
+    ),
   ],
-  ['uuid', new RegExp(/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/)]
+  ['uuid', new RegExp(/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/)],
 ]);
 
 export function getRegExpPattern(name: RegExpPatternName): RegExp | undefined {
