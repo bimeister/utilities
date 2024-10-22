@@ -1,3 +1,4 @@
+import type { Falsy } from '@bimeister/utilities.types';
 import type { Observable, OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -13,7 +14,7 @@ import { filter } from 'rxjs/operators';
  *   .pipe(filterTruthy())
  *   .subscribe((output: unknown) => { ... });
  */
-export const filterTruthy: <T>() => OperatorFunction<T, NonNullable<T>> =
+export const filterTruthy: <T>() => OperatorFunction<T, Exclude<T, Falsy>> =
   <T>() =>
-  (source: Observable<T>): Observable<NonNullable<T>> =>
-    source.pipe(filter((value: T): value is NonNullable<T> => Boolean(value)));
+  (source: Observable<T>): Observable<Exclude<T, Falsy>> =>
+    source.pipe(filter((value: T): value is Exclude<T, Falsy> => Boolean(value)));
