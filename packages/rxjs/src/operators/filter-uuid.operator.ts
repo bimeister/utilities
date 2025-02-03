@@ -14,7 +14,7 @@ import { filter } from 'rxjs/operators';
       .pipe(filterUuid())
       .subscribe((output: unknown) => { ... })
  */
-export function filterUuid(): OperatorFunction<string, Uuid> {
-  return (source$: Observable<string>): Observable<Uuid> =>
-    source$.pipe(filter((value: string): value is Uuid => isUuid(value)));
+export function filterUuid(): OperatorFunction<unknown, Uuid> {
+  return (source$: Observable<unknown>): Observable<Uuid> =>
+    source$.pipe(filter((value: unknown): value is Uuid => isUuid(value)));
 }
