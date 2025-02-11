@@ -1,36 +1,72 @@
-import type { Constructor } from 'packages/types/src/constructor.type';
-import type { Observable, OperatorFunction } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Observable, filter } from 'rxjs';
+
+type FilteredOutput<Source, TypesToFilterBy extends InstanceType<any>[]> = Source extends any[]
+  ? Source
+  : InstanceType<TypesToFilterBy[number]>;
 
 /**
- * Filters the values emitted by the source observable based on the instance of specified types.
+ * Filters emitted values from the source Observable, allowing only those that are instances
+ * of at least one of the specified types.
  *
- * @template Source - The type of source values in the source observable.
- * @template Result - The type of result values to filter for in the source observable.
- * @param types - The types to filter for instance of in the source observable.
- * @returns - An operator that filters the source observable based on the specified types.
+ * - If the Observable emits single values, only those instances that match one of the specified types
+ *   are emitted.
+ * - If the Observable emits arrays, only arrays that contain at least one instance of the specified types
+ *   are emitted. The output type remains the same as the input type.
+ *
+ * @template TypesToFilterBy - A tuple of class constructors used for filtering.
+ * @template Source - The type of values emitted by the source Observable.
+ *
+ * @param types - One or more class constructors whose instances should be allowed.
+ *
+ * @returns An RxJS operator that filters emitted values based on their instance type.
+ *
  * @example
- * Filters the values produced by the source observable based on an instance of the specified SomeClass instance type
- * const input$: Observable<unknown> = from([1, 'string', { name: 'Some name' }, new SomeClass()]);
-
-  input$
-    .pipe(filterByInstanceOf(SomeClass))
+ * // Filtering single values:
+ * import { from } from 'rxjs';
+ *
+ * class SomeClassA {}
+ * class SomeClassB {}
+ *
+ * const source$ = from([
+ *   new SomeClassA(),
+ *   new SomeClassB(),
+ *   {}
+ * ]);
+ *
+ * source$
+ *   .pipe(filterByInstanceOf(SomeClassA, SomeClassB))
+ *   .subscribe((instance) => {
+ *     console.log(instance); // Logs only instances of SomeClassA or SomeClassB
+ *   });
+ *
+ * @example
+ * // Filtering arrays:
+ * import { from, Observable } from 'rxjs';
+ *
+ * class SomeClassC {}
+ * class SomeClassD {}
+ *
+ * const source$ = from([
+ *   [new SomeClassC(), new SomeClassD()],
+ *   [{}] // This array will be filtered out
+ * ]);
+ *
+ * source$
+ *   .pipe(filterByInstanceOf(SomeClassD))
+ *   .subscribe((filteredArray) => {
+ *     console.log(filteredArray); // Logs arrays containing at least one instance of SomeClassD
+ *   });
  */
-export function filterByInstanceOf<Source, Result extends Source>(
-  ...types: Constructor<Result>[]
-): OperatorFunction<Source, Result>;
-export function filterByInstanceOf<Source, Result extends Source>(
-  ...types: Constructor<Result>[]
-): OperatorFunction<Source[], Source[]>;
-export function filterByInstanceOf<Source, Result extends Source>(
-  ...types: Constructor<Result>[]
-): OperatorFunction<Source | Source[], Result | Source[]> {
-  return (source$: Observable<Source | Source[]>): Observable<Result | Source[]> =>
+export function filterByInstanceOf<TypesToFilterBy extends InstanceType<any>[]>(
+  ...types: TypesToFilterBy
+): <Source>(source$: Observable<Source>) => Observable<FilteredOutput<Source, TypesToFilterBy>> {
+  return <Source>(source$: Observable<Source>): Observable<FilteredOutput<Source, TypesToFilterBy>> =>
     source$.pipe(
-      filter((value: Source | Source[]): value is Result | Source[] =>
-        Array.isArray(value)
-          ? value.some((item: Source) => types.some((type: Constructor<Result>) => item instanceof type))
-          : types.some((type: Constructor<Result>) => value instanceof type)
-      )
+      filter((source: Source): source is FilteredOutput<Source, TypesToFilterBy> => {
+        if (Array.isArray(source)) {
+          return source.some((sourceItem: any) => types.some((type: InstanceType<any>) => sourceItem instanceof type));
+        }
+        return types.some((type: InstanceType<any>) => source instanceof type);
+      })
     );
 }

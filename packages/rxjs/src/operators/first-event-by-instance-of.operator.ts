@@ -1,31 +1,65 @@
-/* eslint-disable max-len */
-import type { Constructor } from 'packages/types/src/constructor.type';
-import type { Observable, OperatorFunction } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, take } from 'rxjs';
 import { filterByInstanceOf } from './filter-by-instance-of.operator';
 
-/**
- * Filters the first value emitted by the source observable based on the instance of specified types and then completes.
- *
- * @template Source - The type of instances to filter for in the source observable.
- * @template Result - The type of result values to filter for in the source observable.
- * @param types - The types to filter for instance of in the source observable.
- * @returns - An operator that filters the source observable based on the specified types and completes after the first match.
- * @example
- * Filters the values produced by the source observable based on an instance of the specified SomeClass instance type
- * const input$: Observable<unknown> = from([1, 'string', { name: 'Some name' }, new SomeClass()]);
+type FilteredOutput<Source, TypesToFilterBy extends InstanceType<any>[]> = Source extends any[]
+  ? Source
+  : InstanceType<TypesToFilterBy[number]>;
 
-  input$
-    .pipe(firstEventByInstanceOf(SomeClass))
+/**
+ * Emits only the first value from the source Observable that is an instance
+ * of one of the specified types, then completes.
+ *
+ * - If the source emits single values, it emits only the first matching instance.
+ * - If the source emits arrays, it emits only the first array that contains
+ *   at least one instance of the specified types.
+ *
+ * @template TypesToFilterBy - A tuple of class constructors used for filtering.
+ * @template Source - The type of values emitted by the source Observable.
+ *
+ * @param types - One or more class constructors whose instances should be allowed.
+ *
+ * @returns An RxJS operator that filters and emits only the first matching value.
+ *
+ * @example
+ * // Emitting the first matching instance:
+ * import { from } from 'rxjs';
+ *
+ * class SomeClassA {}
+ * class SomeClassB {}
+ *
+ * const source$ = from([
+ *   new SomeClassA(),
+ *   new SomeClassB(),
+ *   {}
+ * ]);
+ *
+ * source$
+ *   .pipe(firstEventByInstanceOf(SomeClassA, SomeClassB))
+ *   .subscribe((value) => {
+ *     console.log(value); // Logs only the first matching instance
+ *   });
+ *
+ * @example
+ * // Emitting the first matching array:
+ * import { from } from 'rxjs';
+ *
+ * class SomeClassC {}
+ * class SomeClassD {}
+ *
+ * const source$ = from([
+ *   [new SomeClassC(), new SomeClassD()],
+ *   [{}] // This will not be emitted
+ * ]);
+ *
+ * source$
+ *   .pipe(firstEventByInstanceOf(SomeClassD))
+ *   .subscribe((value) => {
+ *     console.log(value); // Logs the first array containing SomeClassD
+ *   });
  */
-export function firstEventByInstanceOf<Source, Result extends Source>(
-  ...types: Constructor<Result>[]
-): OperatorFunction<Source, Result>;
-export function firstEventByInstanceOf<Source, Result extends Source>(
-  ...types: Constructor<Result>[]
-): OperatorFunction<Source[], Source[]>;
-export function firstEventByInstanceOf<Source, Result extends Source>(
-  ...types: Constructor<Result>[]
-): OperatorFunction<Source | Source[], Result | Source[]> {
-  return (source$: Observable<Source | Source[]>) => source$.pipe(filterByInstanceOf(...types), take(1));
+export function firstEventByInstanceOf<TypesToFilterBy extends InstanceType<any>[]>(
+  ...types: TypesToFilterBy
+): <Source>(source$: Observable<Source>) => Observable<FilteredOutput<Source, TypesToFilterBy>> {
+  return <Source>(source$: Observable<Source>): Observable<FilteredOutput<Source, TypesToFilterBy>> =>
+    source$.pipe(filterByInstanceOf(...types), take(1));
 }
