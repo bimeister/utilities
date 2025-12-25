@@ -70,6 +70,7 @@
     "packages/performance",
     "packages/resize-observable",
     "packages/rxjs",
+    "packages/signals",
     "packages/traits",
     "packages/types"
   ]

@@ -1,11 +1,11 @@
 {
-  "name": "@bimeister/utilities.common",
+  "name": "@bimeister/utilities.signals",
   "private": true,
   "homepage": "https://bimeister.github.io/utilities/",
   "repository": {
     "type": "git",
     "url": "https://github.com/bimeister/utilities",
-    "directory": "packages/common"
+    "directory": "packages/signals"
   },
   "bugs": {
     "url": "https://github.com/bimeister/utilities/issues",
@@ -13,13 +13,13 @@
   },
   "scripts": {
     "barrel": "barrelsby --config ./../barrelsby.json --directory ./src",
-    "test": "jest --config ./../jest.config.ts --passWithNoTests --selectProjects common"
+    "test": "jest --config ./../jest.config.ts --passWithNoTests --selectProjects signals"
   },
-  "devDependencies": {
-    "snake-case": "^3.0.0",
-    "dot-case": "^3.0.4",
-    "uuid": "^10.0.0",
-    "@types/uuid": "^10.0.0"
+  "peerDependencies": {
+    "@angular/core": "20.1.6"
+  },
+  "dependencies": {
+    "rxjs": "^7.8.1"
   },
   "exports": {
     ".": {
