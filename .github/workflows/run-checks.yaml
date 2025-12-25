@@ -17,7 +17,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'npm'
 
       - name: Install dependencies by lockfile
@@ -42,7 +42,7 @@ jobs:
         with:
           key: "workspace:${{github.sha}}"
           path: ./
-     
+
       - name: Build static files
         run: npm run build
 
@@ -56,7 +56,7 @@ jobs:
         with:
           key: "workspace:${{github.sha}}"
           path: ./
-      
+
       - name: Lint sources
         run: npm run lint
 
@@ -70,7 +70,7 @@ jobs:
         with:
           key: "workspace:${{github.sha}}"
           path: ./
-      
+
       - name: Check spelling in sources
         run: npm run cspell:check
 
@@ -84,6 +84,6 @@ jobs:
         with:
           key: "workspace:${{github.sha}}"
           path: ./
-      
+
       - name: Check codestyle
         run: npm run prettier:check

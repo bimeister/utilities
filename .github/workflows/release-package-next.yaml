@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'npm'
 
       - name: Install dependencies by lockfile
@@ -72,7 +72,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           always-auth: true
-          node-version: 18
+          node-version: 20
 
       - name: 'Authorize to NPM Registry'
         run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_DEPLOY_TOKEN}}" >> dist/.npmrc
@@ -83,6 +83,6 @@ jobs:
           npm run build:prepublish
         env:
           GIT_COMMIT_HASH: ${{github.sha}}
-        
+
       - name: Publish
         run: cd dist && npm publish --access public --tag next
